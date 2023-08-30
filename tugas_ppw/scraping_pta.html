@@ -378,22 +378,28 @@ document.write(`
         <span class="n">soup</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
         <span class="n">prodi</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span><span class="s1">&#39;begin&#39;</span><span class="p">})</span>
         <span class="k">for</span> <span class="n">pro</span> <span class="ow">in</span> <span class="n">prodi</span><span class="p">:</span>
-          <span class="n">prod</span> <span class="o">=</span> <span class="n">pro</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;h2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
-          <span class="n">jur</span> <span class="o">=</span> <span class="n">prod</span><span class="p">[</span><span class="o">-</span><span class="mi">18</span><span class="p">:]</span>
           <span class="n">utama</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="s1">&#39;items list_style&#39;</span><span class="p">)</span>
           <span class="n">perid</span> <span class="o">=</span> <span class="n">utama</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;data-id&#39;</span><span class="p">:</span><span class="s1">&#39;id-1&#39;</span><span class="p">})</span>
           <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">perid</span><span class="p">:</span>
             <span class="n">link</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;gray button&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
             <span class="n">request2</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">hades</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
             <span class="n">soup2</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">request2</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+            <span class="n">penulis_elem</span> <span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;padding:2px 2px 2px 2px;&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">penulis</span> <span class="o">=</span> <span class="n">penulis_elem</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span>
+            <span class="n">dospem_elem</span> <span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;float:left; width:540px;&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;padding:2px 2px 2px 2px;&#39;</span><span class="p">})</span>
+            <span class="k">for</span> <span class="n">dospem</span> <span class="ow">in</span> <span class="n">dospem_elem</span><span class="p">:</span>
+              <span class="n">dospem_text</span> <span class="o">=</span> <span class="n">dospem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+              <span class="k">if</span> <span class="s1">&#39;Dosen Pembimbing I :&#39;</span> <span class="ow">in</span> <span class="n">dospem_text</span><span class="p">:</span>
+                  <span class="n">dospem_i</span> <span class="o">=</span> <span class="n">dospem_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Dosen Pembimbing I :&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+              <span class="k">elif</span> <span class="s1">&#39;Dosen Pembimbing II :&#39;</span> <span class="ow">in</span> <span class="n">dospem_text</span><span class="p">:</span>
+                  <span class="n">dospem_ii</span> <span class="o">=</span> <span class="n">dospem_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Dosen Pembimbing II :&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">abst</span><span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,{</span><span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;justify&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-            <span class="n">NPM</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;gray button&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">12</span><span class="p">:]</span>
             <span class="n">headline</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;done[</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1">] &gt; </span><span class="si">{</span><span class="n">headline</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">a</span><span class="o">+=</span><span class="mi">1</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">NPM</span><span class="p">,</span><span class="n">headline</span><span class="p">,</span><span class="n">abst</span><span class="p">,</span><span class="n">jur</span><span class="p">])</span>
-            <span class="n">kepala</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NPM&#39;</span><span class="p">,</span><span class="s1">&#39;Judul&#39;</span><span class="p">,</span><span class="s1">&#39;Abstrak&#39;</span><span class="p">]</span>
-            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/Prosaindata/tugas/tugas_psd/pta.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">headline</span><span class="p">,</span><span class="n">penulis</span><span class="p">,</span><span class="n">dospem_i</span><span class="p">,</span><span class="n">dospem_ii</span><span class="p">,</span><span class="n">abst</span><span class="p">])</span>
+            <span class="n">kepala</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Judul&#39;</span><span class="p">,</span><span class="s1">&#39;Penulis&#39;</span><span class="p">,</span><span class="s1">&#39;Dosen Pembimbing 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Dosen Pembimbing 2&#39;</span><span class="p">,</span><span class="s1">&#39;Abstrak&#39;</span><span class="p">]</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/ppw/tugas/tugas_ppw/pta.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
             <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">kepala</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">datas</span> <span class="ow">in</span> <span class="n">data</span> <span class="p">:</span>
               <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">datas</span><span class="p">)</span>
@@ -457,7 +463,7 @@ document.write(`
 <span class="nn">&lt;ipython-input-3-2e497fa6875f&gt;</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">scrap_pta</span><span class="p">(</span><span class="mi">172</span><span class="p">)</span>
 
-<span class="nn">&lt;ipython-input-2-dc7c6a6bfb45&gt;</span> in <span class="ni">scrap_pta</span><span class="nt">(hal)</span>
+<span class="nn">&lt;ipython-input-2-13bcff331900&gt;</span> in <span class="ni">scrap_pta</span><span class="nt">(hal)</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span>   <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">hal</span><span class="p">):</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span>         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://pta.trunojoyo.ac.id/c_search/byprod/10/</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="ne">----&gt; </span><span class="mi">7</span>         <span class="n">request</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">hades</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
@@ -570,16 +576,15 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/Prosaindata/tugas/tugas_psd/pta.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/ppw/tugas/tugas_ppw/pta.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-ac75dfed-c6fa-41ae-959d-0784235b9bc7">
-    <div class="colab-df-container">
-      <div>
+  <div id="df-cc11e681-4b51-4a16-8493-32878133e0b7" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -597,180 +602,121 @@ document.write(`
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>NPM</th>
       <th>Judul</th>
+      <th>Penulis</th>
+      <th>Dosen Pembimbing 1</th>
+      <th>Dosen Pembimbing 2</th>
       <th>Abstrak</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>40411100468</th>
+      <th>0</th>
       <td>PERANCANGAN DAN IMPLEMENTASI SISTEM DATABASE T...</td>
+      <td>A.Ubaidillah S.Kom</td>
+      <td>Budi Setyono M.T</td>
+      <td>Hermawan S.T</td>
       <td>Sistem  informasi  akademik  (SIAKAD) merupaka...</td>
-      <td>Teknik Informatika</td>
     </tr>
     <tr>
-      <th>40411100476</th>
+      <th>1</th>
       <td>APLIKASI KONTROL DAN MONITORING JARINGAN KOMPU...</td>
+      <td>M. Basith Ardianto,</td>
+      <td>Drs. Budi Soesilo, MT</td>
+      <td>Koko Joni, ST</td>
       <td>Berjalannya koneksi jaringan komputer dengan l...</td>
-      <td>Teknik Informatika</td>
     </tr>
     <tr>
-      <th>40411100480</th>
+      <th>2</th>
       <td>RANCANG BANGUN APLIKASI PROXY SERVER UNTUKENKR...</td>
+      <td>Akhmad Suyandi, S.Kom</td>
+      <td>Drs. Budi Soesilo, M.T</td>
+      <td>Hermawan, ST, MT</td>
       <td>Web server adalah sebuah perangkat lunak serve...</td>
-      <td>Teknik Informatika</td>
     </tr>
     <tr>
-      <th>70411100070</th>
+      <th>3</th>
       <td>SISTEM PENDUKUNG KEPUTUSAN OPTIMASI PENJADWALA...</td>
+      <td>Heri Supriyanto</td>
+      <td>Mulaab, S.Si., M.Kom</td>
+      <td>Firli Irhamni, ST., M.Kom</td>
       <td>Penjadwalan  kuliah  di  Perguruan  Tinggi  me...</td>
-      <td>Teknik Informatika</td>
     </tr>
     <tr>
-      <th>80411100115</th>
+      <th>4</th>
       <td>SISTEM AUGMENTED REALITY ANIMASI BENDA BERGERA...</td>
+      <td>Septian Rahman Hakim</td>
+      <td>Arik Kurniawati, S.Kom., M.T.</td>
+      <td>Haryanto, S.T., M.T.</td>
       <td>Seiring perkembangan teknologi yang ada diduni...</td>
-      <td>Teknik Informatika</td>
     </tr>
     <tr>
-      <th>70411100007</th>
-      <td>Gerak Pekerja Pada Game Real Time Strategy Men...</td>
-      <td>Gerak pekerja ada pada game yang memiliki genr...</td>
-      <td>Teknik Informatika</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>70411100126</th>
-      <td>RANCANG BANGUN GAME PERAWATAN SAPI KARAPAN MEN...</td>
-      <td>Perkembangan game yang semakin pesat, memberik...</td>
-      <td>Teknik Informatika</td>
+      <th>850</th>
+      <td>Sistem Peramalan Stok Barang dengan menggunaka...</td>
+      <td>Devi Editya Susanti</td>
+      <td>Sigit Susanto Putro, S.Kom., M.Kom</td>
+      <td>Ach. Khozaimi, S.Kom.,M.Kom</td>
+      <td>Toko tas Deeolshop menjual berbagai macam tas ...</td>
     </tr>
     <tr>
-      <th>70411100109</th>
-      <td>EKSTRAKSI FITUR BERBASIS TWO DIMENSIONAL LINEA...</td>
-      <td>Sistem pengenalan wajah adalah suatu sistem un...</td>
-      <td>Teknik Informatika</td>
+      <th>851</th>
+      <td>Sistem Rekomendasi Dalam Menentukan Posisi Dep...</td>
+      <td>Kumayyah</td>
+      <td>Muhammad Ali Syakur, S.Si., MT</td>
+      <td>Sigit Susanto Putro, S.Kom., M.Kom.</td>
+      <td>Sepak bola adalah salah satu olahraga yang saa...</td>
     </tr>
     <tr>
-      <th>80411100083</th>
-      <td>IMPLEMENTASI  ALGORITMA PRIM  DAN DEPTH FIRST ...</td>
-      <td>Teknologi mobile game beroperating system open...</td>
-      <td>Teknik Informatika</td>
+      <th>852</th>
+      <td>MULTI CRITERIA DECISION MAKING UNTUK MENENTUKA...</td>
+      <td>Ahmad Faris Ihsan</td>
+      <td>Moch. Kautsar Sophan, S.Kom., M.MT.</td>
+      <td>Dr. Yeni Kustiyahningsih, S.Kom., M.Kom.</td>
+      <td>Perguruan Tinggi merupakan salah satu jenjang ...</td>
     </tr>
     <tr>
-      <th>70411100092</th>
-      <td>Perancangan Sistem Informasi Badan Kepegawaian...</td>
-      <td>Kantor Badan Kepegawaian kota Bangkalan adalah...</td>
-      <td>Teknik Informatika</td>
+      <th>853</th>
+      <td>PENERAPAN ALGORITMA LONG-SHORT TERM MEMORY UNT...</td>
+      <td>Rachmad Agung Pambudi</td>
+      <td>Eka Mala Sari Rochman, S.Kom., M.Kom</td>
+      <td>Sri Herawati, S.Kom., M.Kom</td>
+      <td>Investasi saham selama ini memiliki resiko ker...</td>
     </tr>
     <tr>
-      <th>70411100120</th>
-      <td>PEMANFAATAN TOGAF ADM UNTUK PERANCANGAN SISTEM...</td>
-      <td>Penyusunan Sistem Informasi Dinas Perindustria...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100143</th>
-      <td>APLIKASI METODE FUZZY ANALYTIC NETWORK PROCESS...</td>
-      <td>Perusahaan pemerintah maupun swasta mempunyai ...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100037</th>
-      <td>SISTEM PENDUKUNG KEPUTUSAN REKOMENDASI MENU DI...</td>
-      <td>Pelayanan makanan bagi pasien rawat inap di Ru...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100079</th>
-      <td>RANCANG BANGUN APLIKASI PEMILIHAN TEKNIK REKAY...</td>
-      <td>Penyusunan Sistem Pendukung Keputusan pemiliha...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100050</th>
-      <td>DETEKSI COREPOINT SIDIK JARI MENGGUNAKAN METOD...</td>
-      <td>Sidik jari adalah salah satu karakteristik fis...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100124</th>
-      <td>SISTEM PENENTUAN STATUS GIZI PASIEN RAWAT INAP...</td>
-      <td>Di Indonesia masalah perkembangan gizi adalah ...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100072</th>
-      <td>PENGENALAN TULISAN TANGAN HURUF ALFABETDENGAN ...</td>
-      <td>Pengenalan tulisan tangan merupakan topik pene...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100152</th>
-      <td>PENGENALAN POLA SENYUMAN BERBASIS EKSTRAKSI FI...</td>
-      <td>Citra senyum merupakan salah satu fitur biomet...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100114</th>
-      <td>SISTEM PEROLEHAN CITRA BERBASIS ISI MENGGUNAKA...</td>
-      <td>Batik adalah kerajinan yang memiliki nilai sen...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100036</th>
-      <td>ONTOLOGY SEMANTIC WEB UNTUK PENCARIAN TUGAS AK...</td>
-      <td>Kebutuhan pencarian data pada internet yang ce...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>70411100029</th>
-      <td>RANCANG BANGUN APLIKASI INTRUSION PREVENTION S...</td>
-      <td>Dalam setiap perusahaan tentunya memiliki data...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>60411100824</th>
-      <td>APLIKASI CITRA MOSAIK PANORAMIK MENGGUNAKAN ME...</td>
-      <td>Citra digital banyak dimanfaatkan dalam berbag...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>60411100772</th>
-      <td>ANALISA VALIDITAS PENERIMA BEASISWA MENGGUNAKA...</td>
-      <td>Beasiswa adalah pemberian berupa bantuan keuan...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>80411100001</th>
-      <td>SISTEM PERAMALAN PENJUALAN JANGKA PENDEK SPARE...</td>
-      <td>Spare part merupakan salah satu bagian penting...</td>
-      <td>Teknik Informatika</td>
-    </tr>
-    <tr>
-      <th>60411100801</th>
-      <td>PENGEMBANGAN MESIN PENCARIAN ANTIPLAGIASI PADA...</td>
-      <td>ABSTRAKPenjiplakan merupakan masalah yang seri...</td>
-      <td>Teknik Informatika</td>
+      <th>854</th>
+      <td>SISTEM PENCARIAN TEKS AL-QURAN TERJEMAHAN BERB...</td>
+      <td>Nadila Hidayanti</td>
+      <td>Achmad Jauhari, S.T., M.Kom</td>
+      <td>Ika Oktavia Suzanti, S.Kom., M.Cs</td>
+      <td>Information Retrieval (IR) merupakan pengambil...</td>
     </tr>
   </tbody>
 </table>
+<p>855 rows × 5 columns</p>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-ac75dfed-c6fa-41ae-959d-0784235b9bc7')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-cc11e681-4b51-4a16-8493-32878133e0b7')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -792,6 +738,10 @@ document.write(`
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -805,33 +755,94 @@ document.write(`
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-ac75dfed-c6fa-41ae-959d-0784235b9bc7 button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-cc11e681-4b51-4a16-8493-32878133e0b7 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-ac75dfed-c6fa-41ae-959d-0784235b9bc7');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-cc11e681-4b51-4a16-8493-32878133e0b7');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-4d192fc3-1c91-4544-aad9-b5d3932c4260">
+  <button class="colab-df-quickchart" onclick="quickchart('df-4d192fc3-1c91-4544-aad9-b5d3932c4260')"
+            title="Suggest charts."
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+    background-color: #E8F0FE;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: #1967D2;
+    height: 32px;
+    padding: 0 0 0 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: #E2EBFA;
+    box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: #174EA6;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+    background-color: #3B4455;
+    fill: #D2E3FC;
+  }
+
+  [theme=dark] .colab-df-quickchart:hover {
+    background-color: #434B5C;
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+    fill: #FFFFFF;
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const charts = await google.colab.kernel.invokeFunction(
+          'suggestCharts', [key], {});
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-4d192fc3-1c91-4544-aad9-b5d3932c4260 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 </section>
 
