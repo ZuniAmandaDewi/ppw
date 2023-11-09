@@ -30,8 +30,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['def binarize_dataframe(df):', '    # Salin DataFrame asli untuk menghindari perubahan inplace', '    df_copy = df.copy()', '', '    # Loop melalui semua kolom']
+['# Inisialisasi graf (jaringan)', 'G = nx.Graph()', '', '# Tambahkan simpul ke graf berdasarkan nama kolom', 'G.add_nodes_from(df_cos_sim.columns)']
 ...
-['', '# Contoh penggunaan fungsi dengan DataFrame yang telah diperbarui sebelumnya', 'binary_data = binarize_dataframe(pd.DataFrame(tf_array, columns = tf_name))', "binary_data['Label']=data['Label'].values", 'binary_data']
+['# Hitung closeness centrality', "close_centrality = nx.closeness_centrality(G, distance='weight')", '', 'print("Closeness Centrality:")', 'print(close_centrality)']
 -------------------
 

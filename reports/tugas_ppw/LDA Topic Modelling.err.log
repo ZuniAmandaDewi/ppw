@@ -30,8 +30,10 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['def binarize_dataframe(df):', '    # Salin DataFrame asli untuk menghindari perubahan inplace', '    df_copy = df.copy()', '', '    # Loop melalui semua kolom']
-...
-['', '# Contoh penggunaan fungsi dengan DataFrame yang telah diperbarui sebelumnya', 'binary_data = binarize_dataframe(pd.DataFrame(tf_array, columns = tf_name))', "binary_data['Label']=data['Label'].values", 'binary_data']
+datalda=[]
+for i in range (3,51):
+  lda = LatentDirichletAllocation(n_components=i, doc_topic_prior=0.2, topic_word_prior=0.1,random_state=42,max_iter=1)
+  lda_top=lda.fit_transform(TF.drop(columns='Label'))
+  datalda.append(lda_top)
 -------------------
 

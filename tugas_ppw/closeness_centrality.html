@@ -1,0 +1,6709 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Closeness Centrality &#8212; Pencarian &amp; Penambangan Web</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tugas_ppw/closeness_centrality';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Scraping suararakyat.id" href="scraping_suararakyat.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Salinan foto 3x4.png" class="logo__image only-light" alt="Pencarian & Penambangan Web - Home"/>
+    <script>document.write(`<img src="../_static/Salinan foto 3x4.png" class="logo__image only-dark" alt="Pencarian & Penambangan Web - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tugas</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="scraping_pta.html">Tugas 1 Scraping pta.trunojoyo.ac.id</a></li>
+<li class="toctree-l1"><a class="reference internal" href="klasifikasi_teks.html">Preprocessing dan Ekstraksi Fitur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LDA%20Topic%20Modelling.html">LDA Topic Modelling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scraping_suararakyat.html">Scraping suararakyat.id</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Closeness Centrality</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ZuniAmandaDewi/ppw/blob/gh-pages/_sources/tugas_ppw/closeness_centrality.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ZuniAmandaDewi/ppw" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ZuniAmandaDewi/ppw/issues/new?title=Issue%20on%20page%20%2Ftugas_ppw/closeness_centrality.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tugas_ppw/closeness_centrality.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Closeness Centrality</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenisasi-per-kalimat">Tokenisasi per Kalimat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleansing">Cleansing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-tdf">TF-TDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">Cosine Similarity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Closeness Centrality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-ringkasan">Hasil Ringkasan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling">Modelling</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="closeness-centrality">
+<h1>Closeness Centrality<a class="headerlink" href="#closeness-centrality" title="Permalink to this heading">#</a></h1>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">sent_tokenize</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;punkt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/ppw/tugas/tugas_ppw/suararakyat.csv&quot;</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-d691774d-3560-4245-94c2-f45eea97b193" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Judul</th>
+      <th>Isi</th>
+      <th>Kategori</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hadiri Seminar Nasional, Slamet Ariyadi Gemble...</td>
+      <td>PAMEKASAN,Suararakyat.id– Slamet Ariyadi luang...</td>
+      <td>Pendidikan</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SIAP !! Cerdaskan Siswa-Siswi SD Negeri Giliba...</td>
+      <td>Mahasiswa UTM adakan Gerakan Memasyarakatkan M...</td>
+      <td>Pendidikan</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Direktur Pasca Sarjana IAIN Madura Ajak Mahasi...</td>
+      <td>PAMEKASAN,Suararakyat.id– Kegiatan Kuliah Peng...</td>
+      <td>Pendidikan</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MK Tolak Gugatan Usia Minimal Capres-Cawapres ...</td>
+      <td>JAKARTA, Suararakyat.id–Mahkamah Konstitusi (M...</td>
+      <td>Politik</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Sukes Gelar Festival Nasyid Islami :Al-Amin Al...</td>
+      <td>SUMENEP,Suararakyat.id– Dalam Rangka Memeriahk...</td>
+      <td>Pendidikan</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>140</th>
+      <td>MK Tolak Gugatan Usia Minimal Capres-Cawapres ...</td>
+      <td>JAKARTA, Suararakyat.id–Mahkamah Konstitusi (M...</td>
+      <td>Politik</td>
+    </tr>
+    <tr>
+      <th>141</th>
+      <td>BEM SI Akan Gelar Aksi Demo Besar-Besaran pada...</td>
+      <td>JAKARTA, Suararakyat.id– Badan Eksekutif Mahas...</td>
+      <td>Politik</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>Sportif Cup 2022 : Tim Voli Remaja BPRS siap T...</td>
+      <td>SUMENEP,Suararakyat.id– Tim kuat Remaja BPRS a...</td>
+      <td>Sport</td>
+    </tr>
+    <tr>
+      <th>143</th>
+      <td>Bupati Sumenep Buka JJC, Minta Guru Memberikan...</td>
+      <td>SUMENEP,Suararakyat.id– Dinas Pendidikan (Disd...</td>
+      <td>Pendidikan</td>
+    </tr>
+    <tr>
+      <th>144</th>
+      <td>FL2MI Korda Madura Sukses Gelar Deklarasi Keme...</td>
+      <td>PAMEKASAN,Suararakyat.id– Forum Lembaga legisl...</td>
+      <td>Pendidikan</td>
+    </tr>
+  </tbody>
+</table>
+<p>145 rows × 3 columns</p>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-d691774d-3560-4245-94c2-f45eea97b193')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-d691774d-3560-4245-94c2-f45eea97b193 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-d691774d-3560-4245-94c2-f45eea97b193');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Kategori&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-205a628d-3030-4dda-a27c-64f3d908de74" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>col_0</th>
+      <th>count</th>
+    </tr>
+    <tr>
+      <th>Kategori</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Pendidikan</th>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th>Politik</th>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>Sport</th>
+      <td>33</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-205a628d-3030-4dda-a27c-64f3d908de74')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-205a628d-3030-4dda-a27c-64f3d908de74 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-205a628d-3030-4dda-a27c-64f3d908de74');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+</section>
+<section id="tokenisasi-per-kalimat">
+<h2>Tokenisasi per Kalimat<a class="headerlink" href="#tokenisasi-per-kalimat" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hasil_kalimat</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+  <span class="n">token</span> <span class="o">=</span> <span class="n">sent_tokenize</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+  <span class="n">hasil_kalimat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kalimat</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hasil_kalimat</span><span class="p">)):</span>
+  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hasil_kalimat</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
+    <span class="n">datacek</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">datacek</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">datacek</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hasil_kalimat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">x</span><span class="p">])</span>
+    <span class="n">kalimat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datacek</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">databaru</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">kalimat</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dokumen ke&quot;</span><span class="p">,</span> <span class="s2">&quot;Kalimat&quot;</span><span class="p">])</span>
+<span class="n">databaru</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-76254440-221c-4c13-b3bc-53b3bdde0a4a" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Dokumen ke</th>
+      <th>Kalimat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>PAMEKASAN,Suararakyat.id– Slamet Ariyadi luang...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>Kedatangan DPR RI tersebut diundang langsung s...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>Setelah itu dimulai acara inti.Ketua DPRD Pame...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>(Idrus)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>Mahasiswa UTM adakan Gerakan Memasyarakatkan M...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>991</th>
+      <td>143</td>
+      <td>Acara dilaksanakan di lapangan kantor Pemda Ka...</td>
+    </tr>
+    <tr>
+      <th>992</th>
+      <td>143</td>
+      <td>(JV)</td>
+    </tr>
+    <tr>
+      <th>993</th>
+      <td>144</td>
+      <td>PAMEKASAN,Suararakyat.id– Forum Lembaga legisl...</td>
+    </tr>
+    <tr>
+      <th>994</th>
+      <td>144</td>
+      <td>Dirinya dipercaya untuk maju menjadi koordinat...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>144</td>
+      <td>(Idrus)</td>
+    </tr>
+  </tbody>
+</table>
+<p>996 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-76254440-221c-4c13-b3bc-53b3bdde0a4a')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-76254440-221c-4c13-b3bc-53b3bdde0a4a button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-76254440-221c-4c13-b3bc-53b3bdde0a4a');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+</section>
+<section id="cleansing">
+<h2>Cleansing<a class="headerlink" href="#cleansing" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Remove Puncutuation</span>
+<span class="n">clean_symbol</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[^\w\s.?!,/]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">clean_punct</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">clean_symbol</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span>
+<span class="c1"># Buat kolom tambahan untuk data description yang telah diremovepunctuation</span>
+<span class="n">preprocessing</span> <span class="o">=</span> <span class="n">databaru</span><span class="p">[</span><span class="s1">&#39;Kalimat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">clean_punct</span><span class="p">)</span>
+<span class="n">clean</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">preprocessing</span><span class="p">)</span>
+<span class="n">clean</span><span class="p">[</span><span class="s1">&#39;Dokumen ke&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">databaru</span><span class="p">[</span><span class="s1">&#39;Dokumen ke&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">clean</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-d4068084-4cf5-4bd8-b3c7-bbb0066740f6" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Kalimat</th>
+      <th>Dokumen ke</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PAMEKASAN,Suararakyat.id  Slamet Ariyadi luang...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Kedatangan DPR RI tersebut diundang langsung s...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Setelah itu dimulai acara inti.Ketua DPRD Pame...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Idrus</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Mahasiswa UTM adakan Gerakan Memasyarakatkan M...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>991</th>
+      <td>Acara dilaksanakan di lapangan kantor Pemda Ka...</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>992</th>
+      <td>JV</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>993</th>
+      <td>PAMEKASAN,Suararakyat.id  Forum Lembaga legisl...</td>
+      <td>144</td>
+    </tr>
+    <tr>
+      <th>994</th>
+      <td>Dirinya dipercaya untuk maju menjadi koordinat...</td>
+      <td>144</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>Idrus</td>
+      <td>144</td>
+    </tr>
+  </tbody>
+</table>
+<p>996 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-d4068084-4cf5-4bd8-b3c7-bbb0066740f6')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-d4068084-4cf5-4bd8-b3c7-bbb0066740f6 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-d4068084-4cf5-4bd8-b3c7-bbb0066740f6');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+</section>
+<section id="tf-tdf">
+<h2>TF-TDF<a class="headerlink" href="#tf-tdf" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menghitung TF-IDF</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">tfidf_matrix</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">clean</span><span class="p">[</span><span class="s1">&#39;Kalimat&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cosine-similarity">
+<h2>Cosine Similarity<a class="headerlink" href="#cosine-similarity" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menghitung cosine similarity</span>
+<span class="n">cosine_similarities</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">,</span> <span class="n">tfidf_matrix</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">cosine_similarities</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>996
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cosine_similarities</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cosine_similarities</span><span class="p">)):</span>
+      <span class="n">sim</span> <span class="o">=</span> <span class="n">cosine_similarities</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+      <span class="k">if</span> <span class="n">sim</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">sim</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="n">sim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 , 0 = 1.0000000000000002
+1 , 1 = 1.0000000000000002
+2 , 2 = 1.0000000000000002
+3 , 3 = 1.0
+3 , 18 = 1.0
+3 , 114 = 1.0
+3 , 153 = 1.0
+3 , 213 = 1.0
+3 , 276 = 1.0
+3 , 282 = 1.0
+3 , 288 = 1.0
+3 , 320 = 1.0
+3 , 325 = 1.0
+3 , 327 = 1.0
+3 , 436 = 1.0
+3 , 506 = 1.0
+3 , 522 = 1.0
+3 , 547 = 1.0
+3 , 558 = 1.0
+3 , 611 = 1.0
+3 , 620 = 1.0
+3 , 716 = 1.0
+3 , 750 = 1.0
+3 , 753 = 1.0
+3 , 917 = 1.0
+3 , 995 = 1.0
+4 , 4 = 1.0000000000000002
+5 , 5 = 1.0000000000000002
+6 , 6 = 1.0
+7 , 7 = 1.0000000000000002
+8 , 8 = 1.0000000000000002
+9 , 9 = 1.0
+10 , 10 = 1.0
+10 , 56 = 1.0
+10 , 74 = 1.0
+10 , 119 = 1.0
+10 , 126 = 1.0
+10 , 191 = 1.0
+10 , 205 = 1.0
+10 , 224 = 1.0
+10 , 339 = 1.0
+10 , 382 = 1.0
+10 , 393 = 1.0
+10 , 398 = 1.0
+10 , 429 = 1.0
+10 , 460 = 1.0
+10 , 472 = 1.0
+10 , 482 = 1.0
+10 , 528 = 1.0
+10 , 536 = 1.0
+10 , 590 = 1.0
+10 , 600 = 1.0
+10 , 609 = 1.0
+10 , 624 = 1.0
+10 , 703 = 1.0
+10 , 710 = 1.0
+10 , 714 = 1.0
+10 , 760 = 1.0
+10 , 765 = 1.0
+10 , 778 = 0.5024758259279823
+10 , 785 = 1.0
+10 , 820 = 1.0
+10 , 829 = 1.0
+10 , 910 = 1.0
+10 , 944 = 1.0
+11 , 11 = 1.0000000000000002
+12 , 12 = 1.0000000000000002
+13 , 13 = 1.0
+14 , 14 = 1.0000000000000002
+15 , 15 = 1.0000000000000009
+16 , 16 = 1.0
+17 , 17 = 1.0
+18 , 3 = 1.0
+18 , 18 = 1.0
+18 , 114 = 1.0
+18 , 153 = 1.0
+18 , 213 = 1.0
+18 , 276 = 1.0
+18 , 282 = 1.0
+18 , 288 = 1.0
+18 , 320 = 1.0
+18 , 325 = 1.0
+18 , 327 = 1.0
+18 , 436 = 1.0
+18 , 506 = 1.0
+18 , 522 = 1.0
+18 , 547 = 1.0
+18 , 558 = 1.0
+18 , 611 = 1.0
+18 , 620 = 1.0
+18 , 716 = 1.0
+18 , 750 = 1.0
+18 , 753 = 1.0
+18 , 917 = 1.0
+18 , 995 = 1.0
+19 , 19 = 1.0
+19 , 127 = 1.0
+19 , 635 = 1.0
+19 , 645 = 1.0
+19 , 733 = 1.0
+19 , 971 = 1.0
+20 , 20 = 1.0
+20 , 128 = 1.0
+20 , 636 = 1.0
+20 , 646 = 1.0
+20 , 734 = 1.0
+20 , 972 = 1.0
+21 , 21 = 1.0
+21 , 129 = 1.0
+21 , 637 = 1.0
+21 , 647 = 1.0
+21 , 735 = 1.0
+21 , 973 = 1.0
+22 , 22 = 1.0000000000000004
+22 , 130 = 1.0000000000000004
+22 , 638 = 1.0000000000000004
+22 , 648 = 1.0000000000000004
+22 , 736 = 1.0000000000000004
+22 , 974 = 1.0000000000000004
+23 , 23 = 1.0000000000000004
+23 , 131 = 1.0000000000000004
+23 , 639 = 1.0000000000000004
+23 , 649 = 1.0000000000000004
+23 , 737 = 1.0000000000000004
+23 , 975 = 1.0000000000000004
+24 , 24 = 1.0000000000000002
+24 , 132 = 1.0000000000000002
+24 , 640 = 1.0000000000000002
+24 , 650 = 1.0000000000000002
+24 , 738 = 1.0000000000000002
+24 , 976 = 1.0000000000000002
+25 , 25 = 1.0000000000000004
+25 , 133 = 1.0000000000000004
+25 , 641 = 1.0000000000000004
+25 , 651 = 1.0000000000000004
+25 , 739 = 1.0000000000000004
+25 , 977 = 1.0000000000000004
+26 , 26 = 1.0
+26 , 39 = 0.722507924997518
+26 , 134 = 1.0
+26 , 406 = 0.722507924997518
+26 , 495 = 0.722507924997518
+26 , 642 = 1.0
+26 , 652 = 1.0
+26 , 740 = 1.0
+26 , 890 = 0.722507924997518
+26 , 925 = 0.722507924997518
+26 , 966 = 0.722507924997518
+26 , 978 = 1.0
+27 , 27 = 1.0000000000000002
+27 , 135 = 1.0000000000000002
+27 , 643 = 1.0000000000000002
+27 , 653 = 1.0000000000000002
+27 , 741 = 1.0000000000000002
+27 , 979 = 1.0000000000000002
+28 , 28 = 1.0
+28 , 43 = 1.0
+28 , 136 = 1.0
+28 , 144 = 1.0
+28 , 300 = 1.0
+28 , 315 = 0.6419292559970623
+28 , 410 = 1.0
+28 , 415 = 1.0
+28 , 499 = 1.0
+28 , 533 = 1.0
+28 , 644 = 1.0
+28 , 654 = 1.0
+28 , 727 = 1.0
+28 , 732 = 1.0
+28 , 742 = 1.0
+28 , 774 = 1.0
+28 , 856 = 1.0
+28 , 871 = 1.0
+28 , 894 = 1.0
+28 , 915 = 1.0
+28 , 929 = 1.0
+28 , 934 = 1.0
+28 , 954 = 1.0
+28 , 970 = 1.0
+28 , 980 = 1.0
+28 , 985 = 1.0
+29 , 29 = 1.0000000000000002
+30 , 30 = 1.0000000000000002
+31 , 31 = 1.0
+31 , 241 = 1.0
+31 , 273 = 1.0
+31 , 295 = 1.0
+31 , 813 = 1.0
+31 , 837 = 1.0
+31 , 866 = 1.0
+31 , 989 = 1.0
+32 , 32 = 1.0
+32 , 399 = 1.0
+32 , 488 = 1.0
+32 , 883 = 1.0
+32 , 918 = 1.0
+32 , 959 = 1.0
+33 , 33 = 1.0000000000000002
+33 , 400 = 1.0000000000000002
+33 , 489 = 1.0000000000000002
+33 , 884 = 1.0000000000000002
+33 , 919 = 1.0000000000000002
+33 , 960 = 1.0000000000000002
+34 , 34 = 1.0000000000000002
+34 , 401 = 1.0000000000000002
+34 , 490 = 1.0000000000000002
+34 , 885 = 1.0000000000000002
+34 , 920 = 1.0000000000000002
+34 , 961 = 1.0000000000000002
+35 , 35 = 1.0
+35 , 402 = 1.0
+35 , 491 = 1.0
+35 , 886 = 1.0
+35 , 921 = 1.0
+35 , 962 = 1.0
+36 , 36 = 1.0000000000000002
+36 , 37 = 0.6948401513873241
+36 , 403 = 1.0000000000000002
+36 , 404 = 0.6948401513873241
+36 , 492 = 1.0000000000000002
+36 , 493 = 0.6948401513873241
+36 , 887 = 1.0000000000000002
+36 , 888 = 0.6948401513873241
+36 , 922 = 1.0000000000000002
+36 , 923 = 0.6948401513873241
+36 , 963 = 1.0000000000000002
+36 , 964 = 0.6948401513873241
+37 , 36 = 0.6948401513873241
+37 , 37 = 0.9999999999999999
+37 , 403 = 0.6948401513873241
+37 , 404 = 0.9999999999999999
+37 , 492 = 0.6948401513873241
+37 , 493 = 0.9999999999999999
+37 , 887 = 0.6948401513873241
+37 , 888 = 0.9999999999999999
+37 , 922 = 0.6948401513873241
+37 , 923 = 0.9999999999999999
+37 , 963 = 0.6948401513873241
+37 , 964 = 0.9999999999999999
+38 , 38 = 1.0
+38 , 405 = 1.0
+38 , 494 = 1.0
+38 , 889 = 1.0
+38 , 924 = 1.0
+38 , 965 = 1.0
+39 , 26 = 0.722507924997518
+39 , 39 = 1.0
+39 , 134 = 0.722507924997518
+39 , 406 = 1.0
+39 , 495 = 1.0
+39 , 642 = 0.722507924997518
+39 , 652 = 0.722507924997518
+39 , 740 = 0.722507924997518
+39 , 890 = 1.0
+39 , 925 = 1.0
+39 , 966 = 1.0
+39 , 978 = 0.722507924997518
+40 , 40 = 1.0
+40 , 407 = 1.0
+40 , 496 = 1.0
+40 , 891 = 1.0
+40 , 926 = 1.0
+40 , 967 = 1.0
+41 , 41 = 1.0000000000000002
+41 , 408 = 1.0000000000000002
+41 , 497 = 1.0000000000000002
+41 , 892 = 1.0000000000000002
+41 , 927 = 1.0000000000000002
+41 , 968 = 1.0000000000000002
+42 , 42 = 1.0000000000000002
+42 , 409 = 1.0000000000000002
+42 , 498 = 1.0000000000000002
+42 , 893 = 1.0000000000000002
+42 , 928 = 1.0000000000000002
+42 , 969 = 1.0000000000000002
+43 , 28 = 1.0
+43 , 43 = 1.0
+43 , 136 = 1.0
+43 , 144 = 1.0
+43 , 300 = 1.0
+43 , 315 = 0.6419292559970623
+43 , 410 = 1.0
+43 , 415 = 1.0
+43 , 499 = 1.0
+43 , 533 = 1.0
+43 , 644 = 1.0
+43 , 654 = 1.0
+43 , 727 = 1.0
+43 , 732 = 1.0
+43 , 742 = 1.0
+43 , 774 = 1.0
+43 , 856 = 1.0
+43 , 871 = 1.0
+43 , 894 = 1.0
+43 , 915 = 1.0
+43 , 929 = 1.0
+43 , 934 = 1.0
+43 , 954 = 1.0
+43 , 970 = 1.0
+43 , 980 = 1.0
+43 , 985 = 1.0
+44 , 44 = 1.0000000000000002
+45 , 45 = 1.0
+46 , 46 = 1.0
+47 , 47 = 1.0
+48 , 48 = 1.0000000000000002
+49 , 49 = 1.0
+50 , 50 = 1.0
+51 , 51 = 1.0
+52 , 52 = 1.0000000000000002
+53 , 53 = 1.0
+54 , 54 = 1.0000000000000002
+55 , 55 = 1.0000000000000002
+56 , 10 = 1.0
+56 , 56 = 1.0
+56 , 74 = 1.0
+56 , 119 = 1.0
+56 , 126 = 1.0
+56 , 191 = 1.0
+56 , 205 = 1.0
+56 , 224 = 1.0
+56 , 339 = 1.0
+56 , 382 = 1.0
+56 , 393 = 1.0
+56 , 398 = 1.0
+56 , 429 = 1.0
+56 , 460 = 1.0
+56 , 472 = 1.0
+56 , 482 = 1.0
+56 , 528 = 1.0
+56 , 536 = 1.0
+56 , 590 = 1.0
+56 , 600 = 1.0
+56 , 609 = 1.0
+56 , 624 = 1.0
+56 , 703 = 1.0
+56 , 710 = 1.0
+56 , 714 = 1.0
+56 , 760 = 1.0
+56 , 765 = 1.0
+56 , 778 = 0.5024758259279823
+56 , 785 = 1.0
+56 , 820 = 1.0
+56 , 829 = 1.0
+56 , 910 = 1.0
+56 , 944 = 1.0
+57 , 57 = 1.0000000000000002
+58 , 58 = 1.0000000000000002
+58 , 501 = 0.5058295575664011
+59 , 59 = 1.0000000000000004
+60 , 60 = 1.0
+61 , 61 = 1.0000000000000007
+62 , 62 = 1.0
+62 , 160 = 1.0
+62 , 286 = 1.0
+62 , 315 = 0.7667638686682218
+62 , 510 = 1.0
+62 , 517 = 1.0
+62 , 614 = 1.0
+62 , 697 = 1.0
+62 , 834 = 1.0
+62 , 861 = 1.0
+62 , 958 = 1.0
+63 , 63 = 1.0
+64 , 64 = 1.0
+64 , 68 = 1.0
+65 , 65 = 0.9999999999999999
+66 , 66 = 1.0000000000000002
+67 , 67 = 1.0000000000000004
+68 , 64 = 1.0
+68 , 68 = 1.0
+69 , 69 = 1.0
+70
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> , 70 = 1.0
+70 , 228 = 1.0
+70 , 239 = 1.0
+70 , 311 = 1.0
+70 , 487 = 1.0
+70 , 802 = 1.0
+70 , 873 = 1.0
+70 , 902 = 1.0
+71 , 71 = 1.0000000000000002
+72 , 72 = 1.0000000000000002
+73 , 73 = 1.0
+74 , 10 = 1.0
+74 , 56 = 1.0
+74 , 74 = 1.0
+74 , 119 = 1.0
+74 , 126 = 1.0
+74 , 191 = 1.0
+74 , 205 = 1.0
+74 , 224 = 1.0
+74 , 339 = 1.0
+74 , 382 = 1.0
+74 , 393 = 1.0
+74 , 398 = 1.0
+74 , 429 = 1.0
+74 , 460 = 1.0
+74 , 472 = 1.0
+74 , 482 = 1.0
+74 , 528 = 1.0
+74 , 536 = 1.0
+74 , 590 = 1.0
+74 , 600 = 1.0
+74 , 609 = 1.0
+74 , 624 = 1.0
+74 , 703 = 1.0
+74 , 710 = 1.0
+74 , 714 = 1.0
+74 , 760 = 1.0
+74 , 765 = 1.0
+74 , 778 = 0.5024758259279823
+74 , 785 = 1.0
+74 , 820 = 1.0
+74 , 829 = 1.0
+74 , 910 = 1.0
+74 , 944 = 1.0
+75 , 75 = 1.0000000000000002
+76 , 76 = 1.0
+77 , 77 = 1.0000000000000004
+78 , 78 = 1.0
+79 , 79 = 1.0000000000000004
+80 , 80 = 1.0000000000000002
+81 , 81 = 1.0000000000000002
+82 , 82 = 1.0
+83 , 83 = 1.0
+84 , 84 = 1.0
+84 , 91 = 0.5968916363466724
+84 , 168 = 1.0
+84 , 260 = 0.5968916363466724
+84 , 270 = 1.0
+84 , 322 = 1.0
+84 , 332 = 1.0
+84 , 423 = 1.0
+84 , 573 = 1.0
+84 , 745 = 0.5968916363466724
+84 , 797 = 0.5968916363466724
+85 , 85 = 1.0
+85 , 416 = 0.7754944414410252
+86 , 86 = 1.0
+87 , 87 = 1.0000000000000002
+88 , 88 = 1.0000000000000002
+89 , 89 = 1.0
+90 , 90 = 1.0
+91 , 84 = 0.5968916363466724
+91 , 91 = 1.0000000000000002
+91 , 110 = 0.5701990460433357
+91 , 168 = 0.5968916363466724
+91 , 252 = 0.5701990460433357
+91 , 260 = 1.0000000000000002
+91 , 270 = 0.5968916363466724
+91 , 322 = 0.5968916363466724
+91 , 332 = 0.5968916363466724
+91 , 423 = 0.5968916363466724
+91 , 573 = 0.5968916363466724
+91 , 745 = 1.0000000000000002
+91 , 797 = 1.0000000000000002
+92 , 92 = 1.0
+93 , 93 = 1.0000000000000002
+94 , 94 = 1.0000000000000002
+95 , 95 = 1.0000000000000002
+96 , 96 = 1.0
+97 , 97 = 0.9999999999999999
+98 , 98 = 1.0000000000000002
+99 , 99 = 1.0000000000000002
+100 , 100 = 1.0
+101 , 101 = 1.0000000000000002
+102 , 102 = 0.9999999999999999
+103 , 103 = 1.0
+104 , 104 = 1.0
+105 , 105 = 1.0
+106 , 106 = 0.9999999999999999
+107 , 107 = 1.0000000000000002
+108 , 108 = 1.0000000000000002
+109 , 109 = 1.0
+110 , 91 = 0.5701990460433357
+110 , 110 = 1.0
+110 , 252 = 0.50507481976437
+110 , 260 = 0.5701990460433357
+110 , 745 = 0.5701990460433357
+110 , 797 = 0.5701990460433357
+111 , 111 = 1.0000000000000004
+112 , 112 = 1.0
+113 , 113 = 1.0
+114 , 3 = 1.0
+114 , 18 = 1.0
+114 , 114 = 1.0
+114 , 153 = 1.0
+114 , 213 = 1.0
+114 , 276 = 1.0
+114 , 282 = 1.0
+114 , 288 = 1.0
+114 , 320 = 1.0
+114 , 325 = 1.0
+114 , 327 = 1.0
+114 , 436 = 1.0
+114 , 506 = 1.0
+114 , 522 = 1.0
+114 , 547 = 1.0
+114 , 558 = 1.0
+114 , 611 = 1.0
+114 , 620 = 1.0
+114 , 716 = 1.0
+114 , 750 = 1.0
+114 , 753 = 1.0
+114 , 917 = 1.0
+114 , 995 = 1.0
+115 , 115 = 1.0000000000000002
+116 , 116 = 1.0
+117 , 117 = 1.0
+118 , 118 = 1.0000000000000002
+119 , 10 = 1.0
+119 , 56 = 1.0
+119 , 74 = 1.0
+119 , 119 = 1.0
+119 , 126 = 1.0
+119 , 191 = 1.0
+119 , 205 = 1.0
+119 , 224 = 1.0
+119 , 339 = 1.0
+119 , 382 = 1.0
+119 , 393 = 1.0
+119 , 398 = 1.0
+119 , 429 = 1.0
+119 , 460 = 1.0
+119 , 472 = 1.0
+119 , 482 = 1.0
+119 , 528 = 1.0
+119 , 536 = 1.0
+119 , 590 = 1.0
+119 , 600 = 1.0
+119 , 609 = 1.0
+119 , 624 = 1.0
+119 , 703 = 1.0
+119 , 710 = 1.0
+119 , 714 = 1.0
+119 , 760 = 1.0
+119 , 765 = 1.0
+119 , 778 = 0.5024758259279823
+119 , 785 = 1.0
+119 , 820 = 1.0
+119 , 829 = 1.0
+119 , 910 = 1.0
+119 , 944 = 1.0
+120 , 120 = 1.0
+121 , 121 = 1.0000000000000002
+122 , 122 = 1.0
+123 , 123 = 1.0000000000000002
+124 , 124 = 1.0
+125 , 125 = 1.0
+126 , 10 = 1.0
+126 , 56 = 1.0
+126 , 74 = 1.0
+126 , 119 = 1.0
+126 , 126 = 1.0
+126 , 191 = 1.0
+126 , 205 = 1.0
+126 , 224 = 1.0
+126 , 339 = 1.0
+126 , 382 = 1.0
+126 , 393 = 1.0
+126 , 398 = 1.0
+126 , 429 = 1.0
+126 , 460 = 1.0
+126 , 472 = 1.0
+126 , 482 = 1.0
+126 , 528 = 1.0
+126 , 536 = 1.0
+126 , 590 = 1.0
+126 , 600 = 1.0
+126 , 609 = 1.0
+126 , 624 = 1.0
+126 , 703 = 1.0
+126 , 710 = 1.0
+126 , 714 = 1.0
+126 , 760 = 1.0
+126 , 765 = 1.0
+126 , 778 = 0.5024758259279823
+126 , 785 = 1.0
+126 , 820 = 1.0
+126 , 829 = 1.0
+126 , 910 = 1.0
+126 , 944 = 1.0
+127 , 19 = 1.0
+127 , 127 = 1.0
+127 , 635 = 1.0
+127 , 645 = 1.0
+127 , 733 = 1.0
+127 , 971 = 1.0
+128 , 20 = 1.0
+128 , 128 = 1.0
+128 , 636 = 1.0
+128 , 646 = 1.0
+128 , 734 = 1.0
+128 , 972 = 1.0
+129 , 21 = 1.0
+129 , 129 = 1.0
+129 , 637 = 1.0
+129 , 647 = 1.0
+129 , 735 = 1.0
+129 , 973 = 1.0
+130 , 22 = 1.0000000000000004
+130 , 130 = 1.0000000000000004
+130 , 638 = 1.0000000000000004
+130 , 648 = 1.0000000000000004
+130 , 736 = 1.0000000000000004
+130 , 974 = 1.0000000000000004
+131 , 23 = 1.0000000000000004
+131 , 131 = 1.0000000000000004
+131 , 639 = 1.0000000000000004
+131 , 649 = 1.0000000000000004
+131 , 737 = 1.0000000000000004
+131 , 975 = 1.0000000000000004
+132 , 24 = 1.0000000000000002
+132 , 132 = 1.0000000000000002
+132 , 640 = 1.0000000000000002
+132 , 650 = 1.0000000000000002
+132 , 738 = 1.0000000000000002
+132 , 976 = 1.0000000000000002
+133 , 25 = 1.0000000000000004
+133 , 133 = 1.0000000000000004
+133 , 641 = 1.0000000000000004
+133 , 651 = 1.0000000000000004
+133 , 739 = 1.0000000000000004
+133 , 977 = 1.0000000000000004
+134 , 26 = 1.0
+134 , 39 = 0.722507924997518
+134 , 134 = 1.0
+134 , 406 = 0.722507924997518
+134 , 495 = 0.722507924997518
+134 , 642 = 1.0
+134 , 652 = 1.0
+134 , 740 = 1.0
+134 , 890 = 0.722507924997518
+134 , 925 = 0.722507924997518
+134 , 966 = 0.722507924997518
+134 , 978 = 1.0
+135 , 27 = 1.0000000000000002
+135 , 135 = 1.0000000000000002
+135 , 643 = 1.0000000000000002
+135 , 653 = 1.0000000000000002
+135 , 741 = 1.0000000000000002
+135 , 979 = 1.0000000000000002
+136 , 28 = 1.0
+136 , 43 = 1.0
+136 , 136 = 1.0
+136 , 144 = 1.0
+136 , 300 = 1.0
+136 , 315 = 0.6419292559970623
+136 , 410 = 1.0
+136 , 415 = 1.0
+136 , 499 = 1.0
+136 , 533 = 1.0
+136 , 644 = 1.0
+136 , 654 = 1.0
+136 , 727 = 1.0
+136 , 732 = 1.0
+136 , 742 = 1.0
+136 , 774 = 1.0
+136 , 856 = 1.0
+136 , 871 = 1.0
+136 , 894 = 1.0
+136 , 915 = 1.0
+136 , 929 = 1.0
+136 , 934 = 1.0
+136 , 954 = 1.0
+136 , 970 = 1.0
+136 , 980 = 1.0
+136 , 985 = 1.0
+137 , 137 = 1.0000000000000002
+138 , 138 = 1.0000000000000002
+139 , 139 = 0.9999999999999999
+140 , 140 = 1.0
+141 , 141 = 1.0
+142 , 142 = 1.0000000000000002
+143 , 143 = 1.0000000000000004
+144 , 28 = 1.0
+144 , 43 = 1.0
+144 , 136 = 1.0
+144 , 144 = 1.0
+144 , 300 = 1.0
+144 , 315 = 0.6419292559970623
+144 , 410 = 1.0
+144 , 415 = 1.0
+144 , 499 = 1.0
+144 , 533 = 1.0
+144 , 644 = 1.0
+144 , 654 = 1.0
+144 , 727 = 1.0
+144 , 732 = 1.0
+144 , 742 = 1.0
+144 , 774 = 1.0
+144 , 856 = 1.0
+144 , 871 = 1.0
+144 , 894 = 1.0
+144 , 915 = 1.0
+144 , 929 = 1.0
+144 , 934 = 1.0
+144 , 954 = 1.0
+144 , 970 = 1.0
+144 , 980 = 1.0
+144 , 985 = 1.0
+145 , 145 = 1.0
+146 , 146 = 1.0
+147 , 147 = 0.9999999999999999
+148 , 148 = 1.0000000000000002
+149 , 149 = 1.0
+150 , 150 = 1.0000000000000002
+151 , 151 = 1.0
+151 , 858 = 0.5567902312521547
+152 , 152 = 1.0000000000000002
+153 , 3 = 1.0
+153 , 18 = 1.0
+153 , 114 = 1.0
+153 , 153 = 1.0
+153 , 213 = 1.0
+153 , 276 = 1.0
+153 , 282 = 1.0
+153 , 288 = 1.0
+153 , 320 = 1.0
+153 , 325 = 1.0
+153 , 327 = 1.0
+153 , 436 = 1.0
+153 , 506 = 1.0
+153 , 522 = 1.0
+153 , 547 = 1.0
+153 , 558 = 1.0
+153 , 611 = 1.0
+153 , 620 = 1.0
+153 , 716 = 1.0
+153 , 750 = 1.0
+153 , 753 = 1.0
+153 , 917 = 1.0
+153 , 995 = 1.0
+154 , 154 = 1.0000000000000004
+154 , 387 = 0.7836291173723235
+155 , 155 = 1.0000000000000004
+156 , 156 = 1.0000000000000002
+157 , 157 = 1.0000000000000004
+158
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> , 158 = 1.0000000000000002
+159 , 159 = 1.0
+160 , 62 = 1.0
+160 , 160 = 1.0
+160 , 286 = 1.0
+160 , 315 = 0.7667638686682218
+160 , 510 = 1.0
+160 , 517 = 1.0
+160 , 614 = 1.0
+160 , 697 = 1.0
+160 , 834 = 1.0
+160 , 861 = 1.0
+160 , 958 = 1.0
+161 , 161 = 1.0
+162 , 162 = 1.0000000000000002
+163 , 163 = 1.0000000000000002
+164 , 164 = 1.0000000000000002
+165 , 165 = 1.0000000000000002
+166 , 166 = 1.0000000000000002
+167 , 167 = 1.0000000000000002
+168 , 84 = 1.0
+168 , 91 = 0.5968916363466724
+168 , 168 = 1.0
+168 , 260 = 0.5968916363466724
+168 , 270 = 1.0
+168 , 322 = 1.0
+168 , 332 = 1.0
+168 , 423 = 1.0
+168 , 573 = 1.0
+168 , 745 = 0.5968916363466724
+168 , 797 = 0.5968916363466724
+169 , 169 = 1.0000000000000002
+170 , 170 = 1.0
+170 , 562 = 0.6949657331453277
+170 , 789 = 0.5010342446845996
+171 , 171 = 1.0
+172 , 172 = 1.0000000000000002
+173 , 173 = 1.0
+174 , 174 = 1.0
+175 , 175 = 1.0
+175 , 178 = 0.6705553091387558
+176 , 176 = 1.0000000000000004
+177 , 177 = 1.0000000000000002
+178 , 175 = 0.6705553091387558
+178 , 178 = 1.0
+179 , 179 = 1.0000000000000002
+180 , 180 = 1.0
+181 , 181 = 1.0
+182 , 182 = 1.0000000000000002
+183 , 183 = 0.9999999999999996
+184 , 184 = 1.0
+185 , 185 = 1.0000000000000002
+185 , 186 = 0.5029497220723337
+186 , 185 = 0.5029497220723337
+186 , 186 = 1.0000000000000004
+187 , 187 = 1.0000000000000004
+188 , 188 = 1.0000000000000002
+189 , 189 = 1.0
+190 , 190 = 1.0
+191 , 10 = 1.0
+191 , 56 = 1.0
+191 , 74 = 1.0
+191 , 119 = 1.0
+191 , 126 = 1.0
+191 , 191 = 1.0
+191 , 205 = 1.0
+191 , 224 = 1.0
+191 , 339 = 1.0
+191 , 382 = 1.0
+191 , 393 = 1.0
+191 , 398 = 1.0
+191 , 429 = 1.0
+191 , 460 = 1.0
+191 , 472 = 1.0
+191 , 482 = 1.0
+191 , 528 = 1.0
+191 , 536 = 1.0
+191 , 590 = 1.0
+191 , 600 = 1.0
+191 , 609 = 1.0
+191 , 624 = 1.0
+191 , 703 = 1.0
+191 , 710 = 1.0
+191 , 714 = 1.0
+191 , 760 = 1.0
+191 , 765 = 1.0
+191 , 778 = 0.5024758259279823
+191 , 785 = 1.0
+191 , 820 = 1.0
+191 , 829 = 1.0
+191 , 910 = 1.0
+191 , 944 = 1.0
+192 , 192 = 1.0
+193 , 193 = 1.0
+194 , 194 = 1.0000000000000004
+195 , 195 = 1.0
+196 , 196 = 1.0000000000000002
+197 , 197 = 1.0
+198 , 198 = 1.0
+199 , 199 = 1.0
+200 , 200 = 1.0
+201 , 201 = 1.0
+202 , 202 = 1.0000000000000002
+203 , 203 = 1.0
+204 , 204 = 1.0000000000000002
+205 , 10 = 1.0
+205 , 56 = 1.0
+205 , 74 = 1.0
+205 , 119 = 1.0
+205 , 126 = 1.0
+205 , 191 = 1.0
+205 , 205 = 1.0
+205 , 224 = 1.0
+205 , 339 = 1.0
+205 , 382 = 1.0
+205 , 393 = 1.0
+205 , 398 = 1.0
+205 , 429 = 1.0
+205 , 460 = 1.0
+205 , 472 = 1.0
+205 , 482 = 1.0
+205 , 528 = 1.0
+205 , 536 = 1.0
+205 , 590 = 1.0
+205 , 600 = 1.0
+205 , 609 = 1.0
+205 , 624 = 1.0
+205 , 703 = 1.0
+205 , 710 = 1.0
+205 , 714 = 1.0
+205 , 760 = 1.0
+205 , 765 = 1.0
+205 , 778 = 0.5024758259279823
+205 , 785 = 1.0
+205 , 820 = 1.0
+205 , 829 = 1.0
+205 , 910 = 1.0
+205 , 944 = 1.0
+206 , 206 = 1.0000000000000002
+207 , 207 = 1.0000000000000004
+208 , 208 = 1.0000000000000002
+209 , 209 = 1.0
+210 , 210 = 1.0
+211 , 211 = 1.0000000000000002
+212 , 212 = 1.0
+213 , 3 = 1.0
+213 , 18 = 1.0
+213 , 114 = 1.0
+213 , 153 = 1.0
+213 , 213 = 1.0
+213 , 276 = 1.0
+213 , 282 = 1.0
+213 , 288 = 1.0
+213 , 320 = 1.0
+213 , 325 = 1.0
+213 , 327 = 1.0
+213 , 436 = 1.0
+213 , 506 = 1.0
+213 , 522 = 1.0
+213 , 547 = 1.0
+213 , 558 = 1.0
+213 , 611 = 1.0
+213 , 620 = 1.0
+213 , 716 = 1.0
+213 , 750 = 1.0
+213 , 753 = 1.0
+213 , 917 = 1.0
+213 , 995 = 1.0
+214 , 214 = 1.0
+215 , 215 = 1.0000000000000004
+216 , 216 = 0.9999999999999999
+217 , 217 = 1.0
+218 , 218 = 1.0000000000000002
+219 , 219 = 1.0000000000000002
+220 , 220 = 1.0000000000000002
+221 , 221 = 1.0
+222 , 222 = 1.0000000000000002
+223 , 223 = 1.0000000000000002
+224 , 10 = 1.0
+224 , 56 = 1.0
+224 , 74 = 1.0
+224 , 119 = 1.0
+224 , 126 = 1.0
+224 , 191 = 1.0
+224 , 205 = 1.0
+224 , 224 = 1.0
+224 , 339 = 1.0
+224 , 382 = 1.0
+224 , 393 = 1.0
+224 , 398 = 1.0
+224 , 429 = 1.0
+224 , 460 = 1.0
+224 , 472 = 1.0
+224 , 482 = 1.0
+224 , 528 = 1.0
+224 , 536 = 1.0
+224 , 590 = 1.0
+224 , 600 = 1.0
+224 , 609 = 1.0
+224 , 624 = 1.0
+224 , 703 = 1.0
+224 , 710 = 1.0
+224 , 714 = 1.0
+224 , 760 = 1.0
+224 , 765 = 1.0
+224 , 778 = 0.5024758259279823
+224 , 785 = 1.0
+224 , 820 = 1.0
+224 , 829 = 1.0
+224 , 910 = 1.0
+224 , 944 = 1.0
+225 , 225 = 1.0
+226 , 226 = 1.0000000000000002
+227 , 227 = 1.0
+228 , 70 = 1.0
+228 , 228 = 1.0
+228 , 239 = 1.0
+228 , 311 = 1.0
+228 , 487 = 1.0
+228 , 802 = 1.0
+228 , 873 = 1.0
+228 , 902 = 1.0
+229 , 229 = 1.0000000000000002
+230 , 230 = 1.0000000000000002
+231 , 231 = 1.0000000000000002
+232 , 232 = 1.0000000000000002
+233 , 233 = 1.0
+234 , 234 = 1.0000000000000002
+235 , 235 = 1.0000000000000002
+236 , 236 = 1.0000000000000002
+237 , 237 = 1.0
+238 , 238 = 1.0
+239 , 70 = 1.0
+239 , 228 = 1.0
+239 , 239 = 1.0
+239 , 311 = 1.0
+239 , 487 = 1.0
+239 , 802 = 1.0
+239 , 873 = 1.0
+239 , 902 = 1.0
+240 , 240 = 1.0
+241 , 31 = 1.0
+241 , 241 = 1.0
+241 , 273 = 1.0
+241 , 295 = 1.0
+241 , 813 = 1.0
+241 , 837 = 1.0
+241 , 866 = 1.0
+241 , 989 = 1.0
+242 , 242 = 1.0
+243 , 243 = 1.0000000000000002
+244 , 244 = 1.0000000000000002
+245 , 245 = 1.0000000000000002
+246 , 246 = 1.0
+247 , 247 = 1.0
+248 , 248 = 1.0
+249 , 249 = 1.0000000000000002
+250 , 250 = 1.0
+251 , 251 = 1.0
+252 , 91 = 0.5701990460433357
+252 , 110 = 0.50507481976437
+252 , 252 = 1.0
+252 , 260 = 0.5701990460433357
+252 , 745 = 0.5701990460433357
+252 , 797 = 0.5701990460433357
+253 , 253 = 1.0
+254 , 254 = 1.0
+255 , 255 = 1.0
+256 , 256 =
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1.0
+257 , 257 = 1.0
+258 , 258 = 1.0
+259 , 259 = 1.0000000000000004
+260 , 84 = 0.5968916363466724
+260 , 91 = 1.0000000000000002
+260 , 110 = 0.5701990460433357
+260 , 168 = 0.5968916363466724
+260 , 252 = 0.5701990460433357
+260 , 260 = 1.0000000000000002
+260 , 270 = 0.5968916363466724
+260 , 322 = 0.5968916363466724
+260 , 332 = 0.5968916363466724
+260 , 423 = 0.5968916363466724
+260 , 573 = 0.5968916363466724
+260 , 745 = 1.0000000000000002
+260 , 797 = 1.0000000000000002
+261 , 261 = 1.0000000000000002
+262 , 262 = 1.0000000000000002
+263 , 263 = 1.0000000000000002
+264 , 264 = 1.0000000000000002
+265 , 265 = 1.0000000000000002
+266 , 266 = 1.0000000000000002
+267 , 267 = 1.0000000000000002
+268 , 268 = 1.0000000000000002
+269 , 269 = 1.0000000000000002
+270 , 84 = 1.0
+270 , 91 = 0.5968916363466724
+270 , 168 = 1.0
+270 , 260 = 0.5968916363466724
+270 , 270 = 1.0
+270 , 322 = 1.0
+270 , 332 = 1.0
+270 , 423 = 1.0
+270 , 573 = 1.0
+270 , 745 = 0.5968916363466724
+270 , 797 = 0.5968916363466724
+271 , 271 = 1.0000000000000002
+271 , 272 = 0.5166361585819726
+272 , 271 = 0.5166361585819726
+272 , 272 = 0.9999999999999997
+273 , 31 = 1.0
+273 , 241 = 1.0
+273 , 273 = 1.0
+273 , 295 = 1.0
+273 , 813 = 1.0
+273 , 837 = 1.0
+273 , 866 = 1.0
+273 , 989 = 1.0
+274 , 274 = 1.0000000000000002
+275 , 275 = 1.0
+276 , 3 = 1.0
+276 , 18 = 1.0
+276 , 114 = 1.0
+276 , 153 = 1.0
+276 , 213 = 1.0
+276 , 276 = 1.0
+276 , 282 = 1.0
+276 , 288 = 1.0
+276 , 320 = 1.0
+276 , 325 = 1.0
+276 , 327 = 1.0
+276 , 436 = 1.0
+276 , 506 = 1.0
+276 , 522 = 1.0
+276 , 547 = 1.0
+276 , 558 = 1.0
+276 , 611 = 1.0
+276 , 620 = 1.0
+276 , 716 = 1.0
+276 , 750 = 1.0
+276 , 753 = 1.0
+276 , 917 = 1.0
+276 , 995 = 1.0
+277 , 277 = 1.0
+277 , 615 = 0.5536563685359019
+278 , 278 = 1.0
+279 , 279 = 1.0
+280 , 280 = 1.0
+281 , 281 = 1.0000000000000002
+282 , 3 = 1.0
+282 , 18 = 1.0
+282 , 114 = 1.0
+282 , 153 = 1.0
+282 , 213 = 1.0
+282 , 276 = 1.0
+282 , 282 = 1.0
+282 , 288 = 1.0
+282 , 320 = 1.0
+282 , 325 = 1.0
+282 , 327 = 1.0
+282 , 436 = 1.0
+282 , 506 = 1.0
+282 , 522 = 1.0
+282 , 547 = 1.0
+282 , 558 = 1.0
+282 , 611 = 1.0
+282 , 620 = 1.0
+282 , 716 = 1.0
+282 , 750 = 1.0
+282 , 753 = 1.0
+282 , 917 = 1.0
+282 , 995 = 1.0
+283 , 283 = 1.0000000000000002
+284 , 284 = 1.0000000000000002
+285 , 285 = 1.0000000000000002
+286 , 62 = 1.0
+286 , 160 = 1.0
+286 , 286 = 1.0
+286 , 315 = 0.7667638686682218
+286 , 510 = 1.0
+286 , 517 = 1.0
+286 , 614 = 1.0
+286 , 697 = 1.0
+286 , 834 = 1.0
+286 , 861 = 1.0
+286 , 958 = 1.0
+287 , 287 = 1.0
+288 , 3 = 1.0
+288 , 18 = 1.0
+288 , 114 = 1.0
+288 , 153 = 1.0
+288 , 213 = 1.0
+288 , 276 = 1.0
+288 , 282 = 1.0
+288 , 288 = 1.0
+288 , 320 = 1.0
+288 , 325 = 1.0
+288 , 327 = 1.0
+288 , 436 = 1.0
+288 , 506 = 1.0
+288 , 522 = 1.0
+288 , 547 = 1.0
+288 , 558 = 1.0
+288 , 611 = 1.0
+288 , 620 = 1.0
+288 , 716 = 1.0
+288 , 750 = 1.0
+288 , 753 = 1.0
+288 , 917 = 1.0
+288 , 995 = 1.0
+289 , 289 = 1.0
+289 , 990 = 1.0
+290 , 290 = 1.0000000000000002
+290 , 991 = 1.0000000000000002
+291 , 291 = 1.0
+291 , 444 = 1.0
+291 , 992 = 1.0
+292 , 292 = 1.0
+293 , 293 = 1.0
+294 , 294 = 1.0000000000000002
+295 , 31 = 1.0
+295 , 241 = 1.0
+295 , 273 = 1.0
+295 , 295 = 1.0
+295 , 813 = 1.0
+295 , 837 = 1.0
+295 , 866 = 1.0
+295 , 989 = 1.0
+296 , 296 = 1.0000000000000002
+296 , 529 = 1.0000000000000002
+296 , 728 = 1.0000000000000002
+296 , 930 = 1.0000000000000002
+296 , 950 = 1.0000000000000002
+296 , 981 = 1.0000000000000002
+297 , 297 = 1.0000000000000002
+297 , 530 = 1.0000000000000002
+297 , 729 = 1.0000000000000002
+297 , 931 = 1.0000000000000002
+297 , 951 = 1.0000000000000002
+297 , 982 = 1.0000000000000002
+298 , 298 = 1.0000000000000004
+298 , 531 = 1.0000000000000004
+298 , 730 = 1.0000000000000004
+298 , 932 = 1.0000000000000004
+298 , 952 = 1.0000000000000004
+298 , 983 = 1.0000000000000004
+299 , 299 = 1.0000000000000004
+299 , 532 = 1.0000000000000004
+299 , 731 = 1.0000000000000004
+299 , 933 = 1.0000000000000004
+299 , 953 = 1.0000000000000004
+299 , 984 = 1.0000000000000004
+300 , 28 = 1.0
+300 , 43 = 1.0
+300 , 136 = 1.0
+300 , 144 = 1.0
+300 , 300 = 1.0
+300 , 315 = 0.6419292559970623
+300 , 410 = 1.0
+300 , 415 = 1.0
+300 , 499 = 1.0
+300 , 533 = 1.0
+300 , 644 = 1.0
+300 , 654 = 1.0
+300 , 727 = 1.0
+300 , 732 = 1.0
+300 , 742 = 1.0
+300 , 774 = 1.0
+300 , 856 = 1.0
+300 , 871 = 1.0
+300 , 894 = 1.0
+300 , 915 = 1.0
+300 , 929 = 1.0
+300 , 934 = 1.0
+300 , 954 = 1.0
+300 , 970 = 1.0
+300 , 980 = 1.0
+300 , 985 = 1.0
+301 , 301 = 1.0000000000000004
+302 , 302 = 1.0
+303 , 303 = 1.0000000000000002
+304 , 304 = 1.0000000000000002
+305 , 305 = 1.0
+306 , 306 = 1.0000000000000004
+307 , 307 = 1.0
+308 , 308 = 1.0
+309 , 309 = 1.0
+310 , 310 = 1.0
+311 , 70 = 1.0
+311 , 228 = 1.0
+311 , 239 = 1.0
+311 , 311 = 1.0
+311 , 487 = 1.0
+311 , 802 = 1.0
+311 , 873 = 1.0
+311 , 902 = 1.0
+312 , 312 = 1.0000000000000004
+313 , 313 = 1.0000000000000002
+314 , 314 = 1.0000000000000009
+315 , 28 = 0.6419292559970623
+315 , 43 = 0.6419292559970623
+315 , 62 = 0.7667638686682218
+315 , 136 = 0.6419292559970623
+315 , 144 = 0.6419292559970623
+315 , 160 = 0.7667638686682218
+315 , 286 = 0.7667638686682218
+315 , 300 = 0.6419292559970623
+315 , 315 = 1.0
+315 , 410 = 0.6419292559970623
+315 , 415 = 0.6419292559970623
+315 , 499 = 0.6419292559970623
+315 , 510 = 0.7667638686682218
+315 , 517 = 0.7667638686682218
+315 , 533 = 0.6419292559970623
+315 , 614 = 0.7667638686682218
+315 , 644 = 0.6419292559970623
+315 , 654 = 0.6419292559970623
+315 , 697 = 0.7667638686682218
+315 , 727 = 0.6419292559970623
+315 , 732 = 0.6419292559970623
+315 , 742 = 0.6419292559970623
+315 , 774 = 0.6419292559970623
+315 , 834 = 0.7667638686682218
+315 , 856 = 0.6419292559970623
+315 , 861 = 0.7667638686682218
+315 , 871 = 0.6419292559970623
+315 , 894 = 0.6419292559970623
+315 , 915 = 0.6419292559970623
+315 , 929 = 0.6419292559970623
+315 , 934 = 0.6419292559970623
+315 , 954 = 0.6419292559970623
+315 , 958 = 0.7667638686682218
+315 , 970 = 0.6419292559970623
+315 , 980 = 0.6419292559970623
+315 , 985 = 0.6419292559970623
+316 , 316 = 1.0000000000000002
+317 , 317 = 1.0
+318 , 318 = 1.0000000000000002
+319 , 319 = 1.0000000000000002
+320 , 3 = 1.0
+320 , 18 = 1.0
+320 , 114 = 1.0
+320 , 153 = 1.0
+320 , 213 = 1.0
+320 , 276 = 1.0
+320 , 282 = 1.0
+320 , 288 = 1.0
+320 , 320 = 1.0
+320 , 325 = 1.0
+320 , 327 = 1.0
+320 , 436 = 1.0
+320 , 506 = 1.0
+320 , 522 = 1.0
+320 , 547 = 1.0
+320 , 558 = 1.0
+320 , 611 = 1.0
+320 , 620 = 1.0
+320 , 716 = 1.0
+320 , 750 = 1.0
+320 , 753 = 1.0
+320 , 917 = 1.0
+320 , 995 = 1.0
+321 , 321 = 1.0
+322 , 84 = 1.0
+322 , 91 = 0.5968916363466724
+322 , 168 = 1.0
+322 , 260 = 0.5968916363466724
+322 , 270 = 1.0
+322 , 322 = 1.0
+322 , 332 = 1.0
+322 , 423 = 1.0
+322 , 573 = 1.0
+322 , 745 = 0.5968916363466724
+322 , 797 = 0.5968916363466724
+323 , 323 = 1.0000000000000007
+324 , 324 = 1.0
+325 , 3 = 1.0
+325 , 18 = 1.0
+325 , 114 = 1.0
+325 , 153 = 1.0
+325 , 213 = 1.0
+325 , 276 = 1.0
+325 , 282 = 1.0
+325 , 288 = 1.0
+325 , 320 = 1.0
+325 , 325 = 1.0
+325 , 327 = 1.0
+325 , 436 = 1.0
+325 , 506 = 1.0
+325 , 522 = 1.0
+325 , 547 = 1.0
+325 , 558 = 1.0
+325 , 611 = 1.0
+325 , 620 = 1.0
+325 , 716 = 1.0
+325 , 750 = 1.0
+325 , 753 = 1.0
+325 , 917 = 1.0
+325 , 995 = 1.0
+326 , 326 = 1.0
+327 , 3 = 1.0
+327 , 18 = 1.0
+327 , 114 = 1.0
+327 , 153 = 1.0
+327 , 213 = 1.0
+327 , 276 = 1.0
+327 , 282 = 1.0
+327 , 288 = 1.0
+327 , 320 = 1.0
+327 , 325 = 1.0
+327 , 327 = 1.0
+327 , 436 = 1.0
+327 , 506 = 1.0
+327 , 522 = 1.0
+327 , 547 = 1.0
+327 , 558 = 1.0
+327 , 611 = 1.0
+327 , 620 = 1.0
+327 , 716 = 1.0
+327 , 750 = 1.0
+327 , 753 = 1.0
+327 , 917 = 1.0
+327 , 995 = 1.0
+328 , 328 = 1.0000000000000004
+329 , 329 = 1.0
+330 , 330 = 1.0
+331 , 331 = 1.0000000000000007
+332 , 84 = 1.0
+332 , 91 = 0.5968916363466724
+332 , 168 = 1.0
+332 , 260 = 0.5968916363466724
+332 , 270 = 1.0
+332 , 322 = 1.0
+332 , 332 = 1.0
+332 , 423 = 1.0
+332 , 573 = 1.0
+332 , 745 = 0.5968916363466724
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>332 , 797 = 0.5968916363466724
+333 , 333 = 1.0
+334 , 334 = 1.0000000000000002
+335 , 335 = 1.0000000000000004
+336 , 336 = 1.0000000000000002
+337 , 337 = 1.0000000000000002
+338 , 338 = 1.0000000000000002
+339 , 10 = 1.0
+339 , 56 = 1.0
+339 , 74 = 1.0
+339 , 119 = 1.0
+339 , 126 = 1.0
+339 , 191 = 1.0
+339 , 205 = 1.0
+339 , 224 = 1.0
+339 , 339 = 1.0
+339 , 382 = 1.0
+339 , 393 = 1.0
+339 , 398 = 1.0
+339 , 429 = 1.0
+339 , 460 = 1.0
+339 , 472 = 1.0
+339 , 482 = 1.0
+339 , 528 = 1.0
+339 , 536 = 1.0
+339 , 590 = 1.0
+339 , 600 = 1.0
+339 , 609 = 1.0
+339 , 624 = 1.0
+339 , 703 = 1.0
+339 , 710 = 1.0
+339 , 714 = 1.0
+339 , 760 = 1.0
+339 , 765 = 1.0
+339 , 778 = 0.5024758259279823
+339 , 785 = 1.0
+339 , 820 = 1.0
+339 , 829 = 1.0
+339 , 910 = 1.0
+339 , 944 = 1.0
+340 , 340 = 1.0
+341 , 341 = 1.0000000000000002
+342 , 342 = 1.0000000000000002
+343 , 343 = 1.0
+344 , 344 = 1.0000000000000002
+345 , 345 = 1.0000000000000002
+346 , 346 = 1.0000000000000002
+347 , 347 = 1.0000000000000002
+348 , 348 = 1.0000000000000002
+349 , 349 = 0.9999999999999998
+350 , 350 = 1.0000000000000002
+351 , 351 = 1.0000000000000002
+352 , 352 = 0.9999999999999999
+352 , 353 = 0.5072482368999541
+353 , 352 = 0.5072482368999541
+353 , 353 = 1.0000000000000002
+354 , 354 = 1.0000000000000004
+355 , 355 = 1.0000000000000002
+356 , 356 = 1.0
+356 , 365 = 0.600116882901228
+357 , 357 = 1.0000000000000002
+358 , 358 = 1.0
+359 , 359 = 0.9999999999999996
+360 , 360 = 1.0
+361 , 361 = 0.9999999999999998
+362 , 362 = 1.0000000000000002
+363 , 363 = 1.0
+364 , 364 = 1.0
+365 , 356 = 0.600116882901228
+365 , 365 = 1.0
+366 , 366 = 1.0000000000000002
+367 , 367 = 1.0000000000000002
+368 , 368 = 1.0
+369 , 369 = 1.0000000000000002
+370 , 370 = 1.0000000000000002
+371 , 371 = 1.0
+372 , 372 = 1.0000000000000002
+373 , 373 = 1.0000000000000002
+374 , 374 = 1.0000000000000002
+375 , 375 = 1.0
+375 , 538 = 1.0
+376 , 376 = 1.0000000000000002
+377 , 377 = 1.0000000000000002
+378 , 378 = 1.0000000000000002
+379 , 379 = 1.0
+380 , 380 = 1.0
+381 , 381 = 1.0000000000000004
+382 , 10 = 1.0
+382 , 56 = 1.0
+382 , 74 = 1.0
+382 , 119 = 1.0
+382 , 126 = 1.0
+382 , 191 = 1.0
+382 , 205 = 1.0
+382 , 224 = 1.0
+382 , 339 = 1.0
+382 , 382 = 1.0
+382 , 393 = 1.0
+382 , 398 = 1.0
+382 , 429 = 1.0
+382 , 460 = 1.0
+382 , 472 = 1.0
+382 , 482 = 1.0
+382 , 528 = 1.0
+382 , 536 = 1.0
+382 , 590 = 1.0
+382 , 600 = 1.0
+382 , 609 = 1.0
+382 , 624 = 1.0
+382 , 703 = 1.0
+382 , 710 = 1.0
+382 , 714 = 1.0
+382 , 760 = 1.0
+382 , 765 = 1.0
+382 , 778 = 0.5024758259279823
+382 , 785 = 1.0
+382 , 820 = 1.0
+382 , 829 = 1.0
+382 , 910 = 1.0
+382 , 944 = 1.0
+383 , 383 = 1.0000000000000002
+384 , 384 = 1.0
+385 , 385 = 1.0
+386 , 386 = 1.0000000000000002
+387 , 154 = 0.7836291173723235
+387 , 387 = 1.0
+388 , 388 = 1.0000000000000002
+389 , 389 = 1.0
+390 , 390 = 1.0000000000000002
+391 , 391 = 0.9999999999999999
+392 , 392 = 1.0
+393 , 10 = 1.0
+393 , 56 = 1.0
+393 , 74 = 1.0
+393 , 119 = 1.0
+393 , 126 = 1.0
+393 , 191 = 1.0
+393 , 205 = 1.0
+393 , 224 = 1.0
+393 , 339 = 1.0
+393 , 382 = 1.0
+393 , 393 = 1.0
+393 , 398 = 1.0
+393 , 429 = 1.0
+393 , 460 = 1.0
+393 , 472 = 1.0
+393 , 482 = 1.0
+393 , 528 = 1.0
+393 , 536 = 1.0
+393 , 590 = 1.0
+393 , 600 = 1.0
+393 , 609 = 1.0
+393 , 624 = 1.0
+393 , 703 = 1.0
+393 , 710 = 1.0
+393 , 714 = 1.0
+393 , 760 = 1.0
+393 , 765 = 1.0
+393 , 778 = 0.5024758259279823
+393 , 785 = 1.0
+393 , 820 = 1.0
+393 , 829 = 1.0
+393 , 910 = 1.0
+393 , 944 = 1.0
+394 , 394 = 1.0
+395 , 395 = 1.0000000000000004
+396 , 396 = 1.0000000000000002
+397 , 397 = 1.0000000000000002
+398 , 10 = 1.0
+398 , 56 = 1.0
+398 , 74 = 1.0
+398 , 119 = 1.0
+398 , 126 = 1.0
+398 , 191 = 1.0
+398 , 205 = 1.0
+398 , 224 = 1.0
+398 , 339 = 1.0
+398 , 382 = 1.0
+398 , 393 = 1.0
+398 , 398 = 1.0
+398 , 429 = 1.0
+398 , 460 = 1.0
+398 , 472 = 1.0
+398 , 482 = 1.0
+398 , 528 = 1.0
+398 , 536 = 1.0
+398 , 590 = 1.0
+398 , 600 = 1.0
+398 , 609 = 1.0
+398 , 624 = 1.0
+398 , 703 = 1.0
+398 , 710 = 1.0
+398 , 714 = 1.0
+398 , 760 = 1.0
+398 , 765 = 1.0
+398 , 778 = 0.5024758259279823
+398 , 785 = 1.0
+398 , 820 = 1.0
+398 , 829 = 1.0
+398 , 910 = 1.0
+398 , 944 = 1.0
+399 , 32 = 1.0
+399 , 399 = 1.0
+399 , 488 = 1.0
+399 , 883 = 1.0
+399 , 918 = 1.0
+399 , 959 = 1.0
+400 , 33 = 1.0000000000000002
+400 , 400 = 1.0000000000000002
+400 , 489 = 1.0000000000000002
+400 , 884 = 1.0000000000000002
+400 , 919 = 1.0000000000000002
+400 , 960 = 1.0000000000000002
+401 , 34 = 1.0000000000000002
+401 , 401 = 1.0000000000000002
+401 , 490 = 1.0000000000000002
+401 , 885 = 1.0000000000000002
+401 , 920 = 1.0000000000000002
+401 , 961 = 1.0000000000000002
+402 , 35 = 1.0
+402 , 402 = 1.0
+402 , 491 = 1.0
+402 , 886 = 1.0
+402 , 921 = 1.0
+402 , 962 = 1.0
+403 , 36 = 1.0000000000000002
+403 , 37 = 0.6948401513873241
+403 , 403 = 1.0000000000000002
+403 , 404 = 0.6948401513873241
+403 , 492 = 1.0000000000000002
+403 , 493 = 0.6948401513873241
+403 , 887 = 1.0000000000000002
+403 , 888 = 0.6948401513873241
+403 , 922 = 1.0000000000000002
+403 , 923 = 0.6948401513873241
+403 , 963 = 1.0000000000000002
+403 , 964 = 0.6948401513873241
+404 , 36 = 0.6948401513873241
+404 , 37 = 0.9999999999999999
+404 , 403 = 0.6948401513873241
+404 , 404 = 0.9999999999999999
+404 , 492 = 0.6948401513873241
+404 , 493 = 0.9999999999999999
+404 , 887 = 0.6948401513873241
+404 , 888 = 0.9999999999999999
+404 , 922 = 0.6948401513873241
+404 , 923 = 0.9999999999999999
+404 , 963 = 0.6948401513873241
+404 , 964 = 0.9999999999999999
+405 , 38 = 1.0
+405 , 405 = 1.0
+405 , 494 = 1.0
+405 , 889 = 1.0
+405 , 924 = 1.0
+405 , 965 = 1.0
+406 , 26 = 0.722507924997518
+406 , 39 = 1.0
+406 , 134 = 0.722507924997518
+406 , 406 = 1.0
+406 , 495 = 1.0
+406 , 642 = 0.722507924997518
+406 , 652 = 0.722507924997518
+406 , 740 = 0.722507924997518
+406 , 890 = 1.0
+406 , 925 = 1.0
+406 , 966 = 1.0
+406 , 978 = 0.722507924997518
+407 , 40 = 1.0
+407 , 407 = 1.0
+407 , 496 = 1.0
+407 , 891 = 1.0
+407 , 926 = 1.0
+407 , 967 = 1.0
+408 , 41 = 1.0000000000000002
+408 , 408 = 1.0000000000000002
+408 , 497 = 1.0000000000000002
+408 , 892 = 1.0000000000000002
+408 , 927 = 1.0000000000000002
+408 , 968 = 1.0000000000000002
+409 , 42 = 1.0000000000000002
+409 , 409 = 1.0000000000000002
+409 , 498 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>= 1.0000000000000002
+409 , 893 = 1.0000000000000002
+409 , 928 = 1.0000000000000002
+409 , 969 = 1.0000000000000002
+410 , 28 = 1.0
+410 , 43 = 1.0
+410 , 136 = 1.0
+410 , 144 = 1.0
+410 , 300 = 1.0
+410 , 315 = 0.6419292559970623
+410 , 410 = 1.0
+410 , 415 = 1.0
+410 , 499 = 1.0
+410 , 533 = 1.0
+410 , 644 = 1.0
+410 , 654 = 1.0
+410 , 727 = 1.0
+410 , 732 = 1.0
+410 , 742 = 1.0
+410 , 774 = 1.0
+410 , 856 = 1.0
+410 , 871 = 1.0
+410 , 894 = 1.0
+410 , 915 = 1.0
+410 , 929 = 1.0
+410 , 934 = 1.0
+410 , 954 = 1.0
+410 , 970 = 1.0
+410 , 980 = 1.0
+410 , 985 = 1.0
+411 , 411 = 1.0000000000000002
+412 , 412 = 1.0
+413 , 413 = 1.0
+414 , 414 = 1.0000000000000002
+415 , 28 = 1.0
+415 , 43 = 1.0
+415 , 136 = 1.0
+415 , 144 = 1.0
+415 , 300 = 1.0
+415 , 315 = 0.6419292559970623
+415 , 410 = 1.0
+415 , 415 = 1.0
+415 , 499 = 1.0
+415 , 533 = 1.0
+415 , 644 = 1.0
+415 , 654 = 1.0
+415 , 727 = 1.0
+415 , 732 = 1.0
+415 , 742 = 1.0
+415 , 774 = 1.0
+415 , 856 = 1.0
+415 , 871 = 1.0
+415 , 894 = 1.0
+415 , 915 = 1.0
+415 , 929 = 1.0
+415 , 934 = 1.0
+415 , 954 = 1.0
+415 , 970 = 1.0
+415 , 980 = 1.0
+415 , 985 = 1.0
+416 , 85 = 0.7754944414410252
+416 , 416 = 1.0
+417 , 417 = 1.0
+418 , 418 = 1.0000000000000002
+419 , 419 = 1.0000000000000004
+420 , 420 = 1.0
+421 , 421 = 1.0
+422 , 422 = 1.0000000000000002
+423 , 84 = 1.0
+423 , 91 = 0.5968916363466724
+423 , 168 = 1.0
+423 , 260 = 0.5968916363466724
+423 , 270 = 1.0
+423 , 322 = 1.0
+423 , 332 = 1.0
+423 , 423 = 1.0
+423 , 573 = 1.0
+423 , 745 = 0.5968916363466724
+423 , 797 = 0.5968916363466724
+424 , 424 = 1.0
+425 , 425 = 1.0000000000000002
+426 , 426 = 1.0000000000000002
+427 , 427 = 1.0000000000000002
+428 , 428 = 1.0
+429 , 10 = 1.0
+429 , 56 = 1.0
+429 , 74 = 1.0
+429 , 119 = 1.0
+429 , 126 = 1.0
+429 , 191 = 1.0
+429 , 205 = 1.0
+429 , 224 = 1.0
+429 , 339 = 1.0
+429 , 382 = 1.0
+429 , 393 = 1.0
+429 , 398 = 1.0
+429 , 429 = 1.0
+429 , 460 = 1.0
+429 , 472 = 1.0
+429 , 482 = 1.0
+429 , 528 = 1.0
+429 , 536 = 1.0
+429 , 590 = 1.0
+429 , 600 = 1.0
+429 , 609 = 1.0
+429 , 624 = 1.0
+429 , 703 = 1.0
+429 , 710 = 1.0
+429 , 714 = 1.0
+429 , 760 = 1.0
+429 , 765 = 1.0
+429 , 778 = 0.5024758259279823
+429 , 785 = 1.0
+429 , 820 = 1.0
+429 , 829 = 1.0
+429 , 910 = 1.0
+429 , 944 = 1.0
+430 , 430 = 1.0
+431 , 431 = 1.0
+432 , 432 = 1.0
+433 , 433 = 1.0
+434 , 434 = 1.0
+435 , 435 = 1.0
+436 , 3 = 1.0
+436 , 18 = 1.0
+436 , 114 = 1.0
+436 , 153 = 1.0
+436 , 213 = 1.0
+436 , 276 = 1.0
+436 , 282 = 1.0
+436 , 288 = 1.0
+436 , 320 = 1.0
+436 , 325 = 1.0
+436 , 327 = 1.0
+436 , 436 = 1.0
+436 , 506 = 1.0
+436 , 522 = 1.0
+436 , 547 = 1.0
+436 , 558 = 1.0
+436 , 611 = 1.0
+436 , 620 = 1.0
+436 , 716 = 1.0
+436 , 750 = 1.0
+436 , 753 = 1.0
+436 , 917 = 1.0
+436 , 995 = 1.0
+437 , 437 = 1.0
+438 , 438 = 0.9999999999999998
+439 , 439 = 1.0
+440 , 440 = 0.9999999999999999
+441 , 441 = 1.0
+442 , 442 = 1.0000000000000004
+443 , 443 = 1.0
+444 , 291 = 1.0
+444 , 444 = 1.0
+444 , 992 = 1.0
+445 , 445 = 1.0000000000000002
+446 , 446 = 1.0
+447 , 447 = 1.0
+448 , 448 = 1.0000000000000002
+449 , 449 = 1.0000000000000002
+450 , 450 = 1.0000000000000002
+451 , 451 = 0.9999999999999996
+452 , 452 = 1.0000000000000002
+453 , 453 = 1.0
+454 , 454 = 1.0
+455 , 455 = 1.0
+456 , 456 = 1.0000000000000002
+457 , 457 = 1.0
+458 , 458 = 1.0000000000000002
+459 , 459 = 0.9999999999999996
+460 , 10 = 1.0
+460 , 56 = 1.0
+460 , 74 = 1.0
+460 , 119 = 1.0
+460 , 126 = 1.0
+460 , 191 = 1.0
+460 , 205 = 1.0
+460 , 224 = 1.0
+460 , 339 = 1.0
+460 , 382 = 1.0
+460 , 393 = 1.0
+460 , 398 = 1.0
+460 , 429 = 1.0
+460 , 460 = 1.0
+460 , 472 = 1.0
+460 , 482 = 1.0
+460 , 528 = 1.0
+460 , 536 = 1.0
+460 , 590 = 1.0
+460 , 600 = 1.0
+460 , 609 = 1.0
+460 , 624 = 1.0
+460 , 703 = 1.0
+460 , 710 = 1.0
+460 , 714 = 1.0
+460 , 760 = 1.0
+460 , 765 = 1.0
+460 , 778 = 0.5024758259279823
+460 , 785 = 1.0
+460 , 820 = 1.0
+460 , 829 = 1.0
+460 , 910 = 1.0
+460 , 944 = 1.0
+461 , 461 = 1.0000000000000002
+462 , 462 = 1.0000000000000002
+462 , 464 = 0.5192361826279552
+463 , 463 = 1.0000000000000004
+464 , 462 = 0.5192361826279552
+464 , 464 = 1.0000000000000004
+465 , 465 = 1.0000000000000002
+466 , 466 = 1.0000000000000002
+467 , 467 = 0.9999999999999999
+468 , 468 = 1.0000000000000002
+469 , 469 = 1.0000000000000002
+470 , 470 = 1.0
+471 , 471 = 1.0
+472 , 10 = 1.0
+472 , 56 = 1.0
+472 , 74 = 1.0
+472 , 119 = 1.0
+472 , 126 = 1.0
+472 , 191 = 1.0
+472 , 205 = 1.0
+472 , 224 = 1.0
+472 , 339 = 1.0
+472 , 382 = 1.0
+472 , 393 = 1.0
+472 , 398 = 1.0
+472 , 429 = 1.0
+472 , 460 = 1.0
+472 , 472 = 1.0
+472 , 482 = 1.0
+472 , 528 = 1.0
+472 , 536 = 1.0
+472 , 590 = 1.0
+472 , 600 = 1.0
+472 , 609 = 1.0
+472 , 624 = 1.0
+472 , 703 = 1.0
+472 , 710 = 1.0
+472 , 714 = 1.0
+472 , 760 = 1.0
+472 , 765 = 1.0
+472 , 778 = 0.5024758259279823
+472 , 785 = 1.0
+472 , 820 = 1.0
+472 , 829 = 1.0
+472 , 910 = 1.0
+472 , 944 = 1.0
+473 , 473 = 1.0
+474 , 474 = 1.0
+475 , 475 = 1.0000000000000002
+476 , 476 = 1.0000000000000002
+476 , 481 = 0.6137449719796444
+477 , 477 = 1.0
+478 , 478 = 1.0
+479 , 479 = 1.0
+480 , 480 = 1.0
+481 , 476 = 0.6137449719796444
+481 , 481 = 0.9999999999999998
+482 , 10 = 1.0
+482 , 56 = 1.0
+482 , 74 = 1.0
+482 , 119 = 1.0
+482 , 126 = 1.0
+482 , 191 = 1.0
+482 , 205 = 1.0
+482 , 224 = 1.0
+482 , 339 = 1.0
+482 , 382 = 1.0
+482 , 393 = 1.0
+482 , 398 = 1.0
+482 , 429 = 1.0
+482 , 460 = 1.0
+482 , 472 = 1.0
+482 , 482 = 1.0
+482 , 528 = 1.0
+482 , 536 = 1.0
+482 , 590 = 1.0
+482 , 600 = 1.0
+482 , 609 = 1.0
+482 , 624 = 1.0
+482 , 703 = 1.0
+482 , 710 = 1.0
+482 , 714 = 1.0
+482 , 760 = 1.0
+482 , 765 = 1.0
+482 , 778 = 0.5024758259279823
+482 , 785 = 1.0
+482 , 820 = 1.0
+482 , 829 = 1.0
+482 , 910 = 1.0
+482 , 944 = 1.0
+483 , 483 = 1.0
+484 , 484 = 0.9999999999999999
+485 , 485 = 1.0000000000000002
+486 , 486 = 1.0
+487 , 70 = 1.0
+487 , 228 = 1.0
+487 , 239 = 1.0
+487 , 311 = 1.0
+487
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> , 487 = 1.0
+487 , 802 = 1.0
+487 , 873 = 1.0
+487 , 902 = 1.0
+488 , 32 = 1.0
+488 , 399 = 1.0
+488 , 488 = 1.0
+488 , 883 = 1.0
+488 , 918 = 1.0
+488 , 959 = 1.0
+489 , 33 = 1.0000000000000002
+489 , 400 = 1.0000000000000002
+489 , 489 = 1.0000000000000002
+489 , 884 = 1.0000000000000002
+489 , 919 = 1.0000000000000002
+489 , 960 = 1.0000000000000002
+490 , 34 = 1.0000000000000002
+490 , 401 = 1.0000000000000002
+490 , 490 = 1.0000000000000002
+490 , 885 = 1.0000000000000002
+490 , 920 = 1.0000000000000002
+490 , 961 = 1.0000000000000002
+491 , 35 = 1.0
+491 , 402 = 1.0
+491 , 491 = 1.0
+491 , 886 = 1.0
+491 , 921 = 1.0
+491 , 962 = 1.0
+492 , 36 = 1.0000000000000002
+492 , 37 = 0.6948401513873241
+492 , 403 = 1.0000000000000002
+492 , 404 = 0.6948401513873241
+492 , 492 = 1.0000000000000002
+492 , 493 = 0.6948401513873241
+492 , 887 = 1.0000000000000002
+492 , 888 = 0.6948401513873241
+492 , 922 = 1.0000000000000002
+492 , 923 = 0.6948401513873241
+492 , 963 = 1.0000000000000002
+492 , 964 = 0.6948401513873241
+493 , 36 = 0.6948401513873241
+493 , 37 = 0.9999999999999999
+493 , 403 = 0.6948401513873241
+493 , 404 = 0.9999999999999999
+493 , 492 = 0.6948401513873241
+493 , 493 = 0.9999999999999999
+493 , 887 = 0.6948401513873241
+493 , 888 = 0.9999999999999999
+493 , 922 = 0.6948401513873241
+493 , 923 = 0.9999999999999999
+493 , 963 = 0.6948401513873241
+493 , 964 = 0.9999999999999999
+494 , 38 = 1.0
+494 , 405 = 1.0
+494 , 494 = 1.0
+494 , 889 = 1.0
+494 , 924 = 1.0
+494 , 965 = 1.0
+495 , 26 = 0.722507924997518
+495 , 39 = 1.0
+495 , 134 = 0.722507924997518
+495 , 406 = 1.0
+495 , 495 = 1.0
+495 , 642 = 0.722507924997518
+495 , 652 = 0.722507924997518
+495 , 740 = 0.722507924997518
+495 , 890 = 1.0
+495 , 925 = 1.0
+495 , 966 = 1.0
+495 , 978 = 0.722507924997518
+496 , 40 = 1.0
+496 , 407 = 1.0
+496 , 496 = 1.0
+496 , 891 = 1.0
+496 , 926 = 1.0
+496 , 967 = 1.0
+497 , 41 = 1.0000000000000002
+497 , 408 = 1.0000000000000002
+497 , 497 = 1.0000000000000002
+497 , 892 = 1.0000000000000002
+497 , 927 = 1.0000000000000002
+497 , 968 = 1.0000000000000002
+498 , 42 = 1.0000000000000002
+498 , 409 = 1.0000000000000002
+498 , 498 = 1.0000000000000002
+498 , 893 = 1.0000000000000002
+498 , 928 = 1.0000000000000002
+498 , 969 = 1.0000000000000002
+499 , 28 = 1.0
+499 , 43 = 1.0
+499 , 136 = 1.0
+499 , 144 = 1.0
+499 , 300 = 1.0
+499 , 315 = 0.6419292559970623
+499 , 410 = 1.0
+499 , 415 = 1.0
+499 , 499 = 1.0
+499 , 533 = 1.0
+499 , 644 = 1.0
+499 , 654 = 1.0
+499 , 727 = 1.0
+499 , 732 = 1.0
+499 , 742 = 1.0
+499 , 774 = 1.0
+499 , 856 = 1.0
+499 , 871 = 1.0
+499 , 894 = 1.0
+499 , 915 = 1.0
+499 , 929 = 1.0
+499 , 934 = 1.0
+499 , 954 = 1.0
+499 , 970 = 1.0
+499 , 980 = 1.0
+499 , 985 = 1.0
+500 , 500 = 1.0
+500 , 746 = 0.5581934637813418
+501 , 58 = 0.5058295575664011
+501 , 501 = 1.0000000000000002
+502 , 502 = 1.0000000000000004
+503 , 503 = 1.0000000000000002
+504 , 504 = 1.0
+505 , 505 = 1.0000000000000002
+506 , 3 = 1.0
+506 , 18 = 1.0
+506 , 114 = 1.0
+506 , 153 = 1.0
+506 , 213 = 1.0
+506 , 276 = 1.0
+506 , 282 = 1.0
+506 , 288 = 1.0
+506 , 320 = 1.0
+506 , 325 = 1.0
+506 , 327 = 1.0
+506 , 436 = 1.0
+506 , 506 = 1.0
+506 , 522 = 1.0
+506 , 547 = 1.0
+506 , 558 = 1.0
+506 , 611 = 1.0
+506 , 620 = 1.0
+506 , 716 = 1.0
+506 , 750 = 1.0
+506 , 753 = 1.0
+506 , 917 = 1.0
+506 , 995 = 1.0
+507 , 507 = 1.0000000000000004
+507 , 857 = 0.642321133232141
+508 , 508 = 1.0
+509 , 509 = 1.0000000000000002
+510 , 62 = 1.0
+510 , 160 = 1.0
+510 , 286 = 1.0
+510 , 315 = 0.7667638686682218
+510 , 510 = 1.0
+510 , 517 = 1.0
+510 , 614 = 1.0
+510 , 697 = 1.0
+510 , 834 = 1.0
+510 , 861 = 1.0
+510 , 958 = 1.0
+511 , 511 = 1.0000000000000002
+512 , 512 = 0.9999999999999999
+513 , 513 = 1.0000000000000004
+514 , 514 = 1.0
+515 , 515 = 1.0
+516 , 516 = 1.0000000000000002
+517 , 62 = 1.0
+517 , 160 = 1.0
+517 , 286 = 1.0
+517 , 315 = 0.7667638686682218
+517 , 510 = 1.0
+517 , 517 = 1.0
+517 , 614 = 1.0
+517 , 697 = 1.0
+517 , 834 = 1.0
+517 , 861 = 1.0
+517 , 958 = 1.0
+518 , 518 = 1.0
+519 , 519 = 1.0
+520 , 520 = 1.0
+521 , 521 = 1.0
+522 , 3 = 1.0
+522 , 18 = 1.0
+522 , 114 = 1.0
+522 , 153 = 1.0
+522 , 213 = 1.0
+522 , 276 = 1.0
+522 , 282 = 1.0
+522 , 288 = 1.0
+522 , 320 = 1.0
+522 , 325 = 1.0
+522 , 327 = 1.0
+522 , 436 = 1.0
+522 , 506 = 1.0
+522 , 522 = 1.0
+522 , 547 = 1.0
+522 , 558 = 1.0
+522 , 611 = 1.0
+522 , 620 = 1.0
+522 , 716 = 1.0
+522 , 750 = 1.0
+522 , 753 = 1.0
+522 , 917 = 1.0
+522 , 995 = 1.0
+523 , 523 = 1.0
+524 , 524 = 1.0
+525 , 525 = 1.0000000000000002
+526 , 526 = 1.0000000000000002
+527 , 527 = 1.0000000000000002
+528 , 10 = 1.0
+528 , 56 = 1.0
+528 , 74 = 1.0
+528 , 119 = 1.0
+528 , 126 = 1.0
+528 , 191 = 1.0
+528 , 205 = 1.0
+528 , 224 = 1.0
+528 , 339 = 1.0
+528 , 382 = 1.0
+528 , 393 = 1.0
+528 , 398 = 1.0
+528 , 429 = 1.0
+528 , 460 = 1.0
+528 , 472 = 1.0
+528 , 482 = 1.0
+528 , 528 = 1.0
+528 , 536 = 1.0
+528 , 590 = 1.0
+528 , 600 = 1.0
+528 , 609 = 1.0
+528 , 624 = 1.0
+528 , 703 = 1.0
+528 , 710 = 1.0
+528 , 714 = 1.0
+528 , 760 = 1.0
+528 , 765 = 1.0
+528 , 778 = 0.5024758259279823
+528 , 785 = 1.0
+528 , 820 = 1.0
+528 , 829 = 1.0
+528 , 910 = 1.0
+528 , 944 = 1.0
+529 , 296 = 1.0000000000000002
+529 , 529 = 1.0000000000000002
+529 , 728 = 1.0000000000000002
+529 , 930 = 1.0000000000000002
+529 , 950 = 1.0000000000000002
+529 , 981 = 1.0000000000000002
+530 , 297 = 1.0000000000000002
+530 , 530 = 1.0000000000000002
+530 , 729 = 1.0000000000000002
+530 , 931 = 1.0000000000000002
+530 , 951 = 1.0000000000000002
+530 , 982 = 1.0000000000000002
+531 , 298 = 1.0000000000000004
+531 , 531 = 1.0000000000000004
+531 , 730 = 1.0000000000000004
+531 , 932 = 1.0000000000000004
+531 , 952 = 1.0000000000000004
+531 , 983 = 1.0000000000000004
+532 , 299 = 1.0000000000000004
+532 , 532 = 1.0000000000000004
+532 , 731 = 1.0000000000000004
+532 , 933 = 1.0000000000000004
+532 , 953 = 1.0000000000000004
+532 , 984 = 1.0000000000000004
+533 , 28 = 1.0
+533 , 43 = 1.0
+533 , 136 = 1.0
+533 , 144 = 1.0
+533 , 300 = 1.0
+533 , 315 = 0.6419292559970623
+533 , 410 = 1.0
+533 , 415 = 1.0
+533 , 499 = 1.0
+533 , 533 = 1.0
+533 , 644 = 1.0
+533 , 654 = 1.0
+533 , 727 = 1.0
+533 , 732 = 1.0
+533 , 742 = 1.0
+533 , 774 = 1.0
+533 , 856 = 1.0
+533 , 871 = 1.0
+533 , 894 = 1.0
+533 , 915 = 1.0
+533 , 929 = 1.0
+533 , 934 = 1.0
+533 , 954 = 1.0
+533 , 970 = 1.0
+533 , 980 = 1.0
+533 , 985 = 1.0
+534 , 534 = 1.0
+535 , 535 = 1.0000000000000002
+536 , 10 = 1.0
+536 , 56 = 1.0
+536 , 74 = 1.0
+536 , 119 = 1.0
+536 , 126 = 1.0
+536 , 191 = 1.0
+536 , 205 = 1.0
+536 , 224 = 1.0
+536 , 339 = 1.0
+536 , 382 = 1.0
+536 , 393 = 1.0
+536 , 398 = 1.0
+536 , 429 = 1.0
+536 , 460 = 1.0
+536 , 472 = 1.0
+536 , 482 = 1.0
+536 , 528 = 1.0
+536 , 536 = 1.0
+536 , 590 = 1.0
+536 , 600 = 1.0
+536 , 609 = 1.0
+536 , 624 = 1.0
+536 , 703 = 1.0
+536 , 710 = 1.0
+536 , 714 = 1.0
+536 , 760 = 1.0
+536 , 765 = 1.0
+536 , 778 = 0.5024758259279823
+536 , 785 = 1.0
+536 , 820 = 1.0
+536 , 829 = 1.0
+536 , 910 = 1.0
+536 , 944 = 1.0
+537 , 537 = 1.0000000000000002
+537 , 540 = 0.5124032623853528
+538 , 375 = 1.0
+538 , 538 = 1.0
+539 , 539 = 1.0
+540 , 537 = 0.5124032623853528
+540 , 540 = 1.0000000000000004
+541 , 541 = 0.9999999999999999
+542 , 542 = 1.0
+543 , 543 = 1.0000000000000004
+544 , 544 = 1.0
+545 , 545 = 1.0000000000000002
+546 , 546 = 1.0000000000000002
+547 , 3 = 1.0
+547 , 18 = 1.0
+547 , 114 = 1.0
+547 , 153 = 1.0
+547 , 213 = 1.0
+547 , 276 = 1.0
+547 , 282 = 1.0
+547 , 288 = 1.0
+547 , 320 = 1.0
+547 , 325 = 1.0
+547 , 327 = 1.0
+547 , 436 = 1.0
+547 , 506 = 1.0
+547 , 522 = 1.0
+547 , 547 = 1.0
+547 , 558 = 1.0
+547 , 611 = 1.0
+547 , 620 = 1.0
+547 , 716 = 1.0
+547 , 750 = 1.0
+547 , 753 = 1.0
+547 , 917 = 1.0
+547 , 995 = 1.0
+548 , 548 = 0.9999999999999994
+549 , 549 = 0.9999999999999998
+550 , 550 = 1.0000000000000002
+551 , 551 = 1.0
+552 , 552 = 1.0000000000000002
+553 , 553 = 1.0
+553 , 554 = 0.6539823729918526
+553 , 555 = 0.5404531510458208
+554 , 553 = 0.6539823729918526
+554 , 554 = 1.0
+554 , 555 = 0.6219425501704348
+555 , 553 = 0.5404531510458208
+555 , 554 = 0.6219425501704348
+555 , 555 = 1.0000000000000002
+556 , 556 = 1.0000000000000002
+557 , 557 = 1.0
+558 , 3 = 1.0
+558 , 18 = 1.0
+558 , 114 = 1.0
+558 , 153 = 1.0
+558 , 213 = 1.0
+558 , 276 = 1.0
+558 , 282 = 1.0
+558 , 288 = 1.0
+558 , 320 = 1.0
+558 , 325 = 1.0
+558 , 327 = 1.0
+558 , 436 = 1.0
+558 , 506 = 1.0
+558 , 522 = 1.0
+558 , 547 = 1.0
+558 , 558 = 1.0
+558 , 611 = 1.0
+558 , 620 = 1.0
+558 , 716 = 1.0
+558 , 750 = 1.0
+558 , 753 = 1.0
+558 , 917 = 1.0
+558 , 995 = 1.0
+559 , 559 = 1.0
+560 , 560 = 1.0000000000000002
+561 , 561 = 1.0000000000000002
+562 , 170 = 0.6949657331453277
+562 , 562 = 1.0
+563 , 563 = 1.0
+563 , 570 = 0.5661901596230842
+564 , 564 = 1.0
+565 , 565 = 1.0
+566 , 566 = 1.0000000000000002
+567 , 567 = 1.0
+568 , 568 = 1.0000000000000002
+569
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> , 569 = 1.0000000000000002
+570 , 563 = 0.5661901596230842
+570 , 570 = 1.0000000000000002
+571 , 571 = 1.0
+572 , 572 = 1.0
+573 , 84 = 1.0
+573 , 91 = 0.5968916363466724
+573 , 168 = 1.0
+573 , 260 = 0.5968916363466724
+573 , 270 = 1.0
+573 , 322 = 1.0
+573 , 332 = 1.0
+573 , 423 = 1.0
+573 , 573 = 1.0
+573 , 745 = 0.5968916363466724
+573 , 797 = 0.5968916363466724
+574 , 574 = 1.0
+575 , 575 = 1.0
+576 , 576 = 1.0000000000000002
+576 , 583 = 0.75620274242439
+577 , 577 = 1.0
+578 , 578 = 1.0000000000000002
+579 , 579 = 1.0000000000000002
+580 , 580 = 1.0000000000000002
+581 , 581 = 1.0000000000000004
+582 , 582 = 1.0
+583 , 576 = 0.75620274242439
+583 , 583 = 1.0
+584 , 584 = 1.0000000000000002
+585 , 585 = 1.0
+586 , 586 = 1.0000000000000002
+587 , 587 = 1.0000000000000002
+588 , 588 = 1.0000000000000002
+589 , 589 = 1.0000000000000002
+590 , 10 = 1.0
+590 , 56 = 1.0
+590 , 74 = 1.0
+590 , 119 = 1.0
+590 , 126 = 1.0
+590 , 191 = 1.0
+590 , 205 = 1.0
+590 , 224 = 1.0
+590 , 339 = 1.0
+590 , 382 = 1.0
+590 , 393 = 1.0
+590 , 398 = 1.0
+590 , 429 = 1.0
+590 , 460 = 1.0
+590 , 472 = 1.0
+590 , 482 = 1.0
+590 , 528 = 1.0
+590 , 536 = 1.0
+590 , 590 = 1.0
+590 , 600 = 1.0
+590 , 609 = 1.0
+590 , 624 = 1.0
+590 , 703 = 1.0
+590 , 710 = 1.0
+590 , 714 = 1.0
+590 , 760 = 1.0
+590 , 765 = 1.0
+590 , 778 = 0.5024758259279823
+590 , 785 = 1.0
+590 , 820 = 1.0
+590 , 829 = 1.0
+590 , 910 = 1.0
+590 , 944 = 1.0
+591 , 591 = 1.0000000000000002
+592 , 592 = 1.0000000000000002
+593 , 593 = 1.0000000000000002
+594 , 594 = 1.0
+594 , 596 = 1.0
+595 , 595 = 1.0000000000000002
+596 , 594 = 1.0
+596 , 596 = 1.0
+597 , 597 = 1.0
+598 , 598 = 1.0
+599 , 599 = 1.0000000000000002
+600 , 10 = 1.0
+600 , 56 = 1.0
+600 , 74 = 1.0
+600 , 119 = 1.0
+600 , 126 = 1.0
+600 , 191 = 1.0
+600 , 205 = 1.0
+600 , 224 = 1.0
+600 , 339 = 1.0
+600 , 382 = 1.0
+600 , 393 = 1.0
+600 , 398 = 1.0
+600 , 429 = 1.0
+600 , 460 = 1.0
+600 , 472 = 1.0
+600 , 482 = 1.0
+600 , 528 = 1.0
+600 , 536 = 1.0
+600 , 590 = 1.0
+600 , 600 = 1.0
+600 , 609 = 1.0
+600 , 624 = 1.0
+600 , 703 = 1.0
+600 , 710 = 1.0
+600 , 714 = 1.0
+600 , 760 = 1.0
+600 , 765 = 1.0
+600 , 778 = 0.5024758259279823
+600 , 785 = 1.0
+600 , 820 = 1.0
+600 , 829 = 1.0
+600 , 910 = 1.0
+600 , 944 = 1.0
+601 , 601 = 1.0
+602 , 602 = 1.0
+602 , 625 = 0.6273107242526836
+603 , 603 = 1.0000000000000002
+603 , 626 = 0.6190537266666879
+604 , 604 = 1.0000000000000002
+605 , 605 = 1.0
+606 , 606 = 1.0000000000000002
+607 , 607 = 1.0
+608 , 608 = 1.0000000000000002
+609 , 10 = 1.0
+609 , 56 = 1.0
+609 , 74 = 1.0
+609 , 119 = 1.0
+609 , 126 = 1.0
+609 , 191 = 1.0
+609 , 205 = 1.0
+609 , 224 = 1.0
+609 , 339 = 1.0
+609 , 382 = 1.0
+609 , 393 = 1.0
+609 , 398 = 1.0
+609 , 429 = 1.0
+609 , 460 = 1.0
+609 , 472 = 1.0
+609 , 482 = 1.0
+609 , 528 = 1.0
+609 , 536 = 1.0
+609 , 590 = 1.0
+609 , 600 = 1.0
+609 , 609 = 1.0
+609 , 624 = 1.0
+609 , 703 = 1.0
+609 , 710 = 1.0
+609 , 714 = 1.0
+609 , 760 = 1.0
+609 , 765 = 1.0
+609 , 778 = 0.5024758259279823
+609 , 785 = 1.0
+609 , 820 = 1.0
+609 , 829 = 1.0
+609 , 910 = 1.0
+609 , 944 = 1.0
+610 , 610 = 1.0000000000000002
+611 , 3 = 1.0
+611 , 18 = 1.0
+611 , 114 = 1.0
+611 , 153 = 1.0
+611 , 213 = 1.0
+611 , 276 = 1.0
+611 , 282 = 1.0
+611 , 288 = 1.0
+611 , 320 = 1.0
+611 , 325 = 1.0
+611 , 327 = 1.0
+611 , 436 = 1.0
+611 , 506 = 1.0
+611 , 522 = 1.0
+611 , 547 = 1.0
+611 , 558 = 1.0
+611 , 611 = 1.0
+611 , 620 = 1.0
+611 , 716 = 1.0
+611 , 750 = 1.0
+611 , 753 = 1.0
+611 , 917 = 1.0
+611 , 995 = 1.0
+612 , 612 = 1.0000000000000002
+613 , 613 = 0.9999999999999999
+614 , 62 = 1.0
+614 , 160 = 1.0
+614 , 286 = 1.0
+614 , 315 = 0.7667638686682218
+614 , 510 = 1.0
+614 , 517 = 1.0
+614 , 614 = 1.0
+614 , 697 = 1.0
+614 , 834 = 1.0
+614 , 861 = 1.0
+614 , 958 = 1.0
+615 , 277 = 0.5536563685359019
+615 , 615 = 1.0000000000000002
+616 , 616 = 0.9999999999999996
+617 , 617 = 0.9999999999999997
+618 , 618 = 1.0000000000000002
+619 , 619 = 1.0
+620 , 3 = 1.0
+620 , 18 = 1.0
+620 , 114 = 1.0
+620 , 153 = 1.0
+620 , 213 = 1.0
+620 , 276 = 1.0
+620 , 282 = 1.0
+620 , 288 = 1.0
+620 , 320 = 1.0
+620 , 325 = 1.0
+620 , 327 = 1.0
+620 , 436 = 1.0
+620 , 506 = 1.0
+620 , 522 = 1.0
+620 , 547 = 1.0
+620 , 558 = 1.0
+620 , 611 = 1.0
+620 , 620 = 1.0
+620 , 716 = 1.0
+620 , 750 = 1.0
+620 , 753 = 1.0
+620 , 917 = 1.0
+620 , 995 = 1.0
+621 , 621 = 1.0
+622 , 622 = 1.0000000000000002
+623 , 623 = 1.0
+624 , 10 = 1.0
+624 , 56 = 1.0
+624 , 74 = 1.0
+624 , 119 = 1.0
+624 , 126 = 1.0
+624 , 191 = 1.0
+624 , 205 = 1.0
+624 , 224 = 1.0
+624 , 339 = 1.0
+624 , 382 = 1.0
+624 , 393 = 1.0
+624 , 398 = 1.0
+624 , 429 = 1.0
+624 , 460 = 1.0
+624 , 472 = 1.0
+624 , 482 = 1.0
+624 , 528 = 1.0
+624 , 536 = 1.0
+624 , 590 = 1.0
+624 , 600 = 1.0
+624 , 609 = 1.0
+624 , 624 = 1.0
+624 , 703 = 1.0
+624 , 710 = 1.0
+624 , 714 = 1.0
+624 , 760 = 1.0
+624 , 765 = 1.0
+624 , 778 = 0.5024758259279823
+624 , 785 = 1.0
+624 , 820 = 1.0
+624 , 829 = 1.0
+624 , 910 = 1.0
+624 , 944 = 1.0
+625 , 602 = 0.6273107242526836
+625 , 625 = 1.0000000000000004
+626 , 603 = 0.6190537266666879
+626 , 626 = 1.0000000000000002
+627 , 627 = 1.0000000000000004
+628 , 628 = 1.0000000000000002
+629 , 629 = 0.9999999999999996
+630 , 630 = 1.0
+631 , 631 = 1.0
+632 , 632 = 1.0000000000000002
+633 , 633 = 1.0000000000000002
+634 , 634 = 1.0
+635 , 19 = 1.0
+635 , 127 = 1.0
+635 , 635 = 1.0
+635 , 645 = 1.0
+635 , 733 = 1.0
+635 , 971 = 1.0
+636 , 20 = 1.0
+636 , 128 = 1.0
+636 , 636 = 1.0
+636 , 646 = 1.0
+636 , 734 = 1.0
+636 , 972 = 1.0
+637 , 21 = 1.0
+637 , 129 = 1.0
+637 , 637 = 1.0
+637 , 647 = 1.0
+637 , 735 = 1.0
+637 , 973 = 1.0
+638 , 22 = 1.0000000000000004
+638 , 130 = 1.0000000000000004
+638 , 638 = 1.0000000000000004
+638 , 648 = 1.0000000000000004
+638 , 736 = 1.0000000000000004
+638 , 974 = 1.0000000000000004
+639 , 23 = 1.0000000000000004
+639 , 131 = 1.0000000000000004
+639 , 639 = 1.0000000000000004
+639 , 649 = 1.0000000000000004
+639 , 737 = 1.0000000000000004
+639 , 975 = 1.0000000000000004
+640 , 24 = 1.0000000000000002
+640 , 132 = 1.0000000000000002
+640 , 640 = 1.0000000000000002
+640 , 650 = 1.0000000000000002
+640 , 738 = 1.0000000000000002
+640 , 976 = 1.0000000000000002
+641 , 25 = 1.0000000000000004
+641 , 133 = 1.0000000000000004
+641 , 641 = 1.0000000000000004
+641 , 651 = 1.0000000000000004
+641 , 739 = 1.0000000000000004
+641 , 977 = 1.0000000000000004
+642 , 26 = 1.0
+642 , 39 = 0.722507924997518
+642 , 134 = 1.0
+642 , 406 = 0.722507924997518
+642 , 495 = 0.722507924997518
+642 , 642 = 1.0
+642 , 652 = 1.0
+642 , 740 = 1.0
+642 , 890 = 0.722507924997518
+642 , 925 = 0.722507924997518
+642 , 966 = 0.722507924997518
+642 , 978 = 1.0
+643 , 27 = 1.0000000000000002
+643 , 135 = 1.0000000000000002
+643 , 643 = 1.0000000000000002
+643 , 653 = 1.0000000000000002
+643 , 741 = 1.0000000000000002
+643 , 979 = 1.0000000000000002
+644 , 28 = 1.0
+644 , 43 = 1.0
+644 , 136 = 1.0
+644 , 144 = 1.0
+644 , 300 = 1.0
+644 , 315 = 0.6419292559970623
+644 , 410 = 1.0
+644 , 415 = 1.0
+644 , 499 = 1.0
+644 , 533 = 1.0
+644 , 644 = 1.0
+644 , 654 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>= 1.0
+644 , 727 = 1.0
+644 , 732 = 1.0
+644 , 742 = 1.0
+644 , 774 = 1.0
+644 , 856 = 1.0
+644 , 871 = 1.0
+644 , 894 = 1.0
+644 , 915 = 1.0
+644 , 929 = 1.0
+644 , 934 = 1.0
+644 , 954 = 1.0
+644 , 970 = 1.0
+644 , 980 = 1.0
+644 , 985 = 1.0
+645 , 19 = 1.0
+645 , 127 = 1.0
+645 , 635 = 1.0
+645 , 645 = 1.0
+645 , 733 = 1.0
+645 , 971 = 1.0
+646 , 20 = 1.0
+646 , 128 = 1.0
+646 , 636 = 1.0
+646 , 646 = 1.0
+646 , 734 = 1.0
+646 , 972 = 1.0
+647 , 21 = 1.0
+647 , 129 = 1.0
+647 , 637 = 1.0
+647 , 647 = 1.0
+647 , 735 = 1.0
+647 , 973 = 1.0
+648 , 22 = 1.0000000000000004
+648 , 130 = 1.0000000000000004
+648 , 638 = 1.0000000000000004
+648 , 648 = 1.0000000000000004
+648 , 736 = 1.0000000000000004
+648 , 974 = 1.0000000000000004
+649 , 23 = 1.0000000000000004
+649 , 131 = 1.0000000000000004
+649 , 639 = 1.0000000000000004
+649 , 649 = 1.0000000000000004
+649 , 737 = 1.0000000000000004
+649 , 975 = 1.0000000000000004
+650 , 24 = 1.0000000000000002
+650 , 132 = 1.0000000000000002
+650 , 640 = 1.0000000000000002
+650 , 650 = 1.0000000000000002
+650 , 738 = 1.0000000000000002
+650 , 976 = 1.0000000000000002
+651 , 25 = 1.0000000000000004
+651 , 133 = 1.0000000000000004
+651 , 641 = 1.0000000000000004
+651 , 651 = 1.0000000000000004
+651 , 739 = 1.0000000000000004
+651 , 977 = 1.0000000000000004
+652 , 26 = 1.0
+652 , 39 = 0.722507924997518
+652 , 134 = 1.0
+652 , 406 = 0.722507924997518
+652 , 495 = 0.722507924997518
+652 , 642 = 1.0
+652 , 652 = 1.0
+652 , 740 = 1.0
+652 , 890 = 0.722507924997518
+652 , 925 = 0.722507924997518
+652 , 966 = 0.722507924997518
+652 , 978 = 1.0
+653 , 27 = 1.0000000000000002
+653 , 135 = 1.0000000000000002
+653 , 643 = 1.0000000000000002
+653 , 653 = 1.0000000000000002
+653 , 741 = 1.0000000000000002
+653 , 979 = 1.0000000000000002
+654 , 28 = 1.0
+654 , 43 = 1.0
+654 , 136 = 1.0
+654 , 144 = 1.0
+654 , 300 = 1.0
+654 , 315 = 0.6419292559970623
+654 , 410 = 1.0
+654 , 415 = 1.0
+654 , 499 = 1.0
+654 , 533 = 1.0
+654 , 644 = 1.0
+654 , 654 = 1.0
+654 , 727 = 1.0
+654 , 732 = 1.0
+654 , 742 = 1.0
+654 , 774 = 1.0
+654 , 856 = 1.0
+654 , 871 = 1.0
+654 , 894 = 1.0
+654 , 915 = 1.0
+654 , 929 = 1.0
+654 , 934 = 1.0
+654 , 954 = 1.0
+654 , 970 = 1.0
+654 , 980 = 1.0
+654 , 985 = 1.0
+655 , 655 = 1.0
+656 , 656 = 1.0000000000000002
+657 , 657 = 1.0000000000000002
+658 , 658 = 0.9999999999999999
+659 , 659 = 1.0000000000000002
+660 , 660 = 1.0
+661 , 661 = 1.0
+662 , 662 = 1.0
+663 , 663 = 1.0000000000000002
+664 , 664 = 1.0000000000000002
+665 , 665 = 1.0000000000000002
+666 , 666 = 1.0000000000000002
+667 , 667 = 1.0000000000000002
+668 , 668 = 0.9999999999999998
+669 , 669 = 1.0000000000000002
+670 , 670 = 1.0
+671 , 671 = 1.0000000000000002
+672 , 672 = 1.0000000000000002
+673 , 673 = 0.9999999999999999
+674 , 674 = 1.0000000000000002
+675 , 675 = 1.0000000000000002
+676 , 676 = 0.9999999999999999
+677 , 677 = 1.0000000000000002
+677 , 682 = 0.5927311195267642
+678 , 678 = 1.0
+679 , 679 = 1.0000000000000002
+680 , 680 = 1.0
+681 , 681 = 1.0
+682 , 677 = 0.5927311195267642
+682 , 682 = 0.9999999999999999
+683 , 683 = 1.0
+684 , 684 = 1.0
+685 , 685 = 1.0000000000000004
+686 , 686 = 1.0
+687 , 687 = 1.0000000000000002
+688 , 688 = 1.0000000000000002
+689 , 689 = 1.0000000000000002
+690 , 690 = 1.0
+691 , 691 = 1.0000000000000002
+692 , 692 = 1.0
+693 , 693 = 1.0000000000000002
+694 , 694 = 1.0000000000000002
+695 , 695 = 0.9999999999999996
+696 , 696 = 1.0000000000000002
+697 , 62 = 1.0
+697 , 160 = 1.0
+697 , 286 = 1.0
+697 , 315 = 0.7667638686682218
+697 , 510 = 1.0
+697 , 517 = 1.0
+697 , 614 = 1.0
+697 , 697 = 1.0
+697 , 834 = 1.0
+697 , 861 = 1.0
+697 , 958 = 1.0
+698 , 698 = 1.0000000000000002
+699 , 699 = 1.0000000000000002
+700 , 700 = 1.0000000000000002
+701 , 701 = 1.0000000000000002
+702 , 702 = 1.0000000000000002
+703 , 10 = 1.0
+703 , 56 = 1.0
+703 , 74 = 1.0
+703 , 119 = 1.0
+703 , 126 = 1.0
+703 , 191 = 1.0
+703 , 205 = 1.0
+703 , 224 = 1.0
+703 , 339 = 1.0
+703 , 382 = 1.0
+703 , 393 = 1.0
+703 , 398 = 1.0
+703 , 429 = 1.0
+703 , 460 = 1.0
+703 , 472 = 1.0
+703 , 482 = 1.0
+703 , 528 = 1.0
+703 , 536 = 1.0
+703 , 590 = 1.0
+703 , 600 = 1.0
+703 , 609 = 1.0
+703 , 624 = 1.0
+703 , 703 = 1.0
+703 , 710 = 1.0
+703 , 714 = 1.0
+703 , 760 = 1.0
+703 , 765 = 1.0
+703 , 778 = 0.5024758259279823
+703 , 785 = 1.0
+703 , 820 = 1.0
+703 , 829 = 1.0
+703 , 910 = 1.0
+703 , 944 = 1.0
+704 , 704 = 1.0
+705 , 705 = 1.0
+706 , 706 = 1.0
+707 , 707 = 1.0
+708 , 708 = 1.0
+709 , 709 = 1.0
+710 , 10 = 1.0
+710 , 56 = 1.0
+710 , 74 = 1.0
+710 , 119 = 1.0
+710 , 126 = 1.0
+710 , 191 = 1.0
+710 , 205 = 1.0
+710 , 224 = 1.0
+710 , 339 = 1.0
+710 , 382 = 1.0
+710 , 393 = 1.0
+710 , 398 = 1.0
+710 , 429 = 1.0
+710 , 460 = 1.0
+710 , 472 = 1.0
+710 , 482 = 1.0
+710 , 528 = 1.0
+710 , 536 = 1.0
+710 , 590 = 1.0
+710 , 600 = 1.0
+710 , 609 = 1.0
+710 , 624 = 1.0
+710 , 703 = 1.0
+710 , 710 = 1.0
+710 , 714 = 1.0
+710 , 760 = 1.0
+710 , 765 = 1.0
+710 , 778 = 0.5024758259279823
+710 , 785 = 1.0
+710 , 820 = 1.0
+710 , 829 = 1.0
+710 , 910 = 1.0
+710 , 944 = 1.0
+711 , 711 = 1.0000000000000002
+712 , 712 = 1.0000000000000004
+713 , 713 = 0.9999999999999998
+713 , 818 = 0.5118198110017533
+714 , 10 = 1.0
+714 , 56 = 1.0
+714 , 74 = 1.0
+714 , 119 = 1.0
+714 , 126 = 1.0
+714 , 191 = 1.0
+714 , 205 = 1.0
+714 , 224 = 1.0
+714 , 339 = 1.0
+714 , 382 = 1.0
+714 , 393 = 1.0
+714 , 398 = 1.0
+714 , 429 = 1.0
+714 , 460 = 1.0
+714 , 472 = 1.0
+714 , 482 = 1.0
+714 , 528 = 1.0
+714 , 536 = 1.0
+714 , 590 = 1.0
+714 , 600 = 1.0
+714 , 609 = 1.0
+714 , 624 = 1.0
+714 , 703 = 1.0
+714 , 710 = 1.0
+714 , 714 = 1.0
+714 , 760 = 1.0
+714 , 765 = 1.0
+714 , 778 = 0.5024758259279823
+714 , 785 = 1.0
+714 , 820 = 1.0
+714 , 829 = 1.0
+714 , 910 = 1.0
+714 , 944 = 1.0
+715 , 715 = 1.0
+716 , 3 = 1.0
+716 , 18 = 1.0
+716 , 114 = 1.0
+716 , 153 = 1.0
+716 , 213 = 1.0
+716 , 276 = 1.0
+716 , 282 = 1.0
+716 , 288 = 1.0
+716 , 320 = 1.0
+716 , 325 = 1.0
+716 , 327 = 1.0
+716 , 436 = 1.0
+716 , 506 = 1.0
+716 , 522 = 1.0
+716 , 547 = 1.0
+716 , 558 = 1.0
+716 , 611 = 1.0
+716 , 620 = 1.0
+716 , 716 = 1.0
+716 , 750 = 1.0
+716 , 753 = 1.0
+716 , 917 = 1.0
+716 , 995 = 1.0
+717 , 717 = 1.0000000000000002
+718 , 718 = 0.9999999999999998
+719 , 719 = 1.0000000000000002
+720 , 720 = 0.9999999999999999
+721 , 721 = 0.9999999999999999
+722 , 722 = 0.9999999999999999
+723 , 723 = 1.0000000000000004
+724 , 724 = 1.0000000000000002
+725 , 725 = 1.0
+726 , 726 = 1.0000000000000004
+727 , 28 = 1.0
+727 , 43 = 1.0
+727 , 136 = 1.0
+727 , 144 = 1.0
+727 , 300 = 1.0
+727 , 315 = 0.6419292559970623
+727 , 410 = 1.0
+727 , 415 = 1.0
+727 , 499 = 1.0
+727 , 533 = 1.0
+727 , 644 = 1.0
+727 , 654 = 1.0
+727 , 727 = 1.0
+727 , 732 = 1.0
+727 , 742 = 1.0
+727 , 774 = 1.0
+727 , 856 = 1.0
+727 , 871 = 1.0
+727 , 894 = 1.0
+727 , 915 = 1.0
+727 , 929 = 1.0
+727 , 934 = 1.0
+727 , 954 = 1.0
+727 , 970 = 1.0
+727 , 980 = 1.0
+727 , 985 = 1.0
+728 , 296 = 1.0000000000000002
+728 , 529 = 1.0000000000000002
+728 , 728 = 1.0000000000000002
+728 , 930 = 1.0000000000000002
+728 , 950 = 1.0000000000000002
+728 , 981 = 1.0000000000000002
+729 , 297 = 1.0000000000000002
+729 , 530 = 1.0000000000000002
+729 , 729 = 1.0000000000000002
+729 , 931 = 1.0000000000000002
+729 , 951 = 1.0000000000000002
+729 , 982 = 1.0000000000000002
+730 , 298 = 1.0000000000000004
+730 , 531 = 1.0000000000000004
+730 , 730 = 1.0000000000000004
+730 , 932 = 1.0000000000000004
+730 , 952 = 1.0000000000000004
+730 , 983 = 1.0000000000000004
+731 , 299 = 1.0000000000000004
+731 , 532 = 1.0000000000000004
+731 , 731 = 1.0000000000000004
+731 , 933 = 1.0000000000000004
+731 , 953 = 1.0000000000000004
+731 , 984 = 1.0000000000000004
+732 , 28 = 1.0
+732 , 43 = 1.0
+732 , 136 = 1.0
+732 , 144 = 1.0
+732 , 300 = 1.0
+732 , 315 = 0.6419292559970623
+732
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> , 410 = 1.0
+732 , 415 = 1.0
+732 , 499 = 1.0
+732 , 533 = 1.0
+732 , 644 = 1.0
+732 , 654 = 1.0
+732 , 727 = 1.0
+732 , 732 = 1.0
+732 , 742 = 1.0
+732 , 774 = 1.0
+732 , 856 = 1.0
+732 , 871 = 1.0
+732 , 894 = 1.0
+732 , 915 = 1.0
+732 , 929 = 1.0
+732 , 934 = 1.0
+732 , 954 = 1.0
+732 , 970 = 1.0
+732 , 980 = 1.0
+732 , 985 = 1.0
+733 , 19 = 1.0
+733 , 127 = 1.0
+733 , 635 = 1.0
+733 , 645 = 1.0
+733 , 733 = 1.0
+733 , 971 = 1.0
+734 , 20 = 1.0
+734 , 128 = 1.0
+734 , 636 = 1.0
+734 , 646 = 1.0
+734 , 734 = 1.0
+734 , 972 = 1.0
+735 , 21 = 1.0
+735 , 129 = 1.0
+735 , 637 = 1.0
+735 , 647 = 1.0
+735 , 735 = 1.0
+735 , 973 = 1.0
+736 , 22 = 1.0000000000000004
+736 , 130 = 1.0000000000000004
+736 , 638 = 1.0000000000000004
+736 , 648 = 1.0000000000000004
+736 , 736 = 1.0000000000000004
+736 , 974 = 1.0000000000000004
+737 , 23 = 1.0000000000000004
+737 , 131 = 1.0000000000000004
+737 , 639 = 1.0000000000000004
+737 , 649 = 1.0000000000000004
+737 , 737 = 1.0000000000000004
+737 , 975 = 1.0000000000000004
+738 , 24 = 1.0000000000000002
+738 , 132 = 1.0000000000000002
+738 , 640 = 1.0000000000000002
+738 , 650 = 1.0000000000000002
+738 , 738 = 1.0000000000000002
+738 , 976 = 1.0000000000000002
+739 , 25 = 1.0000000000000004
+739 , 133 = 1.0000000000000004
+739 , 641 = 1.0000000000000004
+739 , 651 = 1.0000000000000004
+739 , 739 = 1.0000000000000004
+739 , 977 = 1.0000000000000004
+740 , 26 = 1.0
+740 , 39 = 0.722507924997518
+740 , 134 = 1.0
+740 , 406 = 0.722507924997518
+740 , 495 = 0.722507924997518
+740 , 642 = 1.0
+740 , 652 = 1.0
+740 , 740 = 1.0
+740 , 890 = 0.722507924997518
+740 , 925 = 0.722507924997518
+740 , 966 = 0.722507924997518
+740 , 978 = 1.0
+741 , 27 = 1.0000000000000002
+741 , 135 = 1.0000000000000002
+741 , 643 = 1.0000000000000002
+741 , 653 = 1.0000000000000002
+741 , 741 = 1.0000000000000002
+741 , 979 = 1.0000000000000002
+742 , 28 = 1.0
+742 , 43 = 1.0
+742 , 136 = 1.0
+742 , 144 = 1.0
+742 , 300 = 1.0
+742 , 315 = 0.6419292559970623
+742 , 410 = 1.0
+742 , 415 = 1.0
+742 , 499 = 1.0
+742 , 533 = 1.0
+742 , 644 = 1.0
+742 , 654 = 1.0
+742 , 727 = 1.0
+742 , 732 = 1.0
+742 , 742 = 1.0
+742 , 774 = 1.0
+742 , 856 = 1.0
+742 , 871 = 1.0
+742 , 894 = 1.0
+742 , 915 = 1.0
+742 , 929 = 1.0
+742 , 934 = 1.0
+742 , 954 = 1.0
+742 , 970 = 1.0
+742 , 980 = 1.0
+742 , 985 = 1.0
+743 , 743 = 1.0000000000000004
+744 , 744 = 0.9999999999999999
+745 , 84 = 0.5968916363466724
+745 , 91 = 1.0000000000000002
+745 , 110 = 0.5701990460433357
+745 , 168 = 0.5968916363466724
+745 , 252 = 0.5701990460433357
+745 , 260 = 1.0000000000000002
+745 , 270 = 0.5968916363466724
+745 , 322 = 0.5968916363466724
+745 , 332 = 0.5968916363466724
+745 , 423 = 0.5968916363466724
+745 , 573 = 0.5968916363466724
+745 , 745 = 1.0000000000000002
+745 , 797 = 1.0000000000000002
+746 , 500 = 0.5581934637813418
+746 , 746 = 1.0
+746 , 749 = 0.5184050344695412
+747 , 747 = 1.0
+748 , 748 = 1.0
+749 , 746 = 0.5184050344695412
+749 , 749 = 0.9999999999999998
+750 , 3 = 1.0
+750 , 18 = 1.0
+750 , 114 = 1.0
+750 , 153 = 1.0
+750 , 213 = 1.0
+750 , 276 = 1.0
+750 , 282 = 1.0
+750 , 288 = 1.0
+750 , 320 = 1.0
+750 , 325 = 1.0
+750 , 327 = 1.0
+750 , 436 = 1.0
+750 , 506 = 1.0
+750 , 522 = 1.0
+750 , 547 = 1.0
+750 , 558 = 1.0
+750 , 611 = 1.0
+750 , 620 = 1.0
+750 , 716 = 1.0
+750 , 750 = 1.0
+750 , 753 = 1.0
+750 , 917 = 1.0
+750 , 995 = 1.0
+751 , 751 = 1.0
+752 , 752 = 1.0000000000000007
+753 , 3 = 1.0
+753 , 18 = 1.0
+753 , 114 = 1.0
+753 , 153 = 1.0
+753 , 213 = 1.0
+753 , 276 = 1.0
+753 , 282 = 1.0
+753 , 288 = 1.0
+753 , 320 = 1.0
+753 , 325 = 1.0
+753 , 327 = 1.0
+753 , 436 = 1.0
+753 , 506 = 1.0
+753 , 522 = 1.0
+753 , 547 = 1.0
+753 , 558 = 1.0
+753 , 611 = 1.0
+753 , 620 = 1.0
+753 , 716 = 1.0
+753 , 750 = 1.0
+753 , 753 = 1.0
+753 , 917 = 1.0
+753 , 995 = 1.0
+754 , 754 = 1.0000000000000002
+755 , 755 = 1.0000000000000002
+756 , 756 = 1.0
+757 , 757 = 1.0000000000000002
+758 , 758 = 0.9999999999999998
+759 , 759 = 1.0
+760 , 10 = 1.0
+760 , 56 = 1.0
+760 , 74 = 1.0
+760 , 119 = 1.0
+760 , 126 = 1.0
+760 , 191 = 1.0
+760 , 205 = 1.0
+760 , 224 = 1.0
+760 , 339 = 1.0
+760 , 382 = 1.0
+760 , 393 = 1.0
+760 , 398 = 1.0
+760 , 429 = 1.0
+760 , 460 = 1.0
+760 , 472 = 1.0
+760 , 482 = 1.0
+760 , 528 = 1.0
+760 , 536 = 1.0
+760 , 590 = 1.0
+760 , 600 = 1.0
+760 , 609 = 1.0
+760 , 624 = 1.0
+760 , 703 = 1.0
+760 , 710 = 1.0
+760 , 714 = 1.0
+760 , 760 = 1.0
+760 , 765 = 1.0
+760 , 778 = 0.5024758259279823
+760 , 785 = 1.0
+760 , 820 = 1.0
+760 , 829 = 1.0
+760 , 910 = 1.0
+760 , 944 = 1.0
+761 , 761 = 1.0000000000000002
+762 , 762 = 1.0000000000000004
+763 , 763 = 1.0
+764 , 764 = 1.0
+765 , 10 = 1.0
+765 , 56 = 1.0
+765 , 74 = 1.0
+765 , 119 = 1.0
+765 , 126 = 1.0
+765 , 191 = 1.0
+765 , 205 = 1.0
+765 , 224 = 1.0
+765 , 339 = 1.0
+765 , 382 = 1.0
+765 , 393 = 1.0
+765 , 398 = 1.0
+765 , 429 = 1.0
+765 , 460 = 1.0
+765 , 472 = 1.0
+765 , 482 = 1.0
+765 , 528 = 1.0
+765 , 536 = 1.0
+765 , 590 = 1.0
+765 , 600 = 1.0
+765 , 609 = 1.0
+765 , 624 = 1.0
+765 , 703 = 1.0
+765 , 710 = 1.0
+765 , 714 = 1.0
+765 , 760 = 1.0
+765 , 765 = 1.0
+765 , 778 = 0.5024758259279823
+765 , 785 = 1.0
+765 , 820 = 1.0
+765 , 829 = 1.0
+765 , 910 = 1.0
+765 , 944 = 1.0
+766 , 766 = 1.0000000000000004
+767 , 767 = 1.0
+768 , 768 = 0.9999999999999997
+769 , 769 = 1.0000000000000002
+770 , 770 = 1.0000000000000002
+771 , 771 = 1.0
+772 , 772 = 1.0000000000000002
+773 , 773 = 0.9999999999999998
+774 , 28 = 1.0
+774 , 43 = 1.0
+774 , 136 = 1.0
+774 , 144 = 1.0
+774 , 300 = 1.0
+774 , 315 = 0.6419292559970623
+774 , 410 = 1.0
+774 , 415 = 1.0
+774 , 499 = 1.0
+774 , 533 = 1.0
+774 , 644 = 1.0
+774 , 654 = 1.0
+774 , 727 = 1.0
+774 , 732 = 1.0
+774 , 742 = 1.0
+774 , 774 = 1.0
+774 , 856 = 1.0
+774 , 871 = 1.0
+774 , 894 = 1.0
+774 , 915 = 1.0
+774 , 929 = 1.0
+774 , 934 = 1.0
+774 , 954 = 1.0
+774 , 970 = 1.0
+774 , 980 = 1.0
+774 , 985 = 1.0
+775 , 775 = 0.9999999999999999
+776 , 776 = 1.0
+777 , 777 = 0.9999999999999994
+777 , 818 = 0.5355337917344244
+777 , 819 = 0.5048108621516008
+778 , 10 = 0.5024758259279823
+778 , 56 = 0.5024758259279823
+778 , 74 = 0.5024758259279823
+778 , 119 = 0.5024758259279823
+778 , 126 = 0.5024758259279823
+778 , 191 = 0.5024758259279823
+778 , 205 = 0.5024758259279823
+778 , 224 = 0.5024758259279823
+778 , 339 = 0.5024758259279823
+778 , 382 = 0.5024758259279823
+778 , 393 = 0.5024758259279823
+778 , 398 = 0.5024758259279823
+778 , 429 = 0.5024758259279823
+778 , 460 = 0.5024758259279823
+778 , 472 = 0.5024758259279823
+778 , 482 = 0.5024758259279823
+778 , 528 = 0.5024758259279823
+778 , 536 = 0.5024758259279823
+778 , 590 = 0.5024758259279823
+778 , 600 = 0.5024758259279823
+778 , 609 = 0.5024758259279823
+778 , 624 = 0.5024758259279823
+778 , 703 = 0.5024758259279823
+778 , 710 = 0.5024758259279823
+778 , 714 = 0.5024758259279823
+778 , 760 = 0.5024758259279823
+778 , 765 = 0.5024758259279823
+778 , 778 = 1.0000000000000002
+778 , 785 = 0.5024758259279823
+778 , 820 = 0.5024758259279823
+778 , 829 = 0.5024758259279823
+778 , 910 = 0.5024758259279823
+778 , 944 = 0.5024758259279823
+779 , 779 = 0.9999999999999999
+780 , 780 = 1.0000000000000002
+781 , 781 = 1.0
+782 , 782 = 1.0000000000000002
+783 , 783 = 0.9999999999999999
+784 , 784 = 1.0000000000000002
+785 , 10 = 1.0
+785 , 56 = 1.0
+785 , 74 = 1.0
+785 , 119 = 1.0
+785 , 126 = 1.0
+785 , 191 = 1.0
+785 , 205 = 1.0
+785 , 224 = 1.0
+785 , 339 = 1.0
+785 , 382 = 1.0
+785 , 393 = 1.0
+785 , 398 = 1.0
+785 , 429 = 1.0
+785 , 460 = 1.0
+785 , 472 = 1.0
+785 , 482 = 1.0
+785 , 528 = 1.0
+785 , 536 = 1.0
+785 , 590 = 1.0
+785 , 600 = 1.0
+785 , 609 = 1.0
+785 , 624 = 1.0
+785 , 703 = 1.0
+785 , 710 = 1.0
+785 , 714 = 1.0
+785 , 760 = 1.0
+785 , 765 = 1.0
+785 , 778 = 0.5024758259279823
+785 , 785 = 1.0
+785 , 820 = 1.0
+785 , 829 = 1.0
+785 , 910 = 1.0
+785 , 944 = 1.0
+786 , 786 = 1.0
+787 , 787 = 1.0000000000000004
+788 , 788 = 1.0000000000000002
+789 , 170 = 0.5010342446845996
+789 , 789 = 1.0000000000000002
+790 , 790 = 1.0000000000000002
+791 , 791 = 1.0000000000000002
+792 , 792 = 1.0000000000000002
+793 , 793 = 1.0000000000000002
+794 , 794 = 1.0
+795 , 795 = 1.0000000000000004
+796 , 796 = 1.0000000000000002
+797 , 84 = 0.5968916363466724
+797 , 91 = 1.0000000000000002
+797 , 110 = 0.5701990460433357
+797 , 168 = 0.5968916363466724
+797 , 252 = 0.5701990460433357
+797 , 260 = 1.0000000000000002
+797 , 270 = 0.5968916363466724
+797 , 322 = 0.5968916363466724
+797 , 332 = 0.5968916363466724
+797 , 423 = 0.5968916363466724
+797 , 573 = 0.5968916363466724
+797 , 745 = 1.0000000000000002
+797 , 797 = 1.0000000000000002
+798 , 798 = 1.0
+799 , 799 = 1.0000000000000002
+800 , 800 = 1.0000000000000004
+801 , 801 = 1.0
+802 , 70 = 1.0
+802 , 228 = 1.0
+802 , 239 = 1.0
+802 , 311 = 1.0
+802 , 487 = 1.0
+802 , 802 = 1.0
+802 , 873 = 1.0
+802 , 902 = 1.0
+803 , 803 = 1.0000000000000002
+804 , 804 = 1.0
+805 , 805 = 1.0000000000000002
+806 , 806 = 1.0000000000000004
+807 , 807 = 1.0
+808 , 808 = 1.0
+809 , 809 = 1.0
+810 , 810 = 1.0000000000000002
+811 , 811 = 1.0
+812 , 812 = 1.0
+813 , 31 = 1.0
+813 , 241 = 1.0
+813 , 273 = 1.0
+813 , 295 = 1.0
+813
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> , 813 = 1.0
+813 , 837 = 1.0
+813 , 866 = 1.0
+813 , 989 = 1.0
+814 , 814 = 1.0000000000000002
+815 , 815 = 1.0000000000000004
+816 , 816 = 1.0000000000000004
+817 , 817 = 1.0000000000000002
+818 , 713 = 0.5118198110017533
+818 , 777 = 0.5355337917344244
+818 , 818 = 1.0
+818 , 819 = 0.5093548039290973
+819 , 777 = 0.5048108621516008
+819 , 818 = 0.5093548039290973
+819 , 819 = 1.0000000000000002
+820 , 10 = 1.0
+820 , 56 = 1.0
+820 , 74 = 1.0
+820 , 119 = 1.0
+820 , 126 = 1.0
+820 , 191 = 1.0
+820 , 205 = 1.0
+820 , 224 = 1.0
+820 , 339 = 1.0
+820 , 382 = 1.0
+820 , 393 = 1.0
+820 , 398 = 1.0
+820 , 429 = 1.0
+820 , 460 = 1.0
+820 , 472 = 1.0
+820 , 482 = 1.0
+820 , 528 = 1.0
+820 , 536 = 1.0
+820 , 590 = 1.0
+820 , 600 = 1.0
+820 , 609 = 1.0
+820 , 624 = 1.0
+820 , 703 = 1.0
+820 , 710 = 1.0
+820 , 714 = 1.0
+820 , 760 = 1.0
+820 , 765 = 1.0
+820 , 778 = 0.5024758259279823
+820 , 785 = 1.0
+820 , 820 = 1.0
+820 , 829 = 1.0
+820 , 910 = 1.0
+820 , 944 = 1.0
+821 , 821 = 1.0
+822 , 822 = 1.0
+823 , 823 = 1.0
+824 , 824 = 0.9999999999999999
+825 , 825 = 1.0
+826 , 826 = 1.0000000000000002
+827 , 827 = 1.0000000000000002
+828 , 828 = 1.0
+829 , 10 = 1.0
+829 , 56 = 1.0
+829 , 74 = 1.0
+829 , 119 = 1.0
+829 , 126 = 1.0
+829 , 191 = 1.0
+829 , 205 = 1.0
+829 , 224 = 1.0
+829 , 339 = 1.0
+829 , 382 = 1.0
+829 , 393 = 1.0
+829 , 398 = 1.0
+829 , 429 = 1.0
+829 , 460 = 1.0
+829 , 472 = 1.0
+829 , 482 = 1.0
+829 , 528 = 1.0
+829 , 536 = 1.0
+829 , 590 = 1.0
+829 , 600 = 1.0
+829 , 609 = 1.0
+829 , 624 = 1.0
+829 , 703 = 1.0
+829 , 710 = 1.0
+829 , 714 = 1.0
+829 , 760 = 1.0
+829 , 765 = 1.0
+829 , 778 = 0.5024758259279823
+829 , 785 = 1.0
+829 , 820 = 1.0
+829 , 829 = 1.0
+829 , 910 = 1.0
+829 , 944 = 1.0
+830 , 830 = 1.0
+831 , 831 = 1.0000000000000004
+832 , 832 = 1.0
+833 , 833 = 0.9999999999999999
+834 , 62 = 1.0
+834 , 160 = 1.0
+834 , 286 = 1.0
+834 , 315 = 0.7667638686682218
+834 , 510 = 1.0
+834 , 517 = 1.0
+834 , 614 = 1.0
+834 , 697 = 1.0
+834 , 834 = 1.0
+834 , 861 = 1.0
+834 , 958 = 1.0
+835 , 835 = 1.0000000000000002
+836 , 836 = 1.0000000000000002
+837 , 31 = 1.0
+837 , 241 = 1.0
+837 , 273 = 1.0
+837 , 295 = 1.0
+837 , 813 = 1.0
+837 , 837 = 1.0
+837 , 866 = 1.0
+837 , 989 = 1.0
+838 , 838 = 1.0000000000000002
+839 , 839 = 1.0000000000000002
+840 , 840 = 1.0
+841 , 841 = 1.0000000000000002
+842 , 842 = 1.0
+843 , 843 = 1.0
+844 , 844 = 1.0
+845 , 845 = 1.0
+846 , 846 = 1.0
+847 , 847 = 1.0000000000000004
+847 , 849 = 0.7502145039285126
+848 , 848 = 1.0
+849 , 847 = 0.7502145039285126
+849 , 849 = 1.0000000000000002
+850 , 850 = 1.0000000000000002
+850 , 855 = 0.5094961907222041
+851 , 851 = 1.0000000000000004
+852 , 852 = 1.0000000000000002
+852 , 853 = 0.9017497434043061
+853 , 852 = 0.9017497434043061
+853 , 853 = 1.0000000000000002
+854 , 854 = 1.0000000000000004
+855 , 850 = 0.5094961907222041
+855 , 855 = 1.0000000000000004
+856 , 28 = 1.0
+856 , 43 = 1.0
+856 , 136 = 1.0
+856 , 144 = 1.0
+856 , 300 = 1.0
+856 , 315 = 0.6419292559970623
+856 , 410 = 1.0
+856 , 415 = 1.0
+856 , 499 = 1.0
+856 , 533 = 1.0
+856 , 644 = 1.0
+856 , 654 = 1.0
+856 , 727 = 1.0
+856 , 732 = 1.0
+856 , 742 = 1.0
+856 , 774 = 1.0
+856 , 856 = 1.0
+856 , 871 = 1.0
+856 , 894 = 1.0
+856 , 915 = 1.0
+856 , 929 = 1.0
+856 , 934 = 1.0
+856 , 954 = 1.0
+856 , 970 = 1.0
+856 , 980 = 1.0
+856 , 985 = 1.0
+857 , 507 = 0.642321133232141
+857 , 857 = 1.0000000000000002
+858 , 151 = 0.5567902312521547
+858 , 858 = 1.0
+859 , 859 = 1.0000000000000002
+860 , 860 = 1.0000000000000002
+861 , 62 = 1.0
+861 , 160 = 1.0
+861 , 286 = 1.0
+861 , 315 = 0.7667638686682218
+861 , 510 = 1.0
+861 , 517 = 1.0
+861 , 614 = 1.0
+861 , 697 = 1.0
+861 , 834 = 1.0
+861 , 861 = 1.0
+861 , 958 = 1.0
+862 , 862 = 1.0000000000000002
+863 , 863 = 1.0000000000000004
+864 , 864 = 1.0000000000000002
+865 , 865 = 0.9999999999999999
+866 , 31 = 1.0
+866 , 241 = 1.0
+866 , 273 = 1.0
+866 , 295 = 1.0
+866 , 813 = 1.0
+866 , 837 = 1.0
+866 , 866 = 1.0
+866 , 989 = 1.0
+867 , 867 = 1.0
+868 , 868 = 1.0
+869 , 869 = 1.0
+870 , 870 = 1.0000000000000002
+871 , 28 = 1.0
+871 , 43 = 1.0
+871 , 136 = 1.0
+871 , 144 = 1.0
+871 , 300 = 1.0
+871 , 315 = 0.6419292559970623
+871 , 410 = 1.0
+871 , 415 = 1.0
+871 , 499 = 1.0
+871 , 533 = 1.0
+871 , 644 = 1.0
+871 , 654 = 1.0
+871 , 727 = 1.0
+871 , 732 = 1.0
+871 , 742 = 1.0
+871 , 774 = 1.0
+871 , 856 = 1.0
+871 , 871 = 1.0
+871 , 894 = 1.0
+871 , 915 = 1.0
+871 , 929 = 1.0
+871 , 934 = 1.0
+871 , 954 = 1.0
+871 , 970 = 1.0
+871 , 980 = 1.0
+871 , 985 = 1.0
+872 , 872 = 1.0000000000000002
+873 , 70 = 1.0
+873 , 228 = 1.0
+873 , 239 = 1.0
+873 , 311 = 1.0
+873 , 487 = 1.0
+873 , 802 = 1.0
+873 , 873 = 1.0
+873 , 902 = 1.0
+874 , 874 = 1.0000000000000002
+875 , 875 = 1.0
+876 , 876 = 1.0000000000000002
+877 , 877 = 1.0
+878 , 878 = 1.0
+879 , 879 = 1.0000000000000002
+880 , 880 = 0.9999999999999996
+881 , 881 = 1.0000000000000002
+882 , 882 = 1.0000000000000002
+883 , 32 = 1.0
+883 , 399 = 1.0
+883 , 488 = 1.0
+883 , 883 = 1.0
+883 , 918 = 1.0
+883 , 959 = 1.0
+884 , 33 = 1.0000000000000002
+884 , 400 = 1.0000000000000002
+884 , 489 = 1.0000000000000002
+884 , 884 = 1.0000000000000002
+884 , 919 = 1.0000000000000002
+884 , 960 = 1.0000000000000002
+885 , 34 = 1.0000000000000002
+885 , 401 = 1.0000000000000002
+885 , 490 = 1.0000000000000002
+885 , 885 = 1.0000000000000002
+885 , 920 = 1.0000000000000002
+885 , 961 = 1.0000000000000002
+886 , 35 = 1.0
+886 , 402 = 1.0
+886 , 491 = 1.0
+886 , 886 = 1.0
+886 , 921 = 1.0
+886 , 962 = 1.0
+887 , 36 = 1.0000000000000002
+887 , 37 = 0.6948401513873241
+887 , 403 = 1.0000000000000002
+887 , 404 = 0.6948401513873241
+887 , 492 = 1.0000000000000002
+887 , 493 = 0.6948401513873241
+887 , 887 = 1.0000000000000002
+887 , 888 = 0.6948401513873241
+887 , 922 = 1.0000000000000002
+887 , 923 = 0.6948401513873241
+887 , 963 = 1.0000000000000002
+887 , 964 = 0.6948401513873241
+888 , 36 = 0.6948401513873241
+888 , 37 = 0.9999999999999999
+888 , 403 = 0.6948401513873241
+888 , 404 = 0.9999999999999999
+888 , 492 = 0.6948401513873241
+888 , 493 = 0.9999999999999999
+888 , 887 = 0.6948401513873241
+888 , 888 = 0.9999999999999999
+888 , 922 = 0.6948401513873241
+888 , 923 = 0.9999999999999999
+888 , 963 = 0.6948401513873241
+888 , 964 = 0.9999999999999999
+889 , 38 = 1.0
+889 , 405 = 1.0
+889 , 494 = 1.0
+889 , 889 = 1.0
+889 , 924 = 1.0
+889 , 965 = 1.0
+890 , 26 = 0.722507924997518
+890 , 39 = 1.0
+890 , 134 = 0.722507924997518
+890 , 406 = 1.0
+890 , 495 = 1.0
+890 , 642 = 0.722507924997518
+890 , 652 = 0.722507924997518
+890 , 740 = 0.722507924997518
+890 , 890 = 1.0
+890 , 925 = 1.0
+890 , 966 = 1.0
+890 , 978 = 0.722507924997518
+891 , 40 = 1.0
+891 , 407 = 1.0
+891 , 496 = 1.0
+891 , 891 = 1.0
+891 , 926 = 1.0
+891 , 967 = 1.0
+892 , 41 = 1.0000000000000002
+892 , 408 = 1.0000000000000002
+892 , 497 = 1.0000000000000002
+892 , 892 = 1.0000000000000002
+892 , 927 = 1.0000000000000002
+892 , 968 = 1.0000000000000002
+893 , 42 = 1.0000000000000002
+893 , 409 = 1.0000000000000002
+893 , 498 = 1.0000000000000002
+893 , 893 = 1.0000000000000002
+893 , 928 = 1.0000000000000002
+893 , 969 = 1.0000000000000002
+894 , 28 = 1.0
+894 , 43 = 1.0
+894 , 136 = 1.0
+894 , 144 = 1.0
+894 , 300 = 1.0
+894 , 315 = 0.6419292559970623
+894 , 410 = 1.0
+894 , 415 = 1.0
+894 , 499 = 1.0
+894 , 533 = 1.0
+894 , 644 = 1.0
+894 , 654 = 1.0
+894 , 727 = 1.0
+894 , 732 = 1.0
+894 , 742 = 1.0
+894 , 774 = 1.0
+894 , 856 = 1.0
+894 , 871 = 1.0
+894 , 894 = 1.0
+894 , 915 = 1.0
+894 , 929 = 1.0
+894 , 934 = 1.0
+894 , 954 = 1.0
+894 , 970 = 1.0
+894 , 980 = 1.0
+894 , 985 = 1.0
+895 , 895 = 1.0
+896 , 896 = 1.0000000000000004
+897 , 897 = 1.0000000000000002
+898 , 898 = 1.0000000000000002
+899 , 899 = 1.0000000000000002
+900 , 900 = 1.0
+901 , 901 = 1.0
+902 , 70 = 1.0
+902
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> , 228 = 1.0
+902 , 239 = 1.0
+902 , 311 = 1.0
+902 , 487 = 1.0
+902 , 802 = 1.0
+902 , 873 = 1.0
+902 , 902 = 1.0
+903 , 903 = 1.0000000000000002
+904 , 904 = 1.0000000000000002
+905 , 905 = 1.0000000000000002
+906 , 906 = 1.0
+907 , 907 = 1.0
+908 , 908 = 1.0000000000000002
+909 , 909 = 1.0000000000000002
+910 , 10 = 1.0
+910 , 56 = 1.0
+910 , 74 = 1.0
+910 , 119 = 1.0
+910 , 126 = 1.0
+910 , 191 = 1.0
+910 , 205 = 1.0
+910 , 224 = 1.0
+910 , 339 = 1.0
+910 , 382 = 1.0
+910 , 393 = 1.0
+910 , 398 = 1.0
+910 , 429 = 1.0
+910 , 460 = 1.0
+910 , 472 = 1.0
+910 , 482 = 1.0
+910 , 528 = 1.0
+910 , 536 = 1.0
+910 , 590 = 1.0
+910 , 600 = 1.0
+910 , 609 = 1.0
+910 , 624 = 1.0
+910 , 703 = 1.0
+910 , 710 = 1.0
+910 , 714 = 1.0
+910 , 760 = 1.0
+910 , 765 = 1.0
+910 , 778 = 0.5024758259279823
+910 , 785 = 1.0
+910 , 820 = 1.0
+910 , 829 = 1.0
+910 , 910 = 1.0
+910 , 944 = 1.0
+911 , 911 = 1.0000000000000004
+912 , 912 = 1.0
+913 , 913 = 1.0
+914 , 914 = 1.0
+915 , 28 = 1.0
+915 , 43 = 1.0
+915 , 136 = 1.0
+915 , 144 = 1.0
+915 , 300 = 1.0
+915 , 315 = 0.6419292559970623
+915 , 410 = 1.0
+915 , 415 = 1.0
+915 , 499 = 1.0
+915 , 533 = 1.0
+915 , 644 = 1.0
+915 , 654 = 1.0
+915 , 727 = 1.0
+915 , 732 = 1.0
+915 , 742 = 1.0
+915 , 774 = 1.0
+915 , 856 = 1.0
+915 , 871 = 1.0
+915 , 894 = 1.0
+915 , 915 = 1.0
+915 , 929 = 1.0
+915 , 934 = 1.0
+915 , 954 = 1.0
+915 , 970 = 1.0
+915 , 980 = 1.0
+915 , 985 = 1.0
+916 , 916 = 1.0
+917 , 3 = 1.0
+917 , 18 = 1.0
+917 , 114 = 1.0
+917 , 153 = 1.0
+917 , 213 = 1.0
+917 , 276 = 1.0
+917 , 282 = 1.0
+917 , 288 = 1.0
+917 , 320 = 1.0
+917 , 325 = 1.0
+917 , 327 = 1.0
+917 , 436 = 1.0
+917 , 506 = 1.0
+917 , 522 = 1.0
+917 , 547 = 1.0
+917 , 558 = 1.0
+917 , 611 = 1.0
+917 , 620 = 1.0
+917 , 716 = 1.0
+917 , 750 = 1.0
+917 , 753 = 1.0
+917 , 917 = 1.0
+917 , 995 = 1.0
+918 , 32 = 1.0
+918 , 399 = 1.0
+918 , 488 = 1.0
+918 , 883 = 1.0
+918 , 918 = 1.0
+918 , 959 = 1.0
+919 , 33 = 1.0000000000000002
+919 , 400 = 1.0000000000000002
+919 , 489 = 1.0000000000000002
+919 , 884 = 1.0000000000000002
+919 , 919 = 1.0000000000000002
+919 , 960 = 1.0000000000000002
+920 , 34 = 1.0000000000000002
+920 , 401 = 1.0000000000000002
+920 , 490 = 1.0000000000000002
+920 , 885 = 1.0000000000000002
+920 , 920 = 1.0000000000000002
+920 , 961 = 1.0000000000000002
+921 , 35 = 1.0
+921 , 402 = 1.0
+921 , 491 = 1.0
+921 , 886 = 1.0
+921 , 921 = 1.0
+921 , 962 = 1.0
+922 , 36 = 1.0000000000000002
+922 , 37 = 0.6948401513873241
+922 , 403 = 1.0000000000000002
+922 , 404 = 0.6948401513873241
+922 , 492 = 1.0000000000000002
+922 , 493 = 0.6948401513873241
+922 , 887 = 1.0000000000000002
+922 , 888 = 0.6948401513873241
+922 , 922 = 1.0000000000000002
+922 , 923 = 0.6948401513873241
+922 , 963 = 1.0000000000000002
+922 , 964 = 0.6948401513873241
+923 , 36 = 0.6948401513873241
+923 , 37 = 0.9999999999999999
+923 , 403 = 0.6948401513873241
+923 , 404 = 0.9999999999999999
+923 , 492 = 0.6948401513873241
+923 , 493 = 0.9999999999999999
+923 , 887 = 0.6948401513873241
+923 , 888 = 0.9999999999999999
+923 , 922 = 0.6948401513873241
+923 , 923 = 0.9999999999999999
+923 , 963 = 0.6948401513873241
+923 , 964 = 0.9999999999999999
+924 , 38 = 1.0
+924 , 405 = 1.0
+924 , 494 = 1.0
+924 , 889 = 1.0
+924 , 924 = 1.0
+924 , 965 = 1.0
+925 , 26 = 0.722507924997518
+925 , 39 = 1.0
+925 , 134 = 0.722507924997518
+925 , 406 = 1.0
+925 , 495 = 1.0
+925 , 642 = 0.722507924997518
+925 , 652 = 0.722507924997518
+925 , 740 = 0.722507924997518
+925 , 890 = 1.0
+925 , 925 = 1.0
+925 , 966 = 1.0
+925 , 978 = 0.722507924997518
+926 , 40 = 1.0
+926 , 407 = 1.0
+926 , 496 = 1.0
+926 , 891 = 1.0
+926 , 926 = 1.0
+926 , 967 = 1.0
+927 , 41 = 1.0000000000000002
+927 , 408 = 1.0000000000000002
+927 , 497 = 1.0000000000000002
+927 , 892 = 1.0000000000000002
+927 , 927 = 1.0000000000000002
+927 , 968 = 1.0000000000000002
+928 , 42 = 1.0000000000000002
+928 , 409 = 1.0000000000000002
+928 , 498 = 1.0000000000000002
+928 , 893 = 1.0000000000000002
+928 , 928 = 1.0000000000000002
+928 , 969 = 1.0000000000000002
+929 , 28 = 1.0
+929 , 43 = 1.0
+929 , 136 = 1.0
+929 , 144 = 1.0
+929 , 300 = 1.0
+929 , 315 = 0.6419292559970623
+929 , 410 = 1.0
+929 , 415 = 1.0
+929 , 499 = 1.0
+929 , 533 = 1.0
+929 , 644 = 1.0
+929 , 654 = 1.0
+929 , 727 = 1.0
+929 , 732 = 1.0
+929 , 742 = 1.0
+929 , 774 = 1.0
+929 , 856 = 1.0
+929 , 871 = 1.0
+929 , 894 = 1.0
+929 , 915 = 1.0
+929 , 929 = 1.0
+929 , 934 = 1.0
+929 , 954 = 1.0
+929 , 970 = 1.0
+929 , 980 = 1.0
+929 , 985 = 1.0
+930 , 296 = 1.0000000000000002
+930 , 529 = 1.0000000000000002
+930 , 728 = 1.0000000000000002
+930 , 930 = 1.0000000000000002
+930 , 950 = 1.0000000000000002
+930 , 981 = 1.0000000000000002
+931 , 297 = 1.0000000000000002
+931 , 530 = 1.0000000000000002
+931 , 729 = 1.0000000000000002
+931 , 931 = 1.0000000000000002
+931 , 951 = 1.0000000000000002
+931 , 982 = 1.0000000000000002
+932 , 298 = 1.0000000000000004
+932 , 531 = 1.0000000000000004
+932 , 730 = 1.0000000000000004
+932 , 932 = 1.0000000000000004
+932 , 952 = 1.0000000000000004
+932 , 983 = 1.0000000000000004
+933 , 299 = 1.0000000000000004
+933 , 532 = 1.0000000000000004
+933 , 731 = 1.0000000000000004
+933 , 933 = 1.0000000000000004
+933 , 953 = 1.0000000000000004
+933 , 984 = 1.0000000000000004
+934 , 28 = 1.0
+934 , 43 = 1.0
+934 , 136 = 1.0
+934 , 144 = 1.0
+934 , 300 = 1.0
+934 , 315 = 0.6419292559970623
+934 , 410 = 1.0
+934 , 415 = 1.0
+934 , 499 = 1.0
+934 , 533 = 1.0
+934 , 644 = 1.0
+934 , 654 = 1.0
+934 , 727 = 1.0
+934 , 732 = 1.0
+934 , 742 = 1.0
+934 , 774 = 1.0
+934 , 856 = 1.0
+934 , 871 = 1.0
+934 , 894 = 1.0
+934 , 915 = 1.0
+934 , 929 = 1.0
+934 , 934 = 1.0
+934 , 954 = 1.0
+934 , 970 = 1.0
+934 , 980 = 1.0
+934 , 985 = 1.0
+935 , 935 = 1.0000000000000002
+936 , 936 = 1.0000000000000002
+937 , 937 = 1.0000000000000002
+938 , 938 = 1.0
+939 , 939 = 1.0000000000000004
+940 , 940 = 1.0
+941 , 941 = 1.0
+942 , 942 = 1.0
+943 , 943 = 1.0
+944 , 10 = 1.0
+944 , 56 = 1.0
+944 , 74 = 1.0
+944 , 119 = 1.0
+944 , 126 = 1.0
+944 , 191 = 1.0
+944 , 205 = 1.0
+944 , 224 = 1.0
+944 , 339 = 1.0
+944 , 382 = 1.0
+944 , 393 = 1.0
+944 , 398 = 1.0
+944 , 429 = 1.0
+944 , 460 = 1.0
+944 , 472 = 1.0
+944 , 482 = 1.0
+944 , 528 = 1.0
+944 , 536 = 1.0
+944 , 590 = 1.0
+944 , 600 = 1.0
+944 , 609 = 1.0
+944 , 624 = 1.0
+944 , 703 = 1.0
+944 , 710 = 1.0
+944 , 714 = 1.0
+944 , 760 = 1.0
+944 , 765 = 1.0
+944 , 778 = 0.5024758259279823
+944 , 785 = 1.0
+944 , 820 = 1.0
+944 , 829 = 1.0
+944 , 910 = 1.0
+944 , 944 = 1.0
+945 , 945 = 1.0000000000000002
+946 , 946 = 1.0
+947 , 947 = 1.0000000000000002
+948 , 948 = 0.9999999999999999
+949 , 949 = 1.0
+950 , 296 = 1.0000000000000002
+950 , 529 = 1.0000000000000002
+950 , 728 = 1.0000000000000002
+950 , 930 = 1.0000000000000002
+950 , 950 = 1.0000000000000002
+950 , 981 = 1.0000000000000002
+951 , 297 = 1.0000000000000002
+951 , 530 = 1.0000000000000002
+951 , 729 = 1.0000000000000002
+951 , 931 = 1.0000000000000002
+951 , 951 = 1.0000000000000002
+951 , 982 = 1.0000000000000002
+952 , 298 = 1.0000000000000004
+952 , 531 = 1.0000000000000004
+952 , 730 = 1.0000000000000004
+952 , 932 = 1.0000000000000004
+952 , 952 = 1.0000000000000004
+952 , 983 = 1.0000000000000004
+953 , 299 = 1.0000000000000004
+953 , 532 = 1.0000000000000004
+953 , 731 = 1.0000000000000004
+953 , 933 = 1.0000000000000004
+953 , 953 = 1.0000000000000004
+953 , 984 = 1.0000000000000004
+954 , 28 = 1.0
+954 , 43 = 1.0
+954 , 136 = 1.0
+954 , 144 = 1.0
+954 , 300 = 1.0
+954 , 315 = 0.6419292559970623
+954 , 410 = 1.0
+954 , 415 = 1.0
+954 , 499 = 1.0
+954 , 533 = 1.0
+954 , 644 = 1.0
+954 , 654 = 1.0
+954 , 727 = 1.0
+954 , 732 = 1.0
+954 , 742 = 1.0
+954 , 774 = 1.0
+954 , 856 = 1.0
+954 , 871 = 1.0
+954 , 894 = 1.0
+954 , 915 = 1.0
+954 , 929 = 1.0
+954 , 934 = 1.0
+954 , 954 = 1.0
+954 , 970 = 1.0
+954 , 980 = 1.0
+954 , 985 = 1.0
+955 , 955 = 1.0
+956 , 956 = 1.0
+957 , 957 = 1.0000000000000004
+958 , 62 = 1.0
+958 , 160 = 1.0
+958 , 286 = 1.0
+958 , 315 = 0.7667638686682218
+958 , 510 = 1.0
+958 , 517 = 1.0
+958 , 614 = 1.0
+958 , 697 = 1.0
+958 , 834 = 1.0
+958 , 861 = 1.0
+958 , 958 = 1.0
+959 , 32 = 1.0
+959 , 399 = 1.0
+959 , 488 = 1.0
+959 , 883 = 1.0
+959 , 918 = 1.0
+959 , 959 = 1.0
+960 , 33 = 1.0000000000000002
+960 , 400 = 1.0000000000000002
+960 , 489 = 1.0000000000000002
+960 , 884 = 1.0000000000000002
+960 , 919 = 1.0000000000000002
+960 , 960 = 1.0000000000000002
+961 , 34 = 1.0000000000000002
+961 , 401 = 1.0000000000000002
+961 , 490 = 1.0000000000000002
+961 , 885 = 1.0000000000000002
+961 , 920 = 1.0000000000000002
+961 , 961 = 1.0000000000000002
+962 , 35 = 1.0
+962 , 402 = 1.0
+962 , 491 = 1.0
+962 , 886 = 1.0
+962 , 921 = 1.0
+962 , 962 = 1.0
+963 , 36 = 1.0000000000000002
+963 , 37 = 0.6948401513873241
+963 , 403 = 1.0000000000000002
+963 , 404 = 0.6948401513873241
+963 , 492 = 1.0000000000000002
+963 , 493 = 0.6948401513873241
+963 , 887 = 1.0000000000000002
+963 , 888 = 0.6948401513873241
+963 , 922 = 1.0000000000000002
+963 , 923 = 0.6948401513873241
+963 , 963 = 1.0000000000000002
+963 , 964 = 0.6948401513873241
+964 , 36 = 0.6948401513873241
+964 , 37 = 0.9999999999999999
+964 , 403 = 0.6948401513873241
+964 , 404 = 0.9999999999999999
+964 , 492 = 0.6948401513873241
+964 , 493 = 0.9999999999999999
+964 , 887 = 0.6948401513873241
+964 , 888 = 0.9999999999999999
+964 , 922 = 0.6948401513873241
+964 , 923 = 0.9999999999999999
+964 , 963 = 0.6948401513873241
+964 , 964 = 0.9999999999999999
+965 , 38 = 1.0
+965 , 405 = 1.0
+965 , 494 = 1.0
+965 , 889 = 1.0
+965 , 924 = 1.0
+965 , 965 = 1.0
+966 , 26 = 0.722507924997518
+966 , 39 = 1.0
+966 , 134 = 0.722507924997518
+966 , 406 = 1.0
+966 , 495 = 1.0
+966 , 642 = 0.722507924997518
+966 , 652 = 0.722507924997518
+966 , 740 = 0.722507924997518
+966 , 890 = 1.0
+966 , 925 = 1.0
+966 , 966 = 1.0
+966 , 978 = 0.722507924997518
+967 , 40 = 1.0
+967 , 407 = 1.0
+967 , 496 = 1.0
+967 , 891 = 1.0
+967 , 926 = 1.0
+967 , 967 = 1.0
+968 , 41
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> = 1.0000000000000002
+968 , 408 = 1.0000000000000002
+968 , 497 = 1.0000000000000002
+968 , 892 = 1.0000000000000002
+968 , 927 = 1.0000000000000002
+968 , 968 = 1.0000000000000002
+969 , 42 = 1.0000000000000002
+969 , 409 = 1.0000000000000002
+969 , 498 = 1.0000000000000002
+969 , 893 = 1.0000000000000002
+969 , 928 = 1.0000000000000002
+969 , 969 = 1.0000000000000002
+970 , 28 = 1.0
+970 , 43 = 1.0
+970 , 136 = 1.0
+970 , 144 = 1.0
+970 , 300 = 1.0
+970 , 315 = 0.6419292559970623
+970 , 410 = 1.0
+970 , 415 = 1.0
+970 , 499 = 1.0
+970 , 533 = 1.0
+970 , 644 = 1.0
+970 , 654 = 1.0
+970 , 727 = 1.0
+970 , 732 = 1.0
+970 , 742 = 1.0
+970 , 774 = 1.0
+970 , 856 = 1.0
+970 , 871 = 1.0
+970 , 894 = 1.0
+970 , 915 = 1.0
+970 , 929 = 1.0
+970 , 934 = 1.0
+970 , 954 = 1.0
+970 , 970 = 1.0
+970 , 980 = 1.0
+970 , 985 = 1.0
+971 , 19 = 1.0
+971 , 127 = 1.0
+971 , 635 = 1.0
+971 , 645 = 1.0
+971 , 733 = 1.0
+971 , 971 = 1.0
+972 , 20 = 1.0
+972 , 128 = 1.0
+972 , 636 = 1.0
+972 , 646 = 1.0
+972 , 734 = 1.0
+972 , 972 = 1.0
+973 , 21 = 1.0
+973 , 129 = 1.0
+973 , 637 = 1.0
+973 , 647 = 1.0
+973 , 735 = 1.0
+973 , 973 = 1.0
+974 , 22 = 1.0000000000000004
+974 , 130 = 1.0000000000000004
+974 , 638 = 1.0000000000000004
+974 , 648 = 1.0000000000000004
+974 , 736 = 1.0000000000000004
+974 , 974 = 1.0000000000000004
+975 , 23 = 1.0000000000000004
+975 , 131 = 1.0000000000000004
+975 , 639 = 1.0000000000000004
+975 , 649 = 1.0000000000000004
+975 , 737 = 1.0000000000000004
+975 , 975 = 1.0000000000000004
+976 , 24 = 1.0000000000000002
+976 , 132 = 1.0000000000000002
+976 , 640 = 1.0000000000000002
+976 , 650 = 1.0000000000000002
+976 , 738 = 1.0000000000000002
+976 , 976 = 1.0000000000000002
+977 , 25 = 1.0000000000000004
+977 , 133 = 1.0000000000000004
+977 , 641 = 1.0000000000000004
+977 , 651 = 1.0000000000000004
+977 , 739 = 1.0000000000000004
+977 , 977 = 1.0000000000000004
+978 , 26 = 1.0
+978 , 39 = 0.722507924997518
+978 , 134 = 1.0
+978 , 406 = 0.722507924997518
+978 , 495 = 0.722507924997518
+978 , 642 = 1.0
+978 , 652 = 1.0
+978 , 740 = 1.0
+978 , 890 = 0.722507924997518
+978 , 925 = 0.722507924997518
+978 , 966 = 0.722507924997518
+978 , 978 = 1.0
+979 , 27 = 1.0000000000000002
+979 , 135 = 1.0000000000000002
+979 , 643 = 1.0000000000000002
+979 , 653 = 1.0000000000000002
+979 , 741 = 1.0000000000000002
+979 , 979 = 1.0000000000000002
+980 , 28 = 1.0
+980 , 43 = 1.0
+980 , 136 = 1.0
+980 , 144 = 1.0
+980 , 300 = 1.0
+980 , 315 = 0.6419292559970623
+980 , 410 = 1.0
+980 , 415 = 1.0
+980 , 499 = 1.0
+980 , 533 = 1.0
+980 , 644 = 1.0
+980 , 654 = 1.0
+980 , 727 = 1.0
+980 , 732 = 1.0
+980 , 742 = 1.0
+980 , 774 = 1.0
+980 , 856 = 1.0
+980 , 871 = 1.0
+980 , 894 = 1.0
+980 , 915 = 1.0
+980 , 929 = 1.0
+980 , 934 = 1.0
+980 , 954 = 1.0
+980 , 970 = 1.0
+980 , 980 = 1.0
+980 , 985 = 1.0
+981 , 296 = 1.0000000000000002
+981 , 529 = 1.0000000000000002
+981 , 728 = 1.0000000000000002
+981 , 930 = 1.0000000000000002
+981 , 950 = 1.0000000000000002
+981 , 981 = 1.0000000000000002
+982 , 297 = 1.0000000000000002
+982 , 530 = 1.0000000000000002
+982 , 729 = 1.0000000000000002
+982 , 931 = 1.0000000000000002
+982 , 951 = 1.0000000000000002
+982 , 982 = 1.0000000000000002
+983 , 298 = 1.0000000000000004
+983 , 531 = 1.0000000000000004
+983 , 730 = 1.0000000000000004
+983 , 932 = 1.0000000000000004
+983 , 952 = 1.0000000000000004
+983 , 983 = 1.0000000000000004
+984 , 299 = 1.0000000000000004
+984 , 532 = 1.0000000000000004
+984 , 731 = 1.0000000000000004
+984 , 933 = 1.0000000000000004
+984 , 953 = 1.0000000000000004
+984 , 984 = 1.0000000000000004
+985 , 28 = 1.0
+985 , 43 = 1.0
+985 , 136 = 1.0
+985 , 144 = 1.0
+985 , 300 = 1.0
+985 , 315 = 0.6419292559970623
+985 , 410 = 1.0
+985 , 415 = 1.0
+985 , 499 = 1.0
+985 , 533 = 1.0
+985 , 644 = 1.0
+985 , 654 = 1.0
+985 , 727 = 1.0
+985 , 732 = 1.0
+985 , 742 = 1.0
+985 , 774 = 1.0
+985 , 856 = 1.0
+985 , 871 = 1.0
+985 , 894 = 1.0
+985 , 915 = 1.0
+985 , 929 = 1.0
+985 , 934 = 1.0
+985 , 954 = 1.0
+985 , 970 = 1.0
+985 , 980 = 1.0
+985 , 985 = 1.0
+986 , 986 = 1.0
+987 , 987 = 1.0000000000000002
+988 , 988 = 1.0000000000000002
+989 , 31 = 1.0
+989 , 241 = 1.0
+989 , 273 = 1.0
+989 , 295 = 1.0
+989 , 813 = 1.0
+989 , 837 = 1.0
+989 , 866 = 1.0
+989 , 989 = 1.0
+990 , 289 = 1.0
+990 , 990 = 1.0
+991 , 290 = 1.0000000000000002
+991 , 991 = 1.0000000000000002
+992 , 291 = 1.0
+992 , 444 = 1.0
+992 , 992 = 1.0
+993 , 993 = 1.0
+994 , 994 = 1.0
+995 , 3 = 1.0
+995 , 18 = 1.0
+995 , 114 = 1.0
+995 , 153 = 1.0
+995 , 213 = 1.0
+995 , 276 = 1.0
+995 , 282 = 1.0
+995 , 288 = 1.0
+995 , 320 = 1.0
+995 , 325 = 1.0
+995 , 327 = 1.0
+995 , 436 = 1.0
+995 , 506 = 1.0
+995 , 522 = 1.0
+995 , 547 = 1.0
+995 , 558 = 1.0
+995 , 611 = 1.0
+995 , 620 = 1.0
+995 , 716 = 1.0
+995 , 750 = 1.0
+995 , 753 = 1.0
+995 , 917 = 1.0
+995 , 995 = 1.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h2>Closeness Centrality<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Membuat graf untuk closeness centrality</span>
+<span class="c1"># G = nx.from_numpy_array(cosine_similarities)</span>
+
+<span class="c1"># Menghitung closeness centrality</span>
+<span class="n">closeness_centrality</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">closeness_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="c1"># Menambahkan closeness centrality ke dalam dataframe kalimat</span>
+<span class="n">clean</span><span class="p">[</span><span class="s1">&#39;Closeness Centrality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">closeness_centrality</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">databaru</span><span class="p">))]</span>
+
+<span class="c1"># Menampilkan dataframe kalimat</span>
+<span class="n">clean</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-3045cefc-4b22-4b14-b271-70eae1295654" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Kalimat</th>
+      <th>Dokumen ke</th>
+      <th>Closeness Centrality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PAMEKASAN,Suararakyat.id  Slamet Ariyadi luang...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Kedatangan DPR RI tersebut diundang langsung s...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Setelah itu dimulai acara inti.Ketua DPRD Pame...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Idrus</td>
+      <td>0</td>
+      <td>0.022111</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Mahasiswa UTM adakan Gerakan Memasyarakatkan M...</td>
+      <td>1</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>991</th>
+      <td>Acara dilaksanakan di lapangan kantor Pemda Ka...</td>
+      <td>143</td>
+      <td>0.001005</td>
+    </tr>
+    <tr>
+      <th>992</th>
+      <td>JV</td>
+      <td>143</td>
+      <td>0.002010</td>
+    </tr>
+    <tr>
+      <th>993</th>
+      <td>PAMEKASAN,Suararakyat.id  Forum Lembaga legisl...</td>
+      <td>144</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>994</th>
+      <td>Dirinya dipercaya untuk maju menjadi koordinat...</td>
+      <td>144</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>Idrus</td>
+      <td>144</td>
+      <td>0.022111</td>
+    </tr>
+  </tbody>
+</table>
+<p>996 rows × 3 columns</p>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-3045cefc-4b22-4b14-b271-70eae1295654')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-3045cefc-4b22-4b14-b271-70eae1295654 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-3045cefc-4b22-4b14-b271-70eae1295654');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># databaru.to_csv(&#39;/content/drive/MyDrive/ppw/tugas/tugas_ppw/closeness_centrality_threshould.csv&#39;, index=False)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pos = nx.spring_layout(G)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e9eb4c10d84d1dfec47464161d46fccf75d9f75f4d6d5d4169b47588e3666224.png" src="../_images/e9eb4c10d84d1dfec47464161d46fccf75d9f75f4d6d5d4169b47588e3666224.png" />
+</div>
+</div>
+</section>
+<section id="hasil-ringkasan">
+<h2>Hasil Ringkasan<a class="headerlink" href="#hasil-ringkasan" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mengelompokkan DataFrame berdasarkan &#39;Dokumen ke&#39; dan mengurutkan nilai Closeness Centrality</span>
+<span class="n">sorted_df</span> <span class="o">=</span> <span class="n">clean</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Dokumen ke&#39;</span><span class="p">,</span> <span class="s1">&#39;Closeness Centrality&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># Menampilkan DataFrame yang telah diurutkan</span>
+<span class="n">sorted_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-c116a55d-2427-4cdd-bdb8-01f5adf35bf2" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Kalimat</th>
+      <th>Dokumen ke</th>
+      <th>Closeness Centrality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>Idrus</td>
+      <td>0</td>
+      <td>0.022111</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>PAMEKASAN,Suararakyat.id  Slamet Ariyadi luang...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Kedatangan DPR RI tersebut diundang langsung s...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>Setelah itu dimulai acara inti.Ketua DPRD Pame...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10</td>
+      <td>Sol</td>
+      <td>1</td>
+      <td>0.032161</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>991</th>
+      <td>990</td>
+      <td>SUMENEP,Suararakyat.id  Dinas Pendidikan  Disd...</td>
+      <td>143</td>
+      <td>0.001005</td>
+    </tr>
+    <tr>
+      <th>992</th>
+      <td>991</td>
+      <td>Acara dilaksanakan di lapangan kantor Pemda Ka...</td>
+      <td>143</td>
+      <td>0.001005</td>
+    </tr>
+    <tr>
+      <th>993</th>
+      <td>995</td>
+      <td>Idrus</td>
+      <td>144</td>
+      <td>0.022111</td>
+    </tr>
+    <tr>
+      <th>994</th>
+      <td>993</td>
+      <td>PAMEKASAN,Suararakyat.id  Forum Lembaga legisl...</td>
+      <td>144</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>994</td>
+      <td>Dirinya dipercaya untuk maju menjadi koordinat...</td>
+      <td>144</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>996 rows × 4 columns</p>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-c116a55d-2427-4cdd-bdb8-01f5adf35bf2')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-c116a55d-2427-4cdd-bdb8-01f5adf35bf2 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-c116a55d-2427-4cdd-bdb8-01f5adf35bf2');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mengambil 4 kalimat dengan nilai closeness centrality tertinggi untuk setiap &#39;Dokumen ke&#39;</span>
+<span class="n">top_4_sentences</span> <span class="o">=</span> <span class="n">sorted_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Dokumen ke&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">top_4_sentences</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-bbdf4e3e-e6ee-4d3f-b32d-53256ed181c4" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Kalimat</th>
+      <th>Dokumen ke</th>
+      <th>Closeness Centrality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>Idrus</td>
+      <td>0</td>
+      <td>0.022111</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>PAMEKASAN,Suararakyat.id  Slamet Ariyadi luang...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Kedatangan DPR RI tersebut diundang langsung s...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>Setelah itu dimulai acara inti.Ketua DPRD Pame...</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10</td>
+      <td>Sol</td>
+      <td>1</td>
+      <td>0.032161</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>991</th>
+      <td>990</td>
+      <td>SUMENEP,Suararakyat.id  Dinas Pendidikan  Disd...</td>
+      <td>143</td>
+      <td>0.001005</td>
+    </tr>
+    <tr>
+      <th>992</th>
+      <td>991</td>
+      <td>Acara dilaksanakan di lapangan kantor Pemda Ka...</td>
+      <td>143</td>
+      <td>0.001005</td>
+    </tr>
+    <tr>
+      <th>993</th>
+      <td>995</td>
+      <td>Idrus</td>
+      <td>144</td>
+      <td>0.022111</td>
+    </tr>
+    <tr>
+      <th>994</th>
+      <td>993</td>
+      <td>PAMEKASAN,Suararakyat.id  Forum Lembaga legisl...</td>
+      <td>144</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>994</td>
+      <td>Dirinya dipercaya untuk maju menjadi koordinat...</td>
+      <td>144</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>543 rows × 4 columns</p>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-bbdf4e3e-e6ee-4d3f-b32d-53256ed181c4')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-bbdf4e3e-e6ee-4d3f-b32d-53256ed181c4 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-bbdf4e3e-e6ee-4d3f-b32d-53256ed181c4');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menggabungkan teks &#39;Kalimat&#39; berdasarkan &#39;Dokumen ke&#39; yang sama</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">top_4_sentences</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Dokumen ke&#39;</span><span class="p">)[</span><span class="s1">&#39;Kalimat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># Menampilkan hasil penggabungan</span>
+<span class="n">result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-a0c4832c-f91d-4aae-aa75-84f891d3ef43" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Dokumen ke</th>
+      <th>Kalimat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Idrus  PAMEKASAN,Suararakyat.id  Slamet Ariya...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Sol  Mahasiswa UTM adakan Gerakan Memasyaraka...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Idrus  PAMEKASAN,Suararakyat.id  Kegiatan Kul...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Red  Sesuai agenda, selain perkara yang diaju...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>RA  SUMENEP,Suararakyat.id  Dalam Rangka Meme...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>140</th>
+      <td>140</td>
+      <td>Red  Sesuai agenda, selain perkara yang diaju...</td>
+    </tr>
+    <tr>
+      <th>141</th>
+      <td>141</td>
+      <td>Red  JAKARTA, Suararakyat.id  Badan Eksekutif...</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>142</td>
+      <td>RA  SUMENEP,Suararakyat.id  Tim kuat Remaja B...</td>
+    </tr>
+    <tr>
+      <th>143</th>
+      <td>143</td>
+      <td>JV  SUMENEP,Suararakyat.id  Dinas Pendidikan ...</td>
+    </tr>
+    <tr>
+      <th>144</th>
+      <td>144</td>
+      <td>Idrus  PAMEKASAN,Suararakyat.id  Forum Lembag...</td>
+    </tr>
+  </tbody>
+</table>
+<p>145 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+      
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-a0c4832c-f91d-4aae-aa75-84f891d3ef43')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+    
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-a0c4832c-f91d-4aae-aa75-84f891d3ef43 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-a0c4832c-f91d-4aae-aa75-84f891d3ef43');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+  
+    </div>
+  </div>
+  </div></div>
+</div>
+</section>
+<section id="modelling">
+<h2>Modelling<a class="headerlink" href="#modelling" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menghitung TF-IDF</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">tfidf_result</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Kalimat&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Kategori&#39;</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">tfidf_result</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">gaus</span><span class="o">=</span><span class="n">NB</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">gaus</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Akurasi: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 1.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./tugas_ppw"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="scraping_suararakyat.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Scraping suararakyat.id</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenisasi-per-kalimat">Tokenisasi per Kalimat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleansing">Cleansing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-tdf">TF-TDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">Cosine Similarity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Closeness Centrality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-ringkasan">Hasil Ringkasan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling">Modelling</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Zuni Amanda Dewi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
