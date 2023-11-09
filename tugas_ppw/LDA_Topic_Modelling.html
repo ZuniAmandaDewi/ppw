@@ -439,7 +439,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79" class="colab-df-container">
+  <div id="df-4294629f-b31f-4888-ab45-0b7d75800f1e" class="colab-df-container">
     <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -753,7 +753,7 @@ document.write(`
     <div class="colab-df-buttons">
       
   <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79')"
+    <button class="colab-df-convert" onclick="convertToInteractive('df-4294629f-b31f-4888-ab45-0b7d75800f1e')"
             title="Convert this dataframe to an interactive table."
             style="display:none;">
       
@@ -805,12 +805,12 @@ document.write(`
 
     <script>
       const buttonEl =
-        document.querySelector('#df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79 button.colab-df-convert');
+        document.querySelector('#df-4294629f-b31f-4888-ab45-0b7d75800f1e button.colab-df-convert');
       buttonEl.style.display =
         google.colab.kernel.accessAllowed ? 'block' : 'none';
 
       async function convertToInteractive(key) {
-        const element = document.querySelector('#df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79');
+        const element = document.querySelector('#df-4294629f-b31f-4888-ab45-0b7d75800f1e');
         const dataTable =
           await google.colab.kernel.invokeFunction('convertToInteractive',
                                                     [key], {});
@@ -874,32 +874,53 @@ document.write(`
 <span class="g g-Whitespace">    </span><span class="mi">880</span>             <span class="c1"># fit method of arity 2 (supervised transformation)</span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">fit</span><span class="nt">(self, X, y)</span>
+<span class="g g-Whitespace">    </span><span class="mi">693</span> 
+<span class="g g-Whitespace">    </span><span class="mi">694</span>         <span class="c1"># calculate final perplexity value on train set</span>
+<span class="ne">--&gt; </span><span class="mi">695</span>         <span class="n">doc_topics_distr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_e_step</span><span class="p">(</span>
 <span class="g g-Whitespace">    </span><span class="mi">696</span>             <span class="n">X</span><span class="p">,</span> <span class="n">cal_sstats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="n">parallel</span>
 <span class="g g-Whitespace">    </span><span class="mi">697</span>         <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">698</span>         <span class="bp">self</span><span class="o">.</span><span class="n">bound_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perplexity_precomp_distr</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">699</span>             <span class="n">X</span><span class="p">,</span> <span class="n">doc_topics_distr</span><span class="p">,</span> <span class="n">sub_sampling</span><span class="o">=</span><span class="kc">False</span>
-<span class="g g-Whitespace">    </span><span class="mi">700</span>         <span class="p">)</span>
 
-<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_perplexity_precomp_distr</span><span class="nt">(self, X, doc_topic_distr, sub_sampling)</span>
-<span class="g g-Whitespace">    </span><span class="mi">881</span> 
-<span class="g g-Whitespace">    </span><span class="mi">882</span>         <span class="n">current_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="ne">--&gt; </span><span class="mi">883</span>         <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_approx_bound</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">doc_topic_distr</span><span class="p">,</span> <span class="n">sub_sampling</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">884</span> 
-<span class="g g-Whitespace">    </span><span class="mi">885</span>         <span class="k">if</span> <span class="n">sub_sampling</span><span class="p">:</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_e_step</span><span class="nt">(self, X, cal_sstats, random_init, parallel)</span>
+<span class="g g-Whitespace">    </span><span class="mi">458</span>         <span class="k">if</span> <span class="n">parallel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span>             <span class="n">parallel</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">460</span>         <span class="n">results</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">461</span>             <span class="n">delayed</span><span class="p">(</span><span class="n">_update_doc_distribution</span><span class="p">)(</span>
+<span class="g g-Whitespace">    </span><span class="mi">462</span>                 <span class="n">X</span><span class="p">[</span><span class="n">idx_slice</span><span class="p">,</span> <span class="p">:],</span>
 
-<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_approx_bound</span><span class="nt">(self, X, doc_topic_distr, sub_sampling)</span>
-<span class="g g-Whitespace">    </span><span class="mi">802</span>                 <span class="n">dirichlet_doc_topic</span><span class="p">[</span><span class="n">idx_d</span><span class="p">,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">+</span> <span class="n">dirichlet_component_</span><span class="p">[:,</span> <span class="n">ids</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">803</span>             <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">804</span>             <span class="n">norm_phi</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">805</span>             <span class="n">score</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">norm_phi</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">806</span> 
+<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/utils/parallel.py</span> in <span class="ni">__call__</span><span class="nt">(self, iterable)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>             <span class="k">for</span> <span class="n">delayed_func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="n">iterable</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>         <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">63</span>         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">iterable_with_config</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span> 
+<span class="g g-Whitespace">     </span><span class="mi">65</span> 
 
-<span class="nn">/usr/local/lib/python3.10/dist-packages/scipy/special/_logsumexp.py</span> in <span class="ni">logsumexp</span><span class="nt">(a, axis, b, keepdims, return_sign)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> 
-<span class="g g-Whitespace">      </span><span class="mi">6</span> 
-<span class="ne">----&gt; </span><span class="mi">7</span> <span class="k">def</span> <span class="nf">logsumexp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_sign</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="s2">&quot;&quot;&quot;Compute the log of the sum of exponentials of input elements.</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span><span class="s2"> </span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/joblib/parallel.py</span> in <span class="ni">__call__</span><span class="nt">(self, iterable)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1861</span>             <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_sequential_output</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1862</span>             <span class="nb">next</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1863</span>             <span class="k">return</span> <span class="n">output</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_generator</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1864</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1865</span>         <span class="c1"># Let&#39;s create an ID that uniquely identifies the current call. If the</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/joblib/parallel.py</span> in <span class="ni">_get_sequential_output</span><span class="nt">(self, iterable)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1790</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">n_dispatched_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">   </span><span class="mi">1791</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">n_dispatched_tasks</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="ne">-&gt; </span><span class="mi">1792</span>                 <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1793</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">n_completed_tasks</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">   </span><span class="mi">1794</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">print_progress</span><span class="p">()</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/utils/parallel.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span>             <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">122</span>         <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">123</span>             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_update_doc_distribution</span><span class="nt">(X, exp_topic_word_distr, doc_topic_prior, max_doc_update_iter, mean_change_tol, cal_sstats, random_state)</span>
+<span class="g g-Whitespace">    </span><span class="mi">135</span>             <span class="c1"># The optimal phi_{dwk} is proportional to</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span>             <span class="c1"># exp(E[log(theta_{dk})]) * exp(E[log(beta_{dw})]).</span>
+<span class="ne">--&gt; </span><span class="mi">137</span>             <span class="n">norm_phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">exp_doc_topic_d</span><span class="p">,</span> <span class="n">exp_topic_word_d</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> 
+<span class="g g-Whitespace">    </span><span class="mi">139</span>             <span class="n">doc_topic_d</span> <span class="o">=</span> <span class="n">exp_doc_topic_d</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cnts</span> <span class="o">/</span> <span class="n">norm_phi</span><span class="p">,</span> <span class="n">exp_topic_word_d</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/numpy/core/overrides.py</span> in <span class="ni">dot</span><span class="nt">(*args, **kwargs)</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>

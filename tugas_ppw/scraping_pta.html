@@ -375,7 +375,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -391,6 +393,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scraping">Scraping</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -402,54 +413,64 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="tugas-1-scraping-pta-trunojoyo-ac-id">
 <h1>Tugas 1 Scraping <a class="reference external" href="http://pta.trunojoyo.ac.id">pta.trunojoyo.ac.id</a><a class="headerlink" href="#tugas-1-scraping-pta-trunojoyo-ac-id" title="Permalink to this heading">#</a></h1>
+<section id="import-library">
+<h2>Import Library<a class="headerlink" href="#import-library" title="Permalink to this heading">#</a></h2>
+<p><strong>requests</strong> : digunakan untuk membuat permintaan HTTP ke situs web</p>
+<p><strong>BeautifulSoup</strong> : digunakan untuk mengurai konten HTML</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span> <span class="k">as</span> <span class="nn">req</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span> <span class="k">as</span> <span class="n">bs</span>
 <span class="kn">import</span> <span class="nn">csv</span>
-
-<span class="n">hades</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;user-agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="scraping">
+<h2>Scraping<a class="headerlink" href="#scraping" title="Permalink to this heading">#</a></h2>
+<p>untuk melakukan proses scraping disini membuat sebyah fungsi bernama scrap_pta, berikut langkah-langkah didalamnya :</p>
+<ul class="simple">
+<li><p>data=[] : Deklarasi variabel data untuk menampung semua hasil scraping</p></li>
+<li><p>Buat perulangan untuk menentukan halaman ke berapa yang akan dilakukan scraping</p></li>
+<li><p>Variabel perid : digunakan untuk mengambil data per judulnya</p></li>
+<li><p>Dari elemen ‘li’ yang ada di dalam variabel perid juga terdapat elemen ‘a’ dengan atribut ‘href’ untuk mengambil link abstrak tersebut.</p></li>
+<li><p>Link yang sudah diambil kemudian dijalankan untuk mengambil nama penulis pada variabel penulis_elem. Teks yang terkandung dalam variabel penulis_elem dipotong dari karakter ke-11 dan disimpan dalam variabel penulis.</p></li>
+<li><p>Pengambilan data dosen pembimbing berada pada elemen div, teks yang terkandung dalam elemen span. data yang dihasilkan pada variabel dospem_elem akan dilakukan penghapusan kata ‘Dosen Pembimbing I’ dan ‘Dosen Pembimbing II’</p></li>
+<li><p>pengambilan abstrak : Teks yang terkandung dalam elemen p yang ditemukan disimpan dalam variabel abst. Teks yang terkandung dalam variabel abst diubah sehingga karakter \r dan \n diganti dengan karakter kosong dan disimpan kembali dalam variabel</p></li>
+<li><p>pengambilan judul : Teks yang terkandung dalam elemen a yang ditemukan disimpan dalam variabel title. Teks yang terkandung dalam variabel title diubah sehingga karakter \r dan \n diganti dengan karakter kosong dan disimpan kembali dalam variabel</p></li>
+<li><p>Semua data abstrak, judul, penulis, dosen pembimbing 1, dosen pembimbing 2 disimpan dalam variabel data kemudian dirubah kedalam bentuk dataframe dan disimpan ke drive.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scrap_pta</span><span class="p">(</span><span class="n">hal</span><span class="p">):</span>
-  <span class="k">global</span> <span class="n">hades</span>
-  <span class="n">a</span><span class="o">=</span><span class="mi">0</span>
   <span class="n">data</span><span class="o">=</span><span class="p">[]</span>
   <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">hal</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://pta.trunojoyo.ac.id/c_search/byprod/10/</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">hades</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="n">soup</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
-        <span class="n">prodi</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span><span class="s1">&#39;begin&#39;</span><span class="p">})</span>
-        <span class="k">for</span> <span class="n">pro</span> <span class="ow">in</span> <span class="n">prodi</span><span class="p">:</span>
-          <span class="n">utama</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="s1">&#39;items list_style&#39;</span><span class="p">)</span>
-          <span class="n">perid</span> <span class="o">=</span> <span class="n">utama</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;data-id&#39;</span><span class="p">:</span><span class="s1">&#39;id-1&#39;</span><span class="p">})</span>
-          <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">perid</span><span class="p">:</span>
-            <span class="n">link</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;gray button&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
-            <span class="n">request2</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">hades</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
-            <span class="n">soup2</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">request2</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
-            <span class="n">penulis_elem</span> <span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;padding:2px 2px 2px 2px;&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
-            <span class="n">penulis</span> <span class="o">=</span> <span class="n">penulis_elem</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span>
-            <span class="n">dospem_elem</span> <span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;float:left; width:540px;&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;padding:2px 2px 2px 2px;&#39;</span><span class="p">})</span>
-            <span class="k">for</span> <span class="n">dospem</span> <span class="ow">in</span> <span class="n">dospem_elem</span><span class="p">:</span>
-              <span class="n">dospem_text</span> <span class="o">=</span> <span class="n">dospem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
-              <span class="k">if</span> <span class="s1">&#39;Dosen Pembimbing I :&#39;</span> <span class="ow">in</span> <span class="n">dospem_text</span><span class="p">:</span>
-                  <span class="n">dospem_i</span> <span class="o">=</span> <span class="n">dospem_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Dosen Pembimbing I :&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-              <span class="k">elif</span> <span class="s1">&#39;Dosen Pembimbing II :&#39;</span> <span class="ow">in</span> <span class="n">dospem_text</span><span class="p">:</span>
-                  <span class="n">dospem_ii</span> <span class="o">=</span> <span class="n">dospem_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Dosen Pembimbing II :&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">abst</span><span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,{</span><span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;justify&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-            <span class="n">headline</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;done[</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1">] &gt; </span><span class="si">{</span><span class="n">headline</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">a</span><span class="o">+=</span><span class="mi">1</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">headline</span><span class="p">,</span><span class="n">penulis</span><span class="p">,</span><span class="n">dospem_i</span><span class="p">,</span><span class="n">dospem_ii</span><span class="p">,</span><span class="n">abst</span><span class="p">])</span>
-            <span class="n">kepala</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Judul&#39;</span><span class="p">,</span><span class="s1">&#39;Penulis&#39;</span><span class="p">,</span><span class="s1">&#39;Dosen Pembimbing 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Dosen Pembimbing 2&#39;</span><span class="p">,</span><span class="s1">&#39;Abstrak&#39;</span><span class="p">]</span>
-            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/ppw/tugas/tugas_ppw/pta.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
-            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">kepala</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">datas</span> <span class="ow">in</span> <span class="n">data</span> <span class="p">:</span>
-              <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">datas</span><span class="p">)</span>
+        <span class="n">perid</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;data-id&#39;</span><span class="p">:</span><span class="s1">&#39;id-1&#39;</span><span class="p">})</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">perid</span><span class="p">:</span>
+          <span class="n">link</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;gray button&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
+          <span class="n">request2</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">link</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+          <span class="n">soup2</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">request2</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+          <span class="n">penulis_elem</span> <span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;padding:2px 2px 2px 2px;&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+          <span class="n">penulis</span> <span class="o">=</span> <span class="n">penulis_elem</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span>
+          <span class="n">dospem_elem</span> <span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;float:left; width:540px;&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;padding:2px 2px 2px 2px;&#39;</span><span class="p">})</span>
+          <span class="k">for</span> <span class="n">dospem</span> <span class="ow">in</span> <span class="n">dospem_elem</span><span class="p">:</span>
+            <span class="n">dospem_text</span> <span class="o">=</span> <span class="n">dospem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="s1">&#39;Dosen Pembimbing I :&#39;</span> <span class="ow">in</span> <span class="n">dospem_text</span><span class="p">:</span>
+                <span class="n">dospem_i</span> <span class="o">=</span> <span class="n">dospem_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Dosen Pembimbing I :&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="s1">&#39;Dosen Pembimbing II :&#39;</span> <span class="ow">in</span> <span class="n">dospem_text</span><span class="p">:</span>
+                <span class="n">dospem_ii</span> <span class="o">=</span> <span class="n">dospem_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Dosen Pembimbing II :&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+          <span class="n">abst</span><span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,{</span><span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;justify&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+          <span class="n">headline</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+          <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">headline</span><span class="p">,</span><span class="n">penulis</span><span class="p">,</span><span class="n">dospem_i</span><span class="p">,</span><span class="n">dospem_ii</span><span class="p">,</span><span class="n">abst</span><span class="p">])</span>
+          <span class="n">kepala</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Judul&#39;</span><span class="p">,</span><span class="s1">&#39;Penulis&#39;</span><span class="p">,</span><span class="s1">&#39;Dosen Pembimbing 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Dosen Pembimbing 2&#39;</span><span class="p">,</span><span class="s1">&#39;Abstrak&#39;</span><span class="p">]</span>
+          <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/ppw/tugas/tugas_ppw/pta.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+          <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">kepala</span><span class="p">)</span>
+          <span class="k">for</span> <span class="n">datas</span> <span class="ow">in</span> <span class="n">data</span> <span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">datas</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -461,160 +482,101 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[0] &gt; PERANCANGA
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[1] &gt; APLIKASI K
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[2] &gt; RANCANG BA
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[3] &gt; SISTEM PEN
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[4] &gt; SISTEM AUG
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[5] &gt; Gerak Peke
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[6] &gt; RANCANG BA
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[7] &gt; EKSTRAKSI 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[8] &gt; IMPLEMENTA
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[9] &gt; Perancanga
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[10] &gt; PEMANFAATA
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[11] &gt; APLIKASI M
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[12] &gt; SISTEM PEN
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[13] &gt; RANCANG BA
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done[14] &gt; DETEKSI CO
-</pre></div>
-</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
 <span class="nn">&lt;ipython-input-3-2e497fa6875f&gt;</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">scrap_pta</span><span class="p">(</span><span class="mi">172</span><span class="p">)</span>
 
-<span class="nn">&lt;ipython-input-2-13bcff331900&gt;</span> in <span class="ni">scrap_pta</span><span class="nt">(hal)</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span>           <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">perid</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span>             <span class="n">link</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;gray button&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
-<span class="ne">---&gt; </span><span class="mi">15</span>             <span class="n">request2</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">hades</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>             <span class="n">soup2</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">request2</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span>             <span class="n">penulis_elem</span> <span class="o">=</span> <span class="n">soup2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;padding:2px 2px 2px 2px;&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+<span class="nn">&lt;ipython-input-2-06ae6be81481&gt;</span> in <span class="ni">scrap_pta</span><span class="nt">(hal)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>   <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">hal</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://pta.trunojoyo.ac.id/c_search/byprod/10/</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>         <span class="n">request</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>         <span class="n">soup</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>         <span class="n">perid</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;data-id&#39;</span><span class="p">:</span><span class="s1">&#39;id-1&#39;</span><span class="p">})</span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/requests/api.py</span> in <span class="ni">get</span><span class="nt">(url, params, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span>     <span class="s2">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span><span class="s2"> </span>
-<span class="ne">---&gt; </span><span class="mi">73</span><span class="s2">     return request(&quot;get&quot;, url, params=params, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">74</span><span class="s2"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">75</span><span class="s2"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span><span class="sd"> </span>
+<span class="ne">---&gt; </span><span class="mi">73</span><span class="sd">     return request(&quot;get&quot;, url, params=params, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">74</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span><span class="sd"> </span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/requests/api.py</span> in <span class="ni">request</span><span class="nt">(method, url, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">57</span><span class="s2">     # cases, and look like a memory leak in others.</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span><span class="s2">     with sessions.Session() as session:</span>
-<span class="ne">---&gt; </span><span class="mi">59</span><span class="s2">         return session.request(method=method, url=url, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">60</span><span class="s2"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">61</span><span class="s2"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span><span class="sd">     # cases, and look like a memory leak in others.</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span><span class="sd">     with sessions.Session() as session:</span>
+<span class="ne">---&gt; </span><span class="mi">59</span><span class="sd">         return session.request(method=method, url=url, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span><span class="sd"> </span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/requests/sessions.py</span> in <span class="ni">request</span><span class="nt">(self, method, url, params, data, headers, cookies, files, auth, timeout, allow_redirects, proxies, hooks, stream, verify, cert, json)</span>
-<span class="g g-Whitespace">    </span><span class="mi">587</span><span class="s2">         }</span>
-<span class="g g-Whitespace">    </span><span class="mi">588</span><span class="s2">         send_kwargs.update(settings)</span>
-<span class="ne">--&gt; </span><span class="mi">589</span><span class="s2">         resp = self.send(prep, **send_kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">590</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">591</span><span class="s2">         return resp</span>
+<span class="g g-Whitespace">    </span><span class="mi">587</span><span class="sd">         }</span>
+<span class="g g-Whitespace">    </span><span class="mi">588</span><span class="sd">         send_kwargs.update(settings)</span>
+<span class="ne">--&gt; </span><span class="mi">589</span><span class="sd">         resp = self.send(prep, **send_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">590</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">591</span><span class="sd">         return resp</span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/requests/sessions.py</span> in <span class="ni">send</span><span class="nt">(self, request, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">701</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">702</span><span class="s2">         # Send the request</span>
-<span class="ne">--&gt; </span><span class="mi">703</span><span class="s2">         r = adapter.send(request, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">704</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">705</span><span class="s2">         # Total elapsed time of the request (approximately)</span>
+<span class="g g-Whitespace">    </span><span class="mi">701</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">702</span><span class="sd">         # Send the request</span>
+<span class="ne">--&gt; </span><span class="mi">703</span><span class="sd">         r = adapter.send(request, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">704</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">705</span><span class="sd">         # Total elapsed time of the request (approximately)</span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/requests/adapters.py</span> in <span class="ni">send</span><span class="nt">(self, request, stream, timeout, verify, cert, proxies)</span>
-<span class="g g-Whitespace">    </span><span class="mi">484</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">485</span><span class="s2">         try:</span>
-<span class="ne">--&gt; </span><span class="mi">486</span><span class="s2">             resp = conn.urlopen(</span>
-<span class="g g-Whitespace">    </span><span class="mi">487</span><span class="s2">                 method=request.method,</span>
-<span class="g g-Whitespace">    </span><span class="mi">488</span><span class="s2">                 url=url,</span>
+<span class="g g-Whitespace">    </span><span class="mi">484</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span><span class="sd">         try:</span>
+<span class="ne">--&gt; </span><span class="mi">486</span><span class="sd">             resp = conn.urlopen(</span>
+<span class="g g-Whitespace">    </span><span class="mi">487</span><span class="sd">                 method=request.method,</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span><span class="sd">                 url=url,</span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/urllib3/connectionpool.py</span> in <span class="ni">urlopen</span><span class="nt">(self, method, url, body, headers, retries, redirect, assert_same_host, timeout, pool_timeout, release_conn, chunked, body_pos, preload_content, decode_content, **response_kw)</span>
-<span class="g g-Whitespace">    </span><span class="mi">789</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">790</span><span class="s2">             # Make the request on the HTTPConnection object</span>
-<span class="ne">--&gt; </span><span class="mi">791</span><span class="s2">             response = self._make_request(</span>
-<span class="g g-Whitespace">    </span><span class="mi">792</span><span class="s2">                 conn,</span>
-<span class="g g-Whitespace">    </span><span class="mi">793</span><span class="s2">                 method,</span>
+<span class="g g-Whitespace">    </span><span class="mi">789</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">790</span><span class="sd">             # Make the request on the HTTPConnection object</span>
+<span class="ne">--&gt; </span><span class="mi">791</span><span class="sd">             response = self._make_request(</span>
+<span class="g g-Whitespace">    </span><span class="mi">792</span><span class="sd">                 conn,</span>
+<span class="g g-Whitespace">    </span><span class="mi">793</span><span class="sd">                 method,</span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/urllib3/connectionpool.py</span> in <span class="ni">_make_request</span><span class="nt">(self, conn, method, url, body, headers, retries, timeout, chunked, response_conn, preload_content, decode_content, enforce_content_length)</span>
-<span class="g g-Whitespace">    </span><span class="mi">535</span><span class="s2">         # Receive the response from the server</span>
-<span class="g g-Whitespace">    </span><span class="mi">536</span><span class="s2">         try:</span>
-<span class="ne">--&gt; </span><span class="mi">537</span><span class="s2">             response = conn.getresponse()</span>
-<span class="g g-Whitespace">    </span><span class="mi">538</span><span class="s2">         except (BaseSSLError, OSError) as e:</span>
-<span class="g g-Whitespace">    </span><span class="mi">539</span><span class="s2">             self._raise_timeout(err=e, url=url, timeout_value=read_timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">466</span><span class="sd">             # Trigger any extra validation we need to do.</span>
+<span class="g g-Whitespace">    </span><span class="mi">467</span><span class="sd">             try:</span>
+<span class="ne">--&gt; </span><span class="mi">468</span><span class="sd">                 self._validate_conn(conn)</span>
+<span class="g g-Whitespace">    </span><span class="mi">469</span><span class="sd">             except (SocketTimeout, BaseSSLError) as e:</span>
+<span class="g g-Whitespace">    </span><span class="mi">470</span><span class="sd">                 self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)</span>
 
-<span class="nn">/usr/local/lib/python3.10/dist-packages/urllib3/connection.py</span> in <span class="ni">getresponse</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">459</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">460</span><span class="s2">         # Get the response from http.client.HTTPConnection</span>
-<span class="ne">--&gt; </span><span class="mi">461</span><span class="s2">         httplib_response = super().getresponse()</span>
-<span class="g g-Whitespace">    </span><span class="mi">462</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">463</span><span class="s2">         try:</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/urllib3/connectionpool.py</span> in <span class="ni">_validate_conn</span><span class="nt">(self, conn)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1095</span><span class="sd">         # Force connect early to allow us to validate the connection.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1096</span><span class="sd">         if conn.is_closed:</span>
+<span class="ne">-&gt; </span><span class="mi">1097</span><span class="sd">             conn.connect()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1098</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1099</span><span class="sd">         if not conn.is_verified:</span>
 
-<span class="nn">/usr/lib/python3.10/http/client.py</span> in <span class="ni">getresponse</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1373</span><span class="s2">         try:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1374</span><span class="s2">             try:</span>
-<span class="ne">-&gt; </span><span class="mi">1375</span><span class="s2">                 response.begin()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1376</span><span class="s2">             except ConnectionError:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1377</span><span class="s2">                 self.close()</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/urllib3/connection.py</span> in <span class="ni">connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">609</span><span class="sd">     def connect(self) -&gt; None:</span>
+<span class="g g-Whitespace">    </span><span class="mi">610</span><span class="sd">         sock: socket.socket | ssl.SSLSocket</span>
+<span class="ne">--&gt; </span><span class="mi">611</span><span class="sd">         self.sock = sock = self._new_conn()</span>
+<span class="g g-Whitespace">    </span><span class="mi">612</span><span class="sd">         server_hostname: str = self.host</span>
+<span class="g g-Whitespace">    </span><span class="mi">613</span><span class="sd">         tls_in_tls = False</span>
 
-<span class="nn">/usr/lib/python3.10/http/client.py</span> in <span class="ni">begin</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">316</span><span class="s2">         # read until we get a non-100 response</span>
-<span class="g g-Whitespace">    </span><span class="mi">317</span><span class="s2">         while True:</span>
-<span class="ne">--&gt; </span><span class="mi">318</span><span class="s2">             version, status, reason = self._read_status()</span>
-<span class="g g-Whitespace">    </span><span class="mi">319</span><span class="s2">             if status != CONTINUE:</span>
-<span class="g g-Whitespace">    </span><span class="mi">320</span><span class="s2">                 break</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/urllib3/connection.py</span> in <span class="ni">_new_conn</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">201</span><span class="sd">         &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">202</span>         <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">203</span>             <span class="n">sock</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span>                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dns_host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
 
-<span class="nn">/usr/lib/python3.10/http/client.py</span> in <span class="ni">_read_status</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">277</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">278</span><span class="s2">     def _read_status(self):</span>
-<span class="ne">--&gt; </span><span class="mi">279</span><span class="s2">         line = str(self.fp.readline(_MAXLINE + 1), &quot;iso-8859-1&quot;)</span>
-<span class="g g-Whitespace">    </span><span class="mi">280</span><span class="s2">         if len(line) &gt; _MAXLINE:</span>
-<span class="g g-Whitespace">    </span><span class="mi">281</span><span class="s2">             raise LineTooLong(&quot;status line&quot;)</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/urllib3/util/connection.py</span> in <span class="ni">create_connection</span><span class="nt">(address, timeout, source_address, socket_options)</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span>         <span class="k">raise</span> <span class="n">LocationParseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">&#39;, label empty or too long&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span> 
+<span class="ne">---&gt; </span><span class="mi">60</span>     <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>         <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>         <span class="n">sock</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="nn">/usr/lib/python3.10/socket.py</span> in <span class="ni">readinto</span><span class="nt">(self, b)</span>
-<span class="g g-Whitespace">    </span><span class="mi">703</span><span class="s2">         while True:</span>
-<span class="g g-Whitespace">    </span><span class="mi">704</span><span class="s2">             try:</span>
-<span class="ne">--&gt; </span><span class="mi">705</span><span class="s2">                 return self._sock.recv_into(b)</span>
-<span class="g g-Whitespace">    </span><span class="mi">706</span><span class="s2">             except timeout:</span>
-<span class="g g-Whitespace">    </span><span class="mi">707</span><span class="s2">                 self._timeout_occurred = True</span>
-
-<span class="nn">/usr/lib/python3.10/ssl.py</span> in <span class="ni">recv_into</span><span class="nt">(self, buffer, nbytes, flags)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1272</span><span class="s2">                   &quot;non-zero flags not allowed in calls to recv_into() on </span><span class="si">%s</span><span class="s2">&quot; %</span>
-<span class="g g-Whitespace">   </span><span class="mi">1273</span><span class="s2">                   self.__class__)</span>
-<span class="ne">-&gt; </span><span class="mi">1274</span><span class="s2">             return self.read(nbytes, buffer)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1275</span><span class="s2">         else:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1276</span><span class="s2">             return super().recv_into(buffer, nbytes, flags)</span>
-
-<span class="nn">/usr/lib/python3.10/ssl.py</span> in <span class="ni">read</span><span class="nt">(self, len, buffer)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1128</span><span class="s2">         try:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1129</span><span class="s2">             if buffer is not None:</span>
-<span class="ne">-&gt; </span><span class="mi">1130</span><span class="s2">                 return self._sslobj.read(len, buffer)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1131</span><span class="s2">             else:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1132</span><span class="s2">                 return self._sslobj.read(len)</span>
+<span class="nn">/usr/lib/python3.10/socket.py</span> in <span class="ni">getaddrinfo</span><span class="nt">(host, port, family, type, proto, flags)</span>
+<span class="g g-Whitespace">    </span><span class="mi">953</span>     <span class="c1"># and socket type values to enum constants.</span>
+<span class="g g-Whitespace">    </span><span class="mi">954</span>     <span class="n">addrlist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">955</span>     <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">_socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">956</span>         <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
+<span class="g g-Whitespace">    </span><span class="mi">957</span>         <span class="n">addrlist</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_intenum_converter</span><span class="p">(</span><span class="n">af</span><span class="p">,</span> <span class="n">AddressFamily</span><span class="p">),</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
@@ -631,7 +593,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-a38873e9-ed79-4455-baeb-697b7fc19fcb" class="colab-df-container">
+  <div id="df-7a6231fc-fdd8-4d27-84b2-49b3a5254916" class="colab-df-container">
     <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -753,7 +715,7 @@ document.write(`
     <div class="colab-df-buttons">
 
   <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-a38873e9-ed79-4455-baeb-697b7fc19fcb')"
+    <button class="colab-df-convert" onclick="convertToInteractive('df-7a6231fc-fdd8-4d27-84b2-49b3a5254916')"
             title="Convert this dataframe to an interactive table."
             style="display:none;">
 
@@ -805,12 +767,12 @@ document.write(`
 
     <script>
       const buttonEl =
-        document.querySelector('#df-a38873e9-ed79-4455-baeb-697b7fc19fcb button.colab-df-convert');
+        document.querySelector('#df-7a6231fc-fdd8-4d27-84b2-49b3a5254916 button.colab-df-convert');
       buttonEl.style.display =
         google.colab.kernel.accessAllowed ? 'block' : 'none';
 
       async function convertToInteractive(key) {
-        const element = document.querySelector('#df-a38873e9-ed79-4455-baeb-697b7fc19fcb');
+        const element = document.querySelector('#df-7a6231fc-fdd8-4d27-84b2-49b3a5254916');
         const dataTable =
           await google.colab.kernel.invokeFunction('convertToInteractive',
                                                     [key], {});
@@ -830,9 +792,9 @@ document.write(`
   </div>
 
 
-<div id="df-9bf23026-9d3f-4010-977a-081599b4a019">
-  <button class="colab-df-quickchart" onclick="quickchart('df-9bf23026-9d3f-4010-977a-081599b4a019')"
-            title="Suggest charts."
+<div id="df-e319bf90-3073-4949-b9e2-9fa3ed6486e7">
+  <button class="colab-df-quickchart" onclick="quickchart('df-e319bf90-3073-4949-b9e2-9fa3ed6486e7')"
+            title="Suggest charts"
             style="display:none;">
 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
@@ -845,44 +807,112 @@ document.write(`
 
 <style>
   .colab-df-quickchart {
-    background-color: #E8F0FE;
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: none;
-    fill: #1967D2;
+    fill: var(--fill-color);
     height: 32px;
-    padding: 0 0 0 0;
+    padding: 0;
     width: 32px;
   }
 
   .colab-df-quickchart:hover {
-    background-color: #E2EBFA;
-    box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-    fill: #174EA6;
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
   }
 
-  [theme=dark] .colab-df-quickchart {
-    background-color: #3B4455;
-    fill: #D2E3FC;
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
   }
 
-  [theme=dark] .colab-df-quickchart:hover {
-    background-color: #434B5C;
-    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-    fill: #FFFFFF;
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
   }
 </style>
 
   <script>
     async function quickchart(key) {
-      const charts = await google.colab.kernel.invokeFunction(
-          'suggestCharts', [key], {});
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
     }
     (() => {
       let quickchartButtonEl =
-        document.querySelector('#df-9bf23026-9d3f-4010-977a-081599b4a019 button');
+        document.querySelector('#df-e319bf90-3073-4949-b9e2-9fa3ed6486e7 button');
       quickchartButtonEl.style.display =
         google.colab.kernel.accessAllowed ? 'block' : 'none';
     })();
@@ -892,6 +922,7 @@ document.write(`
   </div>
 </div></div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -948,6 +979,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scraping">Scraping</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
