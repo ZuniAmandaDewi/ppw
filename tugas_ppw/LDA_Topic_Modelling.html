@@ -398,6 +398,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">LDA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knn">KNN</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">Decision Tree</a></li>
@@ -414,6 +416,12 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="lda-topic-modelling">
 <h1>LDA Topic Modelling<a class="headerlink" href="#lda-topic-modelling" title="Permalink to this heading">#</a></h1>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Import Pandas untuk menjalankan dataframe</p></li>
+<li><p>Import library pada sklearn berupa LatentDirichletAllocation untuk melaukan ekstrak data menjadi data dokumen per topik</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -431,7 +439,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-a548581c-431a-4e37-9176-a60f13fb1b26" class="colab-df-container">
+  <div id="df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79" class="colab-df-container">
     <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -745,7 +753,7 @@ document.write(`
     <div class="colab-df-buttons">
       
   <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-a548581c-431a-4e37-9176-a60f13fb1b26')"
+    <button class="colab-df-convert" onclick="convertToInteractive('df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79')"
             title="Convert this dataframe to an interactive table."
             style="display:none;">
       
@@ -797,12 +805,12 @@ document.write(`
 
     <script>
       const buttonEl =
-        document.querySelector('#df-a548581c-431a-4e37-9176-a60f13fb1b26 button.colab-df-convert');
+        document.querySelector('#df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79 button.colab-df-convert');
       buttonEl.style.display =
         google.colab.kernel.accessAllowed ? 'block' : 'none';
 
       async function convertToInteractive(key) {
-        const element = document.querySelector('#df-a548581c-431a-4e37-9176-a60f13fb1b26');
+        const element = document.querySelector('#df-80c0f4fa-81f2-4a4f-9445-17ba77f74f79');
         const dataTable =
           await google.colab.kernel.invokeFunction('convertToInteractive',
                                                     [key], {});
@@ -825,665 +833,13 @@ document.write(`
   </div>
   </div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lda</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">doc_topic_prior</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">topic_word_prior</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">x</span><span class="o">=</span><span class="n">TF</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">lda_top</span><span class="o">=</span><span class="n">lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">lda_top</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (no_of_doc,no_of_topics)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">lda_top</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(858, 3)
-[[0.00235894 0.0023668  0.99527426]
- [0.99638171 0.00181233 0.00180596]
- [0.00173515 0.0443368  0.95392806]
- ...
- [0.86155336 0.13717287 0.00127378]
- [0.95866294 0.03980294 0.00153412]
- [0.55314023 0.00224454 0.44461524]]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#bobot setiap topik terhadap dokumen</span>
-<span class="n">U</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lda_top</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Topik 1&#39;</span><span class="p">,</span><span class="s1">&#39;Topik 2&#39;</span><span class="p">,</span><span class="s1">&#39;Topik 3&#39;</span><span class="p">])</span>
-<span class="n">U</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">TF</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">U</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">
-  <div id="df-43945839-a9e1-4b84-84d5-297d0ee16090" class="colab-df-container">
-    <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Topik 1</th>
-      <th>Topik 2</th>
-      <th>Topik 3</th>
-      <th>Label</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.002359</td>
-      <td>0.002367</td>
-      <td>0.995274</td>
-      <td>RPL</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.996382</td>
-      <td>0.001812</td>
-      <td>0.001806</td>
-      <td>RPL</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.001735</td>
-      <td>0.044337</td>
-      <td>0.953928</td>
-      <td>RPL</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.002740</td>
-      <td>0.002761</td>
-      <td>0.994499</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.995268</td>
-      <td>0.002382</td>
-      <td>0.002349</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>853</th>
-      <td>0.001711</td>
-      <td>0.001708</td>
-      <td>0.996581</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>854</th>
-      <td>0.002346</td>
-      <td>0.995319</td>
-      <td>0.002335</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>855</th>
-      <td>0.861553</td>
-      <td>0.137173</td>
-      <td>0.001274</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>856</th>
-      <td>0.958663</td>
-      <td>0.039803</td>
-      <td>0.001534</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>857</th>
-      <td>0.553140</td>
-      <td>0.002245</td>
-      <td>0.444615</td>
-      <td>KK</td>
-    </tr>
-  </tbody>
-</table>
-<p>858 rows × 4 columns</p>
-</div>
-    <div class="colab-df-buttons">
-      
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-43945839-a9e1-4b84-84d5-297d0ee16090')"
-            title="Convert this dataframe to an interactive table."
-            style="display:none;">
-      
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
-  </svg>
-    </button>
-    
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-43945839-a9e1-4b84-84d5-297d0ee16090 button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-43945839-a9e1-4b84-84d5-297d0ee16090');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-  
-    </div>
-  </div>
-  </div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lda2</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">doc_topic_prior</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">topic_word_prior</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">lda2_top</span><span class="o">=</span><span class="n">lda2</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#bobot setiap topik terhadap dokumen</span>
-<span class="n">U2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lda2_top</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Topik 1&#39;</span><span class="p">,</span><span class="s1">&#39;Topik 2&#39;</span><span class="p">,</span><span class="s1">&#39;Topik 3&#39;</span><span class="p">,</span> <span class="s1">&#39;Topik 4&#39;</span><span class="p">])</span>
-<span class="n">U2</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">TF</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">U2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">
-  <div id="df-81c7e899-2f39-432e-823f-92099478ab2a" class="colab-df-container">
-    <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Topik 1</th>
-      <th>Topik 2</th>
-      <th>Topik 3</th>
-      <th>Topik 4</th>
-      <th>Label</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.002351</td>
-      <td>0.002358</td>
-      <td>0.992942</td>
-      <td>0.002349</td>
-      <td>RPL</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.994596</td>
-      <td>0.001806</td>
-      <td>0.001801</td>
-      <td>0.001797</td>
-      <td>RPL</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.001729</td>
-      <td>0.001750</td>
-      <td>0.994787</td>
-      <td>0.001735</td>
-      <td>RPL</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.002728</td>
-      <td>0.095731</td>
-      <td>0.898794</td>
-      <td>0.002747</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.728891</td>
-      <td>0.266431</td>
-      <td>0.002341</td>
-      <td>0.002337</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>853</th>
-      <td>0.001708</td>
-      <td>0.001705</td>
-      <td>0.994882</td>
-      <td>0.001705</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>854</th>
-      <td>0.002340</td>
-      <td>0.992992</td>
-      <td>0.002330</td>
-      <td>0.002338</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>855</th>
-      <td>0.359083</td>
-      <td>0.001268</td>
-      <td>0.001268</td>
-      <td>0.638381</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>856</th>
-      <td>0.995396</td>
-      <td>0.001536</td>
-      <td>0.001530</td>
-      <td>0.001538</td>
-      <td>KK</td>
-    </tr>
-    <tr>
-      <th>857</th>
-      <td>0.658321</td>
-      <td>0.002241</td>
-      <td>0.002239</td>
-      <td>0.337198</td>
-      <td>KK</td>
-    </tr>
-  </tbody>
-</table>
-<p>858 rows × 5 columns</p>
-</div>
-    <div class="colab-df-buttons">
-      
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-81c7e899-2f39-432e-823f-92099478ab2a')"
-            title="Convert this dataframe to an interactive table."
-            style="display:none;">
-      
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
-  </svg>
-    </button>
-    
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-81c7e899-2f39-432e-823f-92099478ab2a button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-81c7e899-2f39-432e-823f-92099478ab2a');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-  
-    </div>
-  </div>
-  </div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">components_</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (no_of_topics*no_of_words)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.10006595 0.10070547 0.65112597 ... 2.10272685 0.69829432 0.6513604 ]
- [1.09987872 0.97368706 0.19025695 ... 1.08626467 0.32041452 0.39826424]
- [0.10005533 1.22560747 1.45861708 ... 0.11100847 0.28129116 0.25037536]]
-(3, 8648)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#bobot setiap kata terhadap topik</span>
-<span class="n">label</span><span class="o">=</span><span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">1</span><span class="p">,(</span><span class="n">lda</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
-  <span class="n">masukan</span> <span class="o">=</span> <span class="n">TF</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">masukan</span><span class="p">)</span>
-<span class="n">VT_tabel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-<span class="n">VT_tabel</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s2">&quot;Topik 1&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="s2">&quot;Topik 2&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="s2">&quot;Topik 3&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">
-  <div id="df-20cf087c-842f-49fd-ab96-1b0c48a3f257" class="colab-df-container">
-    <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Topik 1</th>
-      <th>Topik 2</th>
-      <th>Topik 3</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>aalysis</th>
-      <td>0.100066</td>
-      <td>1.099879</td>
-      <td>0.100055</td>
-    </tr>
-    <tr>
-      <th>aam</th>
-      <td>0.100705</td>
-      <td>0.973687</td>
-      <td>1.225607</td>
-    </tr>
-    <tr>
-      <th>abad</th>
-      <td>0.651126</td>
-      <td>0.190257</td>
-      <td>1.458617</td>
-    </tr>
-    <tr>
-      <th>abadi</th>
-      <td>1.915571</td>
-      <td>0.180028</td>
-      <td>0.204401</td>
-    </tr>
-    <tr>
-      <th>ability</th>
-      <td>0.361758</td>
-      <td>0.838201</td>
-      <td>0.100040</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>zone</th>
-      <td>0.505198</td>
-      <td>0.100102</td>
-      <td>2.694700</td>
-    </tr>
-    <tr>
-      <th>zoning</th>
-      <td>0.692440</td>
-      <td>0.100208</td>
-      <td>3.507352</td>
-    </tr>
-    <tr>
-      <th>zoom</th>
-      <td>2.102727</td>
-      <td>1.086265</td>
-      <td>0.111008</td>
-    </tr>
-    <tr>
-      <th>zucara</th>
-      <td>0.698294</td>
-      <td>0.320415</td>
-      <td>0.281291</td>
-    </tr>
-    <tr>
-      <th>zungu</th>
-      <td>0.651360</td>
-      <td>0.398264</td>
-      <td>0.250375</td>
-    </tr>
-  </tbody>
-</table>
-<p>8648 rows × 3 columns</p>
-</div>
-    <div class="colab-df-buttons">
-      
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-20cf087c-842f-49fd-ab96-1b0c48a3f257')"
-            title="Convert this dataframe to an interactive table."
-            style="display:none;">
-      
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
-  </svg>
-    </button>
-    
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-20cf087c-842f-49fd-ab96-1b0c48a3f257 button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-20cf087c-842f-49fd-ab96-1b0c48a3f257');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-  
-    </div>
-  </div>
-  </div></div>
-</div>
+</section>
+<section id="lda">
+<h2>LDA<a class="headerlink" href="#lda" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Buat list kosong dengan nama datalda untuk menampung hasil topik per dokumen berdasarkan looping jumlah topik yng diinginkan mulai 3-51 topik</p></li>
+<li><p>jalankan library lda dan lakukan fit transform pada data yang sudah di load sebelumnya. hasil lda disimpan ke dalam variabel datalda. proses ini berlangsung sampai range mencapai batas akhir.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datalda</span><span class="o">=</span><span class="p">[]</span>
@@ -1497,7 +853,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="nn">&lt;ipython-input-10-b6cfda1600bc&gt;</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="nn">&lt;ipython-input-3-b6cfda1600bc&gt;</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">51</span><span class="p">):</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>   <span class="n">lda</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">doc_topic_prior</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">topic_word_prior</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="ne">----&gt; </span><span class="mi">4</span>   <span class="n">lda_top</span><span class="o">=</span><span class="n">lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">TF</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">))</span>
@@ -1518,68 +874,46 @@ document.write(`
 <span class="g g-Whitespace">    </span><span class="mi">880</span>             <span class="c1"># fit method of arity 2 (supervised transformation)</span>
 
 <span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">fit</span><span class="nt">(self, X, y)</span>
-<span class="g g-Whitespace">    </span><span class="mi">666</span>                 <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">667</span>                     <span class="c1"># batch update</span>
-<span class="ne">--&gt; </span><span class="mi">668</span>                     <span class="bp">self</span><span class="o">.</span><span class="n">_em_step</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">669</span>                         <span class="n">X</span><span class="p">,</span> <span class="n">total_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">batch_update</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="n">parallel</span>
-<span class="g g-Whitespace">    </span><span class="mi">670</span>                     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">696</span>             <span class="n">X</span><span class="p">,</span> <span class="n">cal_sstats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="n">parallel</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span>         <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">698</span>         <span class="bp">self</span><span class="o">.</span><span class="n">bound_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perplexity_precomp_distr</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span>             <span class="n">X</span><span class="p">,</span> <span class="n">doc_topics_distr</span><span class="p">,</span> <span class="n">sub_sampling</span><span class="o">=</span><span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">700</span>         <span class="p">)</span>
 
-<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_em_step</span><span class="nt">(self, X, total_samples, batch_update, parallel)</span>
-<span class="g g-Whitespace">    </span><span class="mi">515</span> 
-<span class="g g-Whitespace">    </span><span class="mi">516</span>         <span class="c1"># E-step</span>
-<span class="ne">--&gt; </span><span class="mi">517</span>         <span class="n">_</span><span class="p">,</span> <span class="n">suff_stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_e_step</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">518</span>             <span class="n">X</span><span class="p">,</span> <span class="n">cal_sstats</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="n">parallel</span>
-<span class="g g-Whitespace">    </span><span class="mi">519</span>         <span class="p">)</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_perplexity_precomp_distr</span><span class="nt">(self, X, doc_topic_distr, sub_sampling)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> 
+<span class="g g-Whitespace">    </span><span class="mi">882</span>         <span class="n">current_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">883</span>         <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_approx_bound</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">doc_topic_distr</span><span class="p">,</span> <span class="n">sub_sampling</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">884</span> 
+<span class="g g-Whitespace">    </span><span class="mi">885</span>         <span class="k">if</span> <span class="n">sub_sampling</span><span class="p">:</span>
 
-<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_e_step</span><span class="nt">(self, X, cal_sstats, random_init, parallel)</span>
-<span class="g g-Whitespace">    </span><span class="mi">458</span>         <span class="k">if</span> <span class="n">parallel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">459</span>             <span class="n">parallel</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<span class="ne">--&gt; </span><span class="mi">460</span>         <span class="n">results</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">461</span>             <span class="n">delayed</span><span class="p">(</span><span class="n">_update_doc_distribution</span><span class="p">)(</span>
-<span class="g g-Whitespace">    </span><span class="mi">462</span>                 <span class="n">X</span><span class="p">[</span><span class="n">idx_slice</span><span class="p">,</span> <span class="p">:],</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_approx_bound</span><span class="nt">(self, X, doc_topic_distr, sub_sampling)</span>
+<span class="g g-Whitespace">    </span><span class="mi">802</span>                 <span class="n">dirichlet_doc_topic</span><span class="p">[</span><span class="n">idx_d</span><span class="p">,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">+</span> <span class="n">dirichlet_component_</span><span class="p">[:,</span> <span class="n">ids</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">803</span>             <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">804</span>             <span class="n">norm_phi</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">805</span>             <span class="n">score</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">norm_phi</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">806</span> 
 
-<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/utils/parallel.py</span> in <span class="ni">__call__</span><span class="nt">(self, iterable)</span>
-<span class="g g-Whitespace">     </span><span class="mi">61</span>             <span class="k">for</span> <span class="n">delayed_func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="n">iterable</span>
-<span class="g g-Whitespace">     </span><span class="mi">62</span>         <span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">63</span>         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">iterable_with_config</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span> 
-<span class="g g-Whitespace">     </span><span class="mi">65</span> 
-
-<span class="nn">/usr/local/lib/python3.10/dist-packages/joblib/parallel.py</span> in <span class="ni">__call__</span><span class="nt">(self, iterable)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1861</span>             <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_sequential_output</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1862</span>             <span class="nb">next</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1863</span>             <span class="k">return</span> <span class="n">output</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_generator</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1864</span> 
-<span class="g g-Whitespace">   </span><span class="mi">1865</span>         <span class="c1"># Let&#39;s create an ID that uniquely identifies the current call. If the</span>
-
-<span class="nn">/usr/local/lib/python3.10/dist-packages/joblib/parallel.py</span> in <span class="ni">_get_sequential_output</span><span class="nt">(self, iterable)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1790</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">n_dispatched_batches</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="g g-Whitespace">   </span><span class="mi">1791</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">n_dispatched_tasks</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="ne">-&gt; </span><span class="mi">1792</span>                 <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1793</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">n_completed_tasks</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="g g-Whitespace">   </span><span class="mi">1794</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">print_progress</span><span class="p">()</span>
-
-<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/utils/parallel.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">121</span>             <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="g g-Whitespace">    </span><span class="mi">122</span>         <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">123</span>             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">/usr/local/lib/python3.10/dist-packages/sklearn/decomposition/_lda.py</span> in <span class="ni">_update_doc_distribution</span><span class="nt">(X, exp_topic_word_distr, doc_topic_prior, max_doc_update_iter, mean_change_tol, cal_sstats, random_state)</span>
-<span class="g g-Whitespace">    </span><span class="mi">137</span>             <span class="n">norm_phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">exp_doc_topic_d</span><span class="p">,</span> <span class="n">exp_topic_word_d</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span>
-<span class="g g-Whitespace">    </span><span class="mi">138</span> 
-<span class="ne">--&gt; </span><span class="mi">139</span>             <span class="n">doc_topic_d</span> <span class="o">=</span> <span class="n">exp_doc_topic_d</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cnts</span> <span class="o">/</span> <span class="n">norm_phi</span><span class="p">,</span> <span class="n">exp_topic_word_d</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">140</span>             <span class="c1"># Note: adds doc_topic_prior to doc_topic_d, in-place.</span>
-<span class="g g-Whitespace">    </span><span class="mi">141</span>             <span class="n">dirichlet_expectation_1d</span><span class="p">(</span><span class="n">doc_topic_d</span><span class="p">,</span> <span class="n">doc_topic_prior</span><span class="p">,</span> <span class="n">exp_doc_topic_d</span><span class="p">)</span>
-
-<span class="nn">/usr/local/lib/python3.10/dist-packages/numpy/core/overrides.py</span> in <span class="ni">dot</span><span class="nt">(*args, **kwargs)</span>
+<span class="nn">/usr/local/lib/python3.10/dist-packages/scipy/special/_logsumexp.py</span> in <span class="ni">logsumexp</span><span class="nt">(a, axis, b, keepdims, return_sign)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span> 
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="k">def</span> <span class="nf">logsumexp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_sign</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="s2">&quot;&quot;&quot;Compute the log of the sum of exponentials of input elements.</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span><span class="s2"> </span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 <section id="naive-bayes">
 <h2>Naive Bayes<a class="headerlink" href="#naive-bayes" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Hasil LDA yang ditampung di dalam variabel LDA selanjutnya dilakukan spliting dan dilakukan pelatihan model dengan menggunakan metode Naive Bayes. hasil akurasi disimpan dalam variabel akurasi.</p></li>
+<li><p>Selanjutnya membuat looping untuk menampilkan akurasi berdasarkan jumlah topiknya. Dari semua akurasi tersebut divisualisasi juga dalam bentuk line chart.</p></li>
+<li><p>Dari model dengan jumlah topik yang memperoleh nilai akurasi terbaik akan disimpan dalam bentuk pickle untuk diimplementasikan dalam bentuk streamlit.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -1719,6 +1053,11 @@ topik 50 : 0.6104651162790697
 </section>
 <section id="knn">
 <h2>KNN<a class="headerlink" href="#knn" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Hasil LDA yang ditampung di dalam variabel LDA selanjutnya dilakukan spliting dan dilakukan pelatihan model dengan menggunakan metode KNN. hasil akurasi disimpan dalam variabel akurasi.</p></li>
+<li><p>Selanjutnya membuat looping untuk menampilkan akurasi berdasarkan jumlah topiknya.</p></li>
+<li><p>Dari dari model dengan jumlah topik yang memperoleh nilai akurasi terbaik akan disimpan dalam bentuk pickle untuk diimplementasikan dalam bentuk streamlit.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
@@ -1829,6 +1168,11 @@ topik 50 : 0.5813953488372093
 </section>
 <section id="decision-tree">
 <h2>Decision Tree<a class="headerlink" href="#decision-tree" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Hasil LDA yang ditampung di dalam variabel LDA selanjutnya dilakukan spliting dan dilakukan pelatihan model dengan menggunakan metode Decision Tree. hasil akurasi disimpan dalam variabel akurasi.</p></li>
+<li><p>Selanjutnya membuat looping untuk menampilkan akurasi berdasarkan jumlah topiknya.</p></li>
+<li><p>Dari model dengan jumlah topik yang memperoleh nilai akurasi terbaik akan disimpan dalam bentuk pickle untuk diimplementasikan dalam bentuk streamlit.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
@@ -2002,6 +1346,8 @@ topik 50 : 0.6744186046511628
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">LDA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knn">KNN</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">Decision Tree</a></li>

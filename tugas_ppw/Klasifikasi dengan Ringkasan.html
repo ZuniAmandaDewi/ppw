@@ -397,6 +397,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing">Preprocessing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan">Ringkasan</a></li>
@@ -414,6 +415,17 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="klasifikasi-dengan-ringkasan">
 <h1>Klasifikasi dengan Ringkasan<a class="headerlink" href="#klasifikasi-dengan-ringkasan" title="Permalink to this heading">#</a></h1>
+<section id="import-library">
+<h2>Import Library<a class="headerlink" href="#import-library" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>nltk : untuk menjalankan preprosesing dokumen.</p></li>
+<li><p>TfidfVectorizer : untuk mengekstrak kalimat menjadi nilai TF-IDF.</p></li>
+<li><p>cosine_similarity : untuk menghitung nilai cosine similarity dari hasil TF-IDF.</p></li>
+<li><p>numpy : untuk menjalankan semua proses yang berhubungan dengan array.</p></li>
+<li><p>re : Regular expression adalah pola teks yang dapat digunakan untuk mencari dan mengganti teks dalam string.</p></li>
+<li><p>networkx : untuk membuat graph.</p></li>
+<li><p>sent_tokenize : untuk mengubah dokumen menjadi kalimat-kalimat.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
@@ -438,8 +450,10 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
 <section id="load-data">
 <h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h2>
+<p>Data diperoleh dari scraping pada berita <a class="reference external" href="http://suararakyat.id">suararakyat.id</a> yang sudah dilakukan sebelumnya.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/ppw/tugas/tugas_ppw/suararakyat.csv&quot;</span><span class="p">)</span>
@@ -449,7 +463,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-ea5be081-ac74-4473-ac4a-eabdc4962adb" class="colab-df-container">
+  <div id="df-c3988c05-60b3-4d3f-a55f-962efcc11fb7" class="colab-df-container">
     <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -547,7 +561,7 @@ document.write(`
     <div class="colab-df-buttons">
       
   <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-ea5be081-ac74-4473-ac4a-eabdc4962adb')"
+    <button class="colab-df-convert" onclick="convertToInteractive('df-c3988c05-60b3-4d3f-a55f-962efcc11fb7')"
             title="Convert this dataframe to an interactive table."
             style="display:none;">
       
@@ -599,12 +613,12 @@ document.write(`
 
     <script>
       const buttonEl =
-        document.querySelector('#df-ea5be081-ac74-4473-ac4a-eabdc4962adb button.colab-df-convert');
+        document.querySelector('#df-c3988c05-60b3-4d3f-a55f-962efcc11fb7 button.colab-df-convert');
       buttonEl.style.display =
         google.colab.kernel.accessAllowed ? 'block' : 'none';
 
       async function convertToInteractive(key) {
-        const element = document.querySelector('#df-ea5be081-ac74-4473-ac4a-eabdc4962adb');
+        const element = document.querySelector('#df-c3988c05-60b3-4d3f-a55f-962efcc11fb7');
         const dataTable =
           await google.colab.kernel.invokeFunction('convertToInteractive',
                                                     [key], {});
@@ -630,6 +644,7 @@ document.write(`
 </section>
 <section id="preprocessing">
 <h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this heading">#</a></h2>
+<p>re.sub(r’[^\w\s.?!,/]’, ‘’, input_string) akan menghapus semua tanda baca kecuali karakter alfanumerik, spasi, titik, tanda tanya, koma, dan garis miring.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Remove Puncutuation</span>
@@ -646,7 +661,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-57bc6d20-148e-4192-a060-08a8ef0448c4" class="colab-df-container">
+  <div id="df-865aa7ce-2847-4a48-ac9b-58055840c76c" class="colab-df-container">
     <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -720,7 +735,7 @@ document.write(`
     <div class="colab-df-buttons">
       
   <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-57bc6d20-148e-4192-a060-08a8ef0448c4')"
+    <button class="colab-df-convert" onclick="convertToInteractive('df-865aa7ce-2847-4a48-ac9b-58055840c76c')"
             title="Convert this dataframe to an interactive table."
             style="display:none;">
       
@@ -772,12 +787,12 @@ document.write(`
 
     <script>
       const buttonEl =
-        document.querySelector('#df-57bc6d20-148e-4192-a060-08a8ef0448c4 button.colab-df-convert');
+        document.querySelector('#df-865aa7ce-2847-4a48-ac9b-58055840c76c button.colab-df-convert');
       buttonEl.style.display =
         google.colab.kernel.accessAllowed ? 'block' : 'none';
 
       async function convertToInteractive(key) {
-        const element = document.querySelector('#df-57bc6d20-148e-4192-a060-08a8ef0448c4');
+        const element = document.querySelector('#df-865aa7ce-2847-4a48-ac9b-58055840c76c');
         const dataTable =
           await google.colab.kernel.invokeFunction('convertToInteractive',
                                                     [key], {});
@@ -803,6 +818,23 @@ document.write(`
 </section>
 <section id="ringkasan">
 <h2>Ringkasan<a class="headerlink" href="#ringkasan" title="Permalink to this heading">#</a></h2>
+<p>langkah meringkas :</p>
+<ul class="simple">
+<li><p>Lakukan looping pada dataframe yang akan dilakukan ringkasan</p></li>
+<li><p>Setiap dokumen akan dilakukan :</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>ektrak dokumen menjadi Kalimat</p></li>
+<li><p>Ekstrak menjadi matrix TF-IDF</p></li>
+<li><p>Dilakukan perhitungan cosine similarity antar kalimat</p></li>
+<li><p>Hasil cosine similarity dbentuk menjadi graph dan dihitung nilai closenes centralitynya.</p></li>
+<li><p>Hasil closenes centrality di urutkan dari terbesar ke yang terkecil dan dilakukan penggabungan kalimat berdasarkan 3 nilai closenes terbesar.</p></li>
+<li><p>Kalimat hasil rangkuman disimpan dalam variabel hasil.</p></li>
+</ol>
+<ul class="simple">
+<li><p>Proses diatas akan dilakukan terus menerus pada setiap dokumen</p></li>
+<li><p>Hasil dari proses ringkasan akan dirubah kedalam bentuk dataframe untuk digunakan dalam proses modelling</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hasil</span><span class="o">=</span><span class="p">[]</span>
@@ -844,7 +876,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-42a79050-90a6-4187-b4dd-d28258ba13cc" class="colab-df-container">
+  <div id="df-b3c7052e-5874-472f-9af6-5ed63b716ee3" class="colab-df-container">
     <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -918,7 +950,7 @@ document.write(`
     <div class="colab-df-buttons">
       
   <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-42a79050-90a6-4187-b4dd-d28258ba13cc')"
+    <button class="colab-df-convert" onclick="convertToInteractive('df-b3c7052e-5874-472f-9af6-5ed63b716ee3')"
             title="Convert this dataframe to an interactive table."
             style="display:none;">
       
@@ -970,12 +1002,12 @@ document.write(`
 
     <script>
       const buttonEl =
-        document.querySelector('#df-42a79050-90a6-4187-b4dd-d28258ba13cc button.colab-df-convert');
+        document.querySelector('#df-b3c7052e-5874-472f-9af6-5ed63b716ee3 button.colab-df-convert');
       buttonEl.style.display =
         google.colab.kernel.accessAllowed ? 'block' : 'none';
 
       async function convertToInteractive(key) {
-        const element = document.querySelector('#df-42a79050-90a6-4187-b4dd-d28258ba13cc');
+        const element = document.querySelector('#df-b3c7052e-5874-472f-9af6-5ed63b716ee3');
         const dataTable =
           await google.colab.kernel.invokeFunction('convertToInteractive',
                                                     [key], {});
@@ -1001,6 +1033,13 @@ document.write(`
 </section>
 <section id="modelling">
 <h2>Modelling<a class="headerlink" href="#modelling" title="Permalink to this heading">#</a></h2>
+<p>Dalam proses modelling ini menggunakan metode Naive Bayes, langkah-langkahnya sebagai berikut :</p>
+<ul class="simple">
+<li><p>Data hasil ringkasan dilakukan proses TF-IDF</p></li>
+<li><p>Hasil TF-IDF dilakukan proses pembangian data training dan data testing dengan perbandingan 80:20.</p></li>
+<li><p>Kemudian data training dilatih dalam model dan data testing digunakan untuk menentukan akurasi.</p></li>
+<li><p>Dari metode Vaive Bayes diperoleh nilai akurasi sebesar 0,9655.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -1106,6 +1145,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing">Preprocessing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan">Ringkasan</a></li>

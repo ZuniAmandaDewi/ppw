@@ -32,6 +32,6 @@ Here is a preview of the cell contents:
 -------------------
 ['def binarize_dataframe(df):', '    # Salin DataFrame asli untuk menghindari perubahan inplace', '    df_copy = df.copy()', '', '    # Loop melalui semua kolom']
 ...
-['', '# Contoh penggunaan fungsi dengan DataFrame yang telah diperbarui sebelumnya', 'binary_data = binarize_dataframe(pd.DataFrame(tf_array, columns = tf_name))', "binary_data['Label']=data['Label'].values", 'binary_data']
+['    return df_copy', '', '# Contoh penggunaan fungsi dengan DataFrame yang telah diperbarui sebelumnya', 'binary_data = binarize_dataframe(pd.DataFrame(tf_array, columns = tf_name))', "binary_data['Label']=data['Label'].values"]
 -------------------
 
